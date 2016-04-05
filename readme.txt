@@ -1,51 +1,55 @@
+#---------- Важные моменты ----------#
+// В случае конфликта с локальной сетью 172.17.0.0
+DOCKER_OPTS="--bip=192.168.15.1/24 --fixed-cidr=192.168.15.1/24"
+
+!!! Новая версия сервера БД - новый путь к /var/lib/mysql - иначе сервис падает. Не получится запустить mysql.
+Если происходит смена версий сервера БД, может возникнуть проблема несовместимости данных служебных таблиц mysql.
+Решением является:
+ - монтирование данных БД в другую директорию, например /var/lib/mysql-docker,
+ - запуска контейнера для инициализации системных файлов БД,
+ - копирование данных БД проекта в новую директорию.
+
+
+
+
+#---------- Основные операции ----------#
+// Запуск остановка программной системы на базе docker-compose.yml конфига
 $ docker-compose up -d
 $ docker-compose down
-
-$ docker-compose build apache2-php5
+// Запуск контейнера определенного сервиса
 $ docker-compose up --no-deps -d apache2-php5
-или
-$ docker build -t apache2-php5 .
-
-# Remove images + containers
-# http://blog.yohanliyanage.com/2015/05/docker-clean-up-after-yourself/
-docker rm `docker ps -aq --no-trunc --filter "status=exited"`
-docker rmi `docker images --filter 'dangling=true' -q --no-trunc`
 
 
-# Enter container
-$ docker exec -id [comtainer_id] /bin/bash
+// Доступ в запущенный контейнер
+$ docker ps
+$ docker exec -id [comtainer_id] /bin/bash (или /bin/sh)
 
 
-# Docker networks
-https://docs.docker.com/engine/userguide/networking/dockernetworks/
-$ docker network ls
-
-/**
-Docker-compose config V.2 добавляет дефолтную сетку,
-    https://docs.docker.com/compose/networking/
-адресацию которой настроить не получается (в отличие от docker0)
-    https://docs.docker.com/engine/userguide/networking/default_network/custom-docker0/
-*/
-
-!Не пускаем докер базу в стандартную /var/lib/mysql, могут возникнуть проблемы несовместимости версий
-!Не получится запустить mysql
-!!! Новая версия БД, новый путь к /var/lib/mysql - иначе сервис падает
-
-
-
-# В случае конфликта с локальной сетью 172.17.0.0
-# DOCKER_OPTS="--bip=192.168.15.1/24 --fixed-cidr=192.168.15.1/24"
-
-
-# Удаление всех закешированных контейнеров. Если не парименяются изменения в параметрах сервисов compose конфига
-docker-compose rm --all
-
-# Логи докер контейнера
+// Логи докер контейнера
 docker logs CONTAINER_ID
-# Удаление контейнера
+
+
+// Удаление контейнера
 docker rm -f CONTAINER_ID
 
 
-# ERROR: Network "magicproapache_net" needs to be recreated - options have changed
-docker network ls
-docker network rm NET_ID
+// Перестроение образов
+$ docker-compose build
+// Перестроение образа заданного сервиса
+$ docker-compose build apache2-php5
+или (в директории образа)
+$ docker build -t apache2-php5 .
+
+
+// Удаление образов
+$ docker images
+$ docker rmi -f IMAGE_ID
+
+
+// Docker networks
+//https://docs.docker.com/engine/userguide/networking/dockernetworks/
+$ docker network ls
+// ERROR: Network "magicproapache_net" needs to be recreated - options have changed
+$docker network rm NET_ID
+
+
