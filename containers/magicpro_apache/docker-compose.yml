@@ -1,0 +1,111 @@
+version: "2"
+services:
+    data-volumes:
+        image: alpine:latest
+        container_name: data-volumes
+        volumes:
+            - /var/www/magicpro/public_html:/var/www
+            - ../../data/mysql_docker:/var/lib/mysql
+        networks:
+            - net
+        restart: unless-stopped
+        command: ["/bin/sh"]
+
+    apache2-php5:
+        build:
+            context: ../images/apache2-php5
+        image: mp/apache2-php5
+        container_name: apache2-php5
+        volumes_from:
+            - data-volumes
+        ports:
+            - "80:80"
+            - "443:443"
+        links:
+            - db:db
+            - memcached:memcached
+            - logger
+        networks:
+            - net
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "apache2-php5"
+
+    db:
+        image: percona:5.6
+        container_name: percona
+        volumes_from:
+            - data-volumes
+        volumes:
+            - ../conf/percona:/etc/mysql/conf.d
+            - ../conf/percona:/docker-entrypoint-initdb.d
+        ports:
+            - "3306:3306"
+        links:
+            - logger
+        networks:
+            - net
+        environment:
+            MYSQL_ROOT_PASSWORD: ubuntu34
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "percona"
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        links:
+            - db:db
+        ports:
+            - "8081:80"
+        networks:
+            - net
+        environment:
+            MYSQL_USERNAME: root
+            MYSQL_ROOT_PASSWORD: ubuntu34
+        restart: unless-stopped
+
+    memcached:
+        image: memcached
+        container_name: memcached
+        ports:
+            - "11211:11211"
+        links:
+            - logger
+        networks:
+            - net
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "memcached"
+
+    logger:
+        image: voxxit/rsyslog
+        container_name: logger
+        volumes:
+            - /var/log/docker:/var/log
+        ports:
+            - "127.0.0.1:5514:514/udp"
+        networks:
+            - net
+        restart: unless-stopped
+
+networks:
+    net:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 192.168.17.1/24
+
