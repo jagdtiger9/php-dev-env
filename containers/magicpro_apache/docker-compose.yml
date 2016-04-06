@@ -4,7 +4,9 @@ services:
         image: alpine:latest
         container_name: data-volumes
         volumes:
-            - /var/www/magicpro/public_html:/var/www
+            # Путь к локальной директории public_html
+            - ../../data/public_html:/var/www
+            # Путь к файлам данных БД
             - ../../data/mysql_docker:/var/lib/mysql
         networks:
             - net
