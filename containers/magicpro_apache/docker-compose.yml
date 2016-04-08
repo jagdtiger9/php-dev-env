@@ -111,4 +111,6 @@ networks:
             driver: default
             config:
                 - subnet: 192.168.17.1/24
-
+#                  ip_range: 192.168.17.1/24
+#                  aux_addresses:
+#                      db: 192.168.17.33

@@ -133,3 +133,5 @@ networks:
             driver: default
             config:
                 - subnet: 192.168.18.1/24
+#                  aux_addresses:
+#                      db: 192.168.17.33
