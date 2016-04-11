@@ -48,6 +48,8 @@ services:
             - ../conf/percona:/docker-entrypoint-initdb.d
         ports:
             - "3306:3306"
+            - "9999:9999"
+            - "9998:9998"
         links:
             - logger
         networks:
