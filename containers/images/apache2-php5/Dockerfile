@@ -1,7 +1,10 @@
-FROM ubuntu:15.04
+FROM jedisct1/phusion-baseimage-latest
 MAINTAINER gimatov@gmail.com
 
-# DNS update: to run apt-get and to let the docker build process access the internet. 
+# Use baseimage-docker's init system.
+CMD ["/sbin/my_init"]
+
+# DNS update: to run apt-get and to let the docker build process access the internet.
 #RUN "sh" "-c" "echo nameserver 8.8.8.8 >> /etc/resolv.conf"
 
 # https://docs.docker.com/engine/faq/
@@ -19,7 +22,6 @@ RUN apt-get -y update \
 php5-apcu php5-mysqlnd php5-sqlite php5-memcached php5-memcache php5-xdebug \
     && apt-get install -y imagemagick sqlite3 unzip \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
     && curl -L -o temp.zip https://github.com/kjdev/php-ext-handlersocketi/archive/master.zip \
     && unzip -q temp.zip \
     && rm temp.zip \
@@ -30,10 +32,8 @@ php5-apcu php5-mysqlnd php5-sqlite php5-memcached php5-memcache php5-xdebug \
     && cd ../ && rm -r php-ext-handlersocketi-master \
     && cat > /etc/php5/mods-available/handlersocketi.ini \
     && echo 'extension=handlersocketi.so' > /etc/php5/mods-available/handlersocketi.ini \
-    && php5enmod handlersocketi
-
-#    && curl -sS https://getcomposer.org/installer | php \
-#    && mv composer.phar /usr/local/bin/composer \
+    && php5enmod handlersocketi \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN a2enmod cgi \
     && a2enmod suexec \
@@ -45,10 +45,10 @@ COPY conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY conf/php5/xdebug.ini /etc/php5/apache2/mods-available/xdebug.ini
 COPY conf/php5/php.ini /etc/php5/apache2/php.ini
 
+RUN mkdir /etc/service/apache2
+ADD start.sh /etc/service/apache2/run
+
 # Expose ports
 EXPOSE 80 443
 
 VOLUME ["/var/log/apache2","/etc/php5/apache2/"]
-
-# Define default command
-CMD ["apachectl", "-D", "FOREGROUND"]
