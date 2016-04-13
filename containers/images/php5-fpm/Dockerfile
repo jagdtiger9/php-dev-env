@@ -31,6 +31,7 @@ php5-apcu php5-mysqlnd php5-sqlite php5-memcached php5-memcache php5-xdebug \
 COPY conf/xdebug.ini /etc/php5/fpm/conf.d/20-xdebug.ini
 COPY conf/php.ini /etc/php5/fpm/php.ini
 COPY conf/www.conf /etc/php5/fpm/pool.d/www.conf
+COPY conf/cron.d/magicpro /etc/cron.d/magicpro
 
 RUN mkdir /etc/service/php5-fpm
 ADD start.sh /etc/service/php5-fpm/run

@@ -44,6 +44,7 @@ RUN a2enmod cgi \
 COPY conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY conf/php5/xdebug.ini /etc/php5/apache2/mods-available/xdebug.ini
 COPY conf/php5/php.ini /etc/php5/apache2/php.ini
+COPY conf/cron.d/magicpro /etc/cron.d/magicpro
 
 RUN mkdir /etc/service/apache2
 ADD start.sh /etc/service/apache2/run
