@@ -1,6 +1,6 @@
 # Параметры определенные в данном конфиге будут добавлены в my.cnf пакета БД (с перезаписью)
 [mysqld]
-sql-mode = "TRADITIONAL"
+#sql-mode = "TRADITIONAL"
 
 #
 # * HandlerSocket
