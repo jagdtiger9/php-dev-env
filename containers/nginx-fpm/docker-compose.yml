@@ -16,7 +16,7 @@ services:
 
     nginx:
         build:
-            context: ../_images/nginx
+            context: ../.images/nginx
         image: mp/nginx-php5
         container_name: nginx-php5
         volumes_from:
@@ -39,7 +39,7 @@ services:
 
     fpm:
         build:
-            context: ../_images/php5-fpm
+            context: ../.images/php5-fpm
         image: php5-fpm
         container_name: php5-fpm
         volumes_from:
@@ -66,8 +66,8 @@ services:
         volumes_from:
             - data-volumes
         volumes:
-            - ../_conf/percona:/etc/mysql/conf.d
-            - ../_conf/percona:/docker-entrypoint-initdb.d
+            - ../.conf/percona:/etc/mysql/conf.d
+            - ../.conf/percona:/docker-entrypoint-initdb.d
         ports:
             - "3306:3306"
             - "9999:9999"

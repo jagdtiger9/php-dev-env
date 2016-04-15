@@ -16,7 +16,7 @@ services:
 
     nginx-proxy:
         build:
-            context: ../_images/nginx-proxy
+            context: ../.images/nginx-proxy
         image: mp/nginx-proxy
         container_name: nginx-proxy
         volumes_from:
@@ -39,7 +39,7 @@ services:
 
     backend:
         build:
-            context: ../_images/apache2-php5
+            context: ../.images/apache2-php5
         image: mp/apache2-php5
         volumes_from:
             - data-volumes
@@ -65,8 +65,8 @@ services:
         volumes_from:
             - data-volumes
         volumes:
-            - ../_conf/percona:/etc/mysql/conf.d
-            - ../_conf/percona:/docker-entrypoint-initdb.d
+            - ../.conf/percona:/etc/mysql/conf.d
+            - ../.conf/percona:/docker-entrypoint-initdb.d
         ports:
             - "3306:3306"
             - "9999:9999"
