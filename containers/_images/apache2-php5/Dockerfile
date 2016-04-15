@@ -42,6 +42,8 @@ RUN a2enmod cgi \
 
 # Config files.
 COPY conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+COPY conf/apache/ports.conf /etc/apache2/ports.conf
+
 COPY conf/php5/xdebug.ini /etc/php5/apache2/mods-available/xdebug.ini
 COPY conf/php5/php.ini /etc/php5/apache2/php.ini
 COPY conf/php5/php-cli.ini /etc/php5/cli/php.ini
@@ -51,6 +53,6 @@ RUN mkdir /etc/service/apache2
 ADD start.sh /etc/service/apache2/run
 
 # Expose ports
-EXPOSE 80 443
+EXPOSE 80 443 8080
 
 VOLUME ["/var/log/apache2","/etc/php5/apache2/"]

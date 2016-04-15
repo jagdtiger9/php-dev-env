@@ -1,0 +1,139 @@
+version: "2"
+services:
+    data-volumes:
+        image: busybox
+        container_name: data-volumes
+        volumes:
+            # Путь к локальной директории public_html
+            - ../../data/public_html:/var/www
+            # Путь к файлам данных БД
+            - ../../data/mysql_docker:/var/lib/mysql
+        networks:
+            - net
+        restart: unless-stopped
+        user: 1000:1000
+        command: ["top"]
+
+    nginx-proxy:
+        build:
+            context: ../_images/nginx-proxy
+        image: mp/nginx-proxy
+        container_name: nginx-proxy
+        volumes_from:
+            - data-volumes
+        ports:
+            - "80:80"
+        links:
+            - backend:backend
+            - memcached:memcached
+            - logger
+        networks:
+            - net
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "nginx-proxy"
+
+    backend:
+        build:
+            context: ../_images/apache2-php5
+        image: mp/apache2-php5
+        volumes_from:
+            - data-volumes
+        ports:
+            - "8080"
+        links:
+            - db:db
+            - memcached:memcached
+            - logger
+        networks:
+            - net
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "apache2-php5"
+
+    db:
+        image: percona:5.6
+        container_name: percona
+        volumes_from:
+            - data-volumes
+        volumes:
+            - ../_conf/percona:/etc/mysql/conf.d
+            - ../_conf/percona:/docker-entrypoint-initdb.d
+        ports:
+            - "3306:3306"
+            - "9999:9999"
+            - "9998:9998"
+        links:
+            - logger
+        networks:
+            - net
+        environment:
+            MYSQL_ROOT_PASSWORD: ubuntu34
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "percona"
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        links:
+            - db:db
+        ports:
+            - "8081:80"
+        networks:
+            - net
+        environment:
+            MYSQL_USERNAME: root
+            MYSQL_ROOT_PASSWORD: ubuntu34
+        restart: unless-stopped
+
+    memcached:
+        image: memcached
+        container_name: memcached
+        ports:
+            - "11211:11211"
+        links:
+            - logger
+        networks:
+            - net
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "memcached"
+
+    logger:
+        image: voxxit/rsyslog
+        container_name: logger
+        volumes:
+            - /var/log/docker:/var/log
+        ports:
+            - "127.0.0.1:5514:514/udp"
+        networks:
+            - net
+        restart: unless-stopped
+
+networks:
+    net:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 192.168.17.1/24
+#                  ip_range: 192.168.17.1/24
+#                  aux_addresses:
+#                      db: 192.168.17.33
