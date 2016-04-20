@@ -1,1 +1,1 @@
-* *     * * *     www-data   /usr/bin/php /var/www/index.php >> /var/www/vardata/log/crontab/cron.log 2>&1
+* *     * * *     www-data   /usr/bin/php /var/www/cli.php >> /var/www/vardata/log/crontab/cron.log 2>&1
