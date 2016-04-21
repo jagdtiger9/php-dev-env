@@ -34,5 +34,10 @@ php5-apcu php5-mysqlnd php5-sqlite php5-memcached php5-memcache php5-xdebug \
 COPY conf/xdebug.ini /etc/php5/fpm/conf.d/20-xdebug.ini
 COPY conf/php-cli.ini /etc/php5/cli/php.ini
 
+# Define host WWW-files owner user UID&GID
+RUN mkdir -p /etc/my_init.d
+ADD conf/init_user.sh /etc/my_init.d/init_user.sh
+
+# Add cron tasks
 COPY conf/cron.d/magicpro /etc/cron.d/magicpro
 RUN chmod 0755 /etc/cron.d/magicpro

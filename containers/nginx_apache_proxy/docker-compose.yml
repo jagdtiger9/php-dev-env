@@ -44,8 +44,6 @@ services:
         container_name: php5-cron
         volumes_from:
             - data-volumes
-        volumes:
-            - /etc/passwd:/etc/passwd
         links:
             - db:db
             - memcached:memcached
