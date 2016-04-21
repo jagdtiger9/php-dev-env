@@ -47,8 +47,6 @@ COPY conf/apache/ports.conf /etc/apache2/ports.conf
 COPY conf/php5/xdebug.ini /etc/php5/apache2/mods-available/xdebug.ini
 COPY conf/php5/php.ini /etc/php5/apache2/php.ini
 COPY conf/php5/php-cli.ini /etc/php5/cli/php.ini
-COPY conf/cron.d/magicpro /etc/cron.d/magicpro
-RUN chmod 0755 /etc/cron.d/magicpro
 
 RUN mkdir /etc/service/apache2
 ADD start.sh /etc/service/apache2/run
