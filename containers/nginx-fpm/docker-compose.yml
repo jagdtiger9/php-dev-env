@@ -8,7 +8,6 @@ services:
             - ../../data/public_html:/var/www
             # Путь к файлам данных БД
             - ../../data/mysql_docker:/var/lib/mysql
-            #- /etc/passwd:/etc/passwd
         networks:
             - net
         restart: unless-stopped

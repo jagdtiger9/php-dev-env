@@ -35,6 +35,8 @@ COPY conf/xdebug.ini /etc/php5/fpm/conf.d/20-xdebug.ini
 COPY conf/php-cli.ini /etc/php5/cli/php.ini
 
 # Define host WWW-files owner user UID&GID
+# http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
+# https://github.com/phusion/baseimage-docker#running_startup_scripts
 RUN mkdir -p /etc/my_init.d
 ADD conf/init_user.sh /etc/my_init.d/init_user.sh
 
