@@ -35,9 +35,7 @@ php5-apcu php5-mysqlnd php5-sqlite php5-memcached php5-memcache php5-xdebug \
     && php5enmod handlersocketi \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN a2enmod cgi \
-    && a2enmod suexec \
-    && a2enmod rewrite \
+RUN a2enmod rewrite \
     && php5enmod mcrypt
 
 # Config files.

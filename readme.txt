@@ -17,7 +17,7 @@ DOCKER_OPTS="--bip=192.168.15.1/24 --fixed-cidr=192.168.15.1/24"
 $ docker-compose up -d
 $ docker-compose down
 // Запуск контейнера определенного сервиса
-$ docker-compose up --no-deps -d apache2-php5
+$ docker-compose up --no-deps -d apache-php5
 
 
 // Доступ в запущенный контейнер
@@ -36,9 +36,9 @@ docker rm -f CONTAINER_ID
 // Перестроение образов
 $ docker-compose build
 // Перестроение образа заданного сервиса
-$ docker-compose build apache2-php5
+$ docker-compose build apache-php5
 или (в директории образа)
-$ docker build -t apache2-php5 .
+$ docker build -t apache-php5 .
 
 
 // Удаление образов

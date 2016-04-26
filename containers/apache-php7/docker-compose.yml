@@ -14,17 +14,18 @@ services:
         user: 1000:1000
         command: ["top"]
 
-    nginx-proxy:
+    apache-php7:
         build:
-            context: ../.images/nginx-proxy
-        image: mp/nginx-proxy
-        container_name: nginx-proxy
+            context: ../.images/apache-php7
+        image: mp/apache-php7
+        container_name: apache-php7
         volumes_from:
             - data-volumes
         ports:
             - "80:80"
+            - "443:443"
         links:
-            - backend:backend
+            - db:db
             - memcached:memcached
             - logger
         networks:
@@ -35,7 +36,7 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                tag: "nginx-proxy"
+                tag: "apache-php7"
 
     crontab:
         build:
@@ -57,28 +58,6 @@ services:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
                 tag: "php5-cron"
-
-    backend:
-        build:
-            context: ../.images/apache-php5
-        image: mp/apache-php5
-        volumes_from:
-            - data-volumes
-        ports:
-            - "8080"
-        links:
-            - db:db
-            - memcached:memcached
-            - logger
-        networks:
-            - net
-        restart: unless-stopped
-        logging:
-            driver: "syslog"
-            options:
-                syslog-address: "udp://127.0.0.1:5514"
-                syslog-facility: "daemon"
-                tag: "apache-php5"
 
     db:
         image: percona:5.6

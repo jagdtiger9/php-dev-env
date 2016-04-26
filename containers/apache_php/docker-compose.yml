@@ -14,11 +14,11 @@ services:
         user: 1000:1000
         command: ["top"]
 
-    apache2-php5:
+    apache-php5:
         build:
-            context: ../.images/apache2-php5
-        image: mp/apache2-php5
-        container_name: apache2-php5
+            context: ../.images/apache-php5
+        image: mp/apache-php5
+        container_name: apache-php5
         volumes_from:
             - data-volumes
         ports:
@@ -36,7 +36,7 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                tag: "apache2-php5"
+                tag: "apache-php5"
 
     crontab:
         build:
