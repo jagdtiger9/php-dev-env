@@ -14,11 +14,11 @@ services:
         user: 1000:1000
         command: ["top"]
 
-    apache-php7:
+    php7-apache:
         build:
-            context: ../.images/apache-php7
-        image: mp/apache-php7
-        container_name: apache-php7
+            context: ../.images/php7-apache
+        image: php7-apache
+        container_name: php7-apache
         volumes_from:
             - data-volumes
         ports:
@@ -36,13 +36,13 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                tag: "apache-php7"
+                tag: "php7-apache"
 
     crontab:
         build:
-            context: ../.images/php5-cron
-        image: php5-cron
-        container_name: php5-cron
+            context: ../.images/php7-cron
+        image: php7-cron
+        container_name: php7-cron
         volumes_from:
             - data-volumes
         links:
@@ -57,7 +57,7 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                tag: "php5-cron"
+                tag: "php7-cron"
 
     db:
         image: percona:5.6

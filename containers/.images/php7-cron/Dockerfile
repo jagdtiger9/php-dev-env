@@ -18,9 +18,10 @@ ENV APACHE_LOCK_DIR  /var/lock/apache2
 ENV APACHE_LOG_DIR   /var/log/apache2
 
 RUN apt-get -y update \
-    && apt-get install -y apache2 php libapache2-mod-php php-dev php-cli php-mcrypt php-curl php-gd php-gmp \
-    php-apcu php-mysqlnd php-sqlite3 php-memcached php-memcache php-xdebug php-mbstring  \
+    && apt-get install -y php php-pear php-dev php-cli php-mcrypt php-curl php-gd php-gmp php-zip \
+    && apt-get install -y php-apcu php-mysqlnd php-sqlite3 php-memcached php-memcache php-xdebug php-mbstring \
     && apt-get install -y imagemagick sqlite3 unzip \
+    && phpenmod mcrypt \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -32,27 +33,24 @@ RUN apt-get -y update \
 #    && ./configure \
 #    && make && make install \
 #    && cd ../ && rm -r php-ext-handlersocketi-master \
-#    && cat > /etc/php/mods-available/handlersocketi.ini \
-#    && echo 'extension=handlersocketi.so' > /etc/php/mods-available/handlersocketi.ini \
-#    && php5enmod handlersocketi \
+#    && cat > /etc/php5/mods-available/handlersocketi.ini \
+#    && echo 'extension=handlersocketi.so' > /etc/php5/mods-available/handlersocketi.ini \
+#    && phpenmod handlersocketi \
 #    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN a2enmod rewrite \
-    && phpenmod -v 7.0 mcrypt
+RUN phpenmod -v 7.0 mcrypt
 # phpdismod
 
 # Config files.
-COPY conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
-COPY conf/apache/ports.conf /etc/apache2/ports.conf
+COPY conf/xdebug.ini /etc/php/7.0/apache2/mods-available/xdebug.ini
+COPY conf/php-cli.ini /etc/php/7.0/cli/php.ini
 
-COPY conf/php7/xdebug.ini /etc/php/7.0/apache2/mods-available/xdebug.ini
-COPY conf/php7/php.ini /etc/php/7.0/apache2/php.ini
-COPY conf/php7/php-cli.ini /etc/php7.0/cli/php.ini
+# Define host WWW-files owner user UID&GID
+# http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
+# https://github.com/phusion/baseimage-docker#running_startup_scripts
+RUN mkdir -p /etc/my_init.d
+ADD conf/init_user.sh /etc/my_init.d/init_user.sh
 
-RUN mkdir /etc/service/apache2
-ADD start.sh /etc/service/apache2/run
-
-# Expose ports
-EXPOSE 80 443 8080
-
-VOLUME ["/var/log/apache2","/etc/php5/apache2/"]
+# Add cron tasks
+COPY conf/cron.d/magicpro /etc/cron.d/magicpro
+RUN chmod 0755 /etc/cron.d/magicpro

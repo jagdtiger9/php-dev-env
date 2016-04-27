@@ -33,6 +33,7 @@ RUN ln -sf /dev/stderr /var/log/fpm-error.log \
 # Config files.
 COPY conf/xdebug.ini /etc/php5/fpm/conf.d/20-xdebug.ini
 COPY conf/php.ini /etc/php5/fpm/php.ini
+COPY conf/php-fpm.conf /etc/php5/fpm/php-fpm.conf
 COPY conf/php-cli.ini /etc/php5/cli/php.ini
 COPY conf/www.conf /etc/php5/fpm/pool.d/www.conf
 

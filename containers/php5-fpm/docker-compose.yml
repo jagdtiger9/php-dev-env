@@ -1,7 +1,7 @@
 version: "2"
 services:
     data-volumes:
-        image: busybox
+        image: alpine:latest
         container_name: data-volumes
         volumes:
             # Путь к локальной директории public_html
@@ -14,17 +14,17 @@ services:
         user: 1000:1000
         command: ["top"]
 
-    nginx-proxy:
+    nginx:
         build:
-            context: ../.images/nginx-proxy
-        image: mp/nginx-proxy
-        container_name: nginx-proxy
+            context: ../.images/nginx
+        image: nginx
+        container_name: nginx
         volumes_from:
             - data-volumes
         ports:
             - "80:80"
         links:
-            - backend:backend
+            - fpm:fpm
             - memcached:memcached
             - logger
         networks:
@@ -35,7 +35,30 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                tag: "nginx-proxy"
+                tag: "nginx"
+
+    fpm:
+        build:
+            context: ../.images/php5-fpm
+        image: php5-fpm
+        container_name: php5-fpm
+        volumes_from:
+            - data-volumes
+        ports:
+            - "9000:9000"
+        links:
+            - db:db
+            - memcached:memcached
+            - logger
+        networks:
+            - net
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "php5-fpm"
 
     crontab:
         build:
@@ -44,6 +67,9 @@ services:
         container_name: php5-cron
         volumes_from:
             - data-volumes
+        #volumes:
+        #    - /etc/passwd:/etc/passwd
+        #    - /etc/shadow:/etc/shadow
         links:
             - db:db
             - memcached:memcached
@@ -57,28 +83,6 @@ services:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
                 tag: "php5-cron"
-
-    backend:
-        build:
-            context: ../.images/apache-php5
-        image: mp/apache-php5
-        volumes_from:
-            - data-volumes
-        ports:
-            - "8080"
-        links:
-            - db:db
-            - memcached:memcached
-            - logger
-        networks:
-            - net
-        restart: unless-stopped
-        logging:
-            driver: "syslog"
-            options:
-                syslog-address: "udp://127.0.0.1:5514"
-                syslog-facility: "daemon"
-                tag: "apache-php5"
 
     db:
         image: percona:5.6
@@ -154,7 +158,6 @@ networks:
         ipam:
             driver: default
             config:
-                - subnet: 192.168.17.1/24
-#                  ip_range: 192.168.17.1/24
+                - subnet: 192.168.18.1/24
 #                  aux_addresses:
 #                      db: 192.168.17.33
