@@ -25,6 +25,14 @@ RUN apt-get -y update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+#RUN curl -L -o apc.tgz http://pecl.php.net/get/apcu_bc \
+#    && mkdir apc && tar -zxf apc.tgz -C apc --strip-components=1 \
+#    && rm apc.tgz \
+#    && cd apc \
+#    && phpize \
+#    && ./configure \
+#    && make && make install
+
 #RUN curl -L -o temp.zip https://github.com/kjdev/php-ext-handlersocketi/archive/master.zip \
 #    && unzip -q temp.zip \
 #    && rm temp.zip \
@@ -34,7 +42,7 @@ RUN apt-get -y update \
 #    && make && make install \
 #    && cd ../ && rm -r php-ext-handlersocketi-master \
 #    && cat > /etc/php/mods-available/handlersocketi.ini \
-#    && echo 'extension=handlersocketi.so' > /etc/php/mods-available/handlersocketi.ini \
+#    && echo 'extension=handlersocketi.so' > /etc/php/7.0/mods-available/handlersocketi.ini \
 #    && php5enmod handlersocketi \
 #    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -45,7 +53,8 @@ RUN a2enmod rewrite
 COPY conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY conf/apache/ports.conf /etc/apache2/ports.conf
 
-COPY conf/php7/xdebug.ini /etc/php/7.0/apache2/mods-available/xdebug.ini
+COPY conf/php7/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
+COPY conf/php7/apcu.ini /etc/php/7.0/mods-available/apcu.ini
 COPY conf/php7/php.ini /etc/php/7.0/apache2/php.ini
 COPY conf/php7/php-cli.ini /etc/php/7.0/cli/php.ini
 

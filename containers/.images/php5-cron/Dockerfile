@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y update \
     && apt-get install -y php5 php-pear php5-dev php5-cli php5-mcrypt php5-curl php5-gd php5-gmp php-apc \
-php5-apcu php5-mysqlnd php5-sqlite php5-memcached php5-memcache php5-xdebug \
+    && apt-get install -y php5-apcu php5-mysqlnd php5-sqlite php5-memcached php5-memcache php5-xdebug \
     && apt-get install -y imagemagick sqlite3 unzip \
     && php5enmod mcrypt \
     && apt-get clean \
@@ -31,7 +31,8 @@ php5-apcu php5-mysqlnd php5-sqlite php5-memcached php5-memcache php5-xdebug \
 #    && ln -sf /dev/stderr /var/log/fpm-access.log
 
 # Config files.
-COPY conf/xdebug.ini /etc/php5/fpm/conf.d/20-xdebug.ini
+COPY conf/xdebug.ini /etc/php5/mods-available/xdebug.ini
+COPY conf/apcu.ini /etc/php5/mods-available/apcu.ini
 COPY conf/php-cli.ini /etc/php5/cli/php.ini
 
 # Define host WWW-files owner user UID&GID

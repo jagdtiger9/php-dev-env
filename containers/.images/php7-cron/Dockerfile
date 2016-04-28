@@ -25,6 +25,14 @@ RUN apt-get -y update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+#RUN curl -L -o apc.tgz http://pecl.php.net/get/apcu_bc \
+#    && mkdir apc && tar -zxf apc.tgz -C apc --strip-components=1 \
+#    && rm apc.tgz \
+#    && cd apc \
+#    && phpize \
+#    && ./configure \
+#    && make && make install
+
 #RUN curl -L -o temp.zip https://github.com/kjdev/php-ext-handlersocketi/archive/master.zip \
 #    && unzip -q temp.zip \
 #    && rm temp.zip \
@@ -42,7 +50,8 @@ RUN phpenmod -v 7.0 mcrypt
 # phpdismod
 
 # Config files.
-COPY conf/xdebug.ini /etc/php/7.0/apache2/mods-available/xdebug.ini
+COPY conf/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
+COPY conf/apcu.ini /etc/php/7.0/mods-available/apcu.ini
 COPY conf/php-cli.ini /etc/php/7.0/cli/php.ini
 
 # Define host WWW-files owner user UID&GID

@@ -19,7 +19,7 @@ ENV APACHE_LOG_DIR   /var/log/apache2
 
 RUN apt-get -y update \
     && apt-get install -y apache2 php5 libapache2-mod-php5 php5-dev php5-cli php5-mcrypt php5-curl php5-gd php5-gmp php-apc \
-php5-apcu php5-mysqlnd php5-sqlite php5-memcached php5-memcache php5-xdebug \
+    && apt-get install -y php5-apcu php5-mysqlnd php5-sqlite php5-memcached php5-memcache php5-xdebug \
     && apt-get install -y imagemagick sqlite3 unzip \
     && apt-get clean \
     && curl -L -o temp.zip https://github.com/kjdev/php-ext-handlersocketi/archive/master.zip \
@@ -42,7 +42,8 @@ RUN a2enmod rewrite \
 COPY conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY conf/apache/ports.conf /etc/apache2/ports.conf
 
-COPY conf/php5/xdebug.ini /etc/php5/apache2/mods-available/xdebug.ini
+COPY conf/php5/xdebug.ini /etc/php5/mods-available/xdebug.ini
+COPY conf/php5/apcu.ini /etc/php5/mods-available/apcu.ini
 COPY conf/php5/php.ini /etc/php5/apache2/php.ini
 COPY conf/php5/php-cli.ini /etc/php5/cli/php.ini
 
