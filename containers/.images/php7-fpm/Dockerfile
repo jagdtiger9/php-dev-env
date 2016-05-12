@@ -39,10 +39,11 @@ RUN apt-get -y update \
 
 # http://serverfault.com/questions/658367/how-to-get-php-fpm-to-log-to-stdout-stderr-when-running-in-a-docker-container
 RUN ln -sf /dev/stderr /var/log/php7.0-fpm.log \
-    && ln -sf /dev/stderr /var/log/fpm-access.log
+    && ln -sf /dev/stout /var/log/fpm-access.log
 
 # Config files.
 COPY conf/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
+COPY conf/opcache.ini /etc/php/7.0/mods-available/opcache.ini
 COPY conf/apcu.ini /etc/php/7.0/mods-available/apcu.ini
 COPY conf/php.ini /etc/php/7.0/fpm/php.ini
 COPY conf/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
