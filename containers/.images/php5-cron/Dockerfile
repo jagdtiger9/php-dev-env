@@ -31,7 +31,6 @@ RUN apt-get -y update \
 #    && ln -sf /dev/stderr /var/log/fpm-access.log
 
 # Config files.
-COPY conf/xdebug.ini /etc/php5/mods-available/xdebug.ini
 COPY conf/apcu.ini /etc/php5/mods-available/apcu.ini
 COPY conf/php-cli.ini /etc/php5/cli/php.ini
 

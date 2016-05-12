@@ -8,6 +8,8 @@ services:
             - ../../data/public_html:/var/www
             # Путь к файлам данных БД
             - ../../data/mysql_docker:/var/lib/mysql
+            # Путь к xdebug логам
+            - ../../data/xdebug:/tmp/xdebug
         networks:
             - net
         restart: unless-stopped

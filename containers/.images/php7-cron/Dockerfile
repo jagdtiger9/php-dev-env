@@ -50,7 +50,6 @@ RUN phpenmod -v 7.0 mcrypt
 # phpdismod
 
 # Config files.
-COPY conf/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
 COPY conf/apcu.ini /etc/php/7.0/mods-available/apcu.ini
 COPY conf/php-cli.ini /etc/php/7.0/cli/php.ini
 
