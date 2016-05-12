@@ -37,6 +37,8 @@ RUN apt-get -y update \
 #    && phpenmod handlersocketi \
 #    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+
 # http://serverfault.com/questions/658367/how-to-get-php-fpm-to-log-to-stdout-stderr-when-running-in-a-docker-container
 RUN ln -sf /dev/stderr /var/log/php7.0-fpm.log \
     && ln -sf /dev/stout /var/log/fpm-access.log
