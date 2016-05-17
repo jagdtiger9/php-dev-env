@@ -46,6 +46,8 @@ RUN apt-get -y update \
 #    && php5enmod handlersocketi \
 #    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+
 RUN a2enmod rewrite
 # phpdismod
 

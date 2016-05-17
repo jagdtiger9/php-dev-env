@@ -46,6 +46,8 @@ RUN apt-get -y update \
 #    && phpenmod handlersocketi \
 #    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+
 RUN phpenmod -v 7.0 mcrypt
 # phpdismod
 
