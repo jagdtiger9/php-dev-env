@@ -1,4 +1,4 @@
-FROM jedisct1/phusion-baseimage-latest:16.04
+FROM jedisct1/phusion-baseimage-latest:16.10
 MAINTAINER gimatov@gmail.com
 
 # Use baseimage-docker's init system.
@@ -21,7 +21,7 @@ RUN apt-get -y update \
     && apt-get install -y apache2 php php-pear libapache2-mod-php php-dev php-cli php-mcrypt php-curl php-gd php-gmp php-zip \
     && apt-get install -y php-apcu php-mysqlnd php-sqlite3 php-memcached php-memcache php-xdebug php-mbstring \
     && apt-get install -y imagemagick sqlite3 unzip \
-    && apt-get install -y php-imagick php5-imap \
+    && apt-get install -y php-imagick php-imap \
     && phpenmod -v 7.0 mcrypt \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
