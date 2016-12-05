@@ -1,4 +1,4 @@
-FROM jedisct1/phusion-baseimage-latest:16.04
+FROM jedisct1/phusion-baseimage-latest:16.10
 MAINTAINER gimatov@gmail.com
 
 # Use baseimage-docker's init system.
