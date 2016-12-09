@@ -45,6 +45,7 @@ COPY conf/apache/ports.conf /etc/apache2/ports.conf
 
 COPY conf/php5/xdebug.ini /etc/php5/mods-available/xdebug.ini
 COPY conf/php5/apcu.ini /etc/php5/mods-available/apcu.ini
+COPY conf/php5/memcached.ini /etc/php5/mods-available/memcached.ini
 COPY conf/php5/php.ini /etc/php5/apache2/php.ini
 COPY conf/php5/php-cli.ini /etc/php5/cli/php.ini
 

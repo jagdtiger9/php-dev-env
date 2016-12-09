@@ -48,6 +48,7 @@ RUN ln -sf /dev/stderr /var/log/php7.0-fpm.log \
 COPY conf/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
 COPY conf/opcache.ini /etc/php/7.0/mods-available/opcache.ini
 COPY conf/apcu.ini /etc/php/7.0/mods-available/apcu.ini
+COPY conf/memcached.ini /etc/php/7.0/mods-available/memcached.ini
 COPY conf/php.ini /etc/php/7.0/fpm/php.ini
 COPY conf/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
 COPY conf/php-cli.ini /etc/php/7.0/cli/php.ini
