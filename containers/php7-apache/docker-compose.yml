@@ -62,6 +62,8 @@ services:
                 tag: "php7-cron"
 
     db:
+        build:
+            context: ../.images/percona5.6
         image: percona:5.6
         container_name: percona
         volumes_from:
@@ -69,7 +71,9 @@ services:
         volumes:
             - ../.conf/percona:/etc/mysql/conf.d
             - ../.conf/percona:/docker-entrypoint-initdb.d
+        #command: [mysqld, --daemon_memcached_option, -p11212]
         ports:
+            - "11212:11212"
             - "3306:3306"
             - "9999:9999"
             - "9998:9998"
