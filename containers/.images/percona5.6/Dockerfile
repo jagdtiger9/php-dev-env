@@ -10,7 +10,7 @@ RUN apt-get -y update \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Expose ports
-EXPOSE 3306 11211 11212
+EXPOSE 3306 11212
 
 #COPY conf/startup /usr/local/bin/startup
 #RUN chown mysql:mysql /usr/local/bin/startup \
