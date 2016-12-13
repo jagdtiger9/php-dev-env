@@ -73,11 +73,9 @@ CREATE  TABLE IF NOT EXISTS `config_options` (
 -- PRIMARY -> use primary key to search
 -- ------------------------------------------------------------------------
 
-INSERT INTO containers VALUES ("aaa", "test", "demo_test",
-	           "c1", "c2",  "c3", "c4", "c5", "PRIMARY");
+#INSERT INTO containers VALUES ("aaa", "test", "demo_test", "c1", "c2",  "c3", "c4", "c5", "PRIMARY");
 
-INSERT INTO cache_policies VALUES("cache_policy", "innodb_only",
-		  "innodb_only", "innodb_only", "innodb_only");
+INSERT INTO cache_policies VALUES("cache_policy", "innodb_only", "innodb_only", "innodb_only", "innodb_only");
 
 INSERT INTO config_options VALUES("separator", "|");
 INSERT INTO config_options VALUES("table_map_delimiter", ".");
