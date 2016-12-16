@@ -17,5 +17,6 @@ EXPOSE 3306 11212
 #    && chmod 0777 /usr/local/bin/startup
 
 # Use baseimage-docker's init system.
-CMD ["mysqld", "--daemon_memcached_option", "-p11212", "--plugin-load=libmemcached.so"]
 #CMD ["/usr/local/bin/startup"]
+#CMD ["mysqld", "--daemon_memcached_option", "-p11212", "--plugin-load=libmemcached.so"]
+CMD ["mysqld", "--daemon_memcached_option", "-p11212"]
