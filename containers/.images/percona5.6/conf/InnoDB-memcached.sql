@@ -1,3 +1,5 @@
+-- Только под ROOT пользователем
+
 create database innodb_memcache;
 
 use innodb_memcache;
