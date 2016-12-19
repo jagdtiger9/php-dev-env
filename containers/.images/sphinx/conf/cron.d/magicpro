@@ -1,0 +1,2 @@
+* *     * * *     www-data   mkdir -p -m 0777 /var/www/vardata/log/crontab && /usr/bin/php /var/www/cli.php >> /var/www/vardata/log/crontab/cron.log 2>&1
+* *     * * *     magicpro   /usr/bin/php /var/www/cli.php crontab:scheduler@update >> /var/www/vardata/log/crontab/update.log 2>&1

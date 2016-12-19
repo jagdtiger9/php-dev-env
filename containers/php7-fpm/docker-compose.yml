@@ -65,7 +65,7 @@ services:
     crontab:
         build:
             context: ../.images/php7-cron
-        image: php7-cron
+        #image: php7-cron
         container_name: php7-cron
         volumes_from:
             - data-volumes
