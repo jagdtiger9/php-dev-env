@@ -29,7 +29,7 @@ RUN apt-get -y update \
 
 # http://serverfault.com/questions/658367/how-to-get-php-fpm-to-log-to-stdout-stderr-when-running-in-a-docker-container
 RUN ln -sf /dev/stderr /var/log/fpm-error.log \
-    && ln -sf /dev/stderr /var/log/fpm-access.log
+    && ln -sf /dev/stdout /var/log/fpm-access.log
 
 # Config files.
 COPY conf/xdebug.ini /etc/php5/fpm/conf.d/20-xdebug.ini

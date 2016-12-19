@@ -28,6 +28,7 @@ services:
         links:
             - backend:backend
             - memcached:memcached
+            - sphinx:sphinx
             - logger
         networks:
             - net
@@ -49,6 +50,7 @@ services:
         links:
             - db:db
             - memcached:memcached
+            - sphinx:sphinx
             - logger
         networks:
             - net
@@ -71,6 +73,7 @@ services:
         links:
             - db:db
             - memcached:memcached
+            - sphinx:sphinx
             - logger
         networks:
             - net
@@ -142,6 +145,31 @@ services:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
                 tag: "memcached"
+
+    sphinx:
+        build:
+            context: ../.images/sphinx
+        #image: sphinx
+        container_name: sphinx
+        depends_on:
+          - "db"
+        volumes_from:
+            - data-volumes
+        ports:
+            - "9312:9312"
+            - "9306:9306"
+        links:
+            - logger
+            - db
+        networks:
+            - net
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "sphinx"
 
     logger:
         image: voxxit/rsyslog
