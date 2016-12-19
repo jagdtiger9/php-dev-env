@@ -82,7 +82,12 @@ INSERT INTO cache_policies VALUES("cache_policy", "innodb_only", "innodb_only", 
 INSERT INTO config_options VALUES("separator", "|");
 INSERT INTO config_options VALUES("table_map_delimiter", ".");
 
-use magicpro;
+-- All users access grant block --
+-- Андрей, добавь сюда, пожалуйста команды для предоставления доступа --
+
+
+-- Docker only block
+-- use magicpro;
 
 -- ------------------------------------------------------------------------
 -- Key (c1) must be VARCHAR or CHAR type, memcached supports key up to 255
@@ -92,7 +97,7 @@ use magicpro;
 -- CAS (c4) is a 64 bits integer, per memcached define
 -- Exp (c5) is again a 32 bits integer
 -- ------------------------------------------------------------------------
-CREATE TABLE InnoDbMemcached_test (c1 VARCHAR(32), c2 VARCHAR(1024), c3 INT, c4 BIGINT UNSIGNED, c5 INT, primary key(c1))
-ENGINE = INNODB;
+-- CREATE TABLE InnoDbMemcached_test (c1 VARCHAR(32), c2 VARCHAR(1024), c3 INT, c4 BIGINT UNSIGNED, c5 INT, primary key(c1))
+-- ENGINE = INNODB;
 
-INSERT INTO InnoDbMemcached_test VALUES ("AA", "HELLO, HELLO", 8, 0, 0);
+-- INSERT INTO InnoDbMemcached_test VALUES ("AA", "HELLO, HELLO", 8, 0, 0);
