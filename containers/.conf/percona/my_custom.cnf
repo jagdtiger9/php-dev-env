@@ -25,6 +25,8 @@ socket          = /tmp/mysql.sock
 [mysqld]
 plugin-load=libmemcached.so
 
+loose-daemon_memcached_option='-vvv'
+
 loose_handlersocket_port = 9998
   # the port number to bind to for read requests
 loose_handlersocket_port_wr = 9999
