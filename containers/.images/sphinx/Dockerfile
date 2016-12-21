@@ -14,8 +14,9 @@ RUN apt-get -y update \
 
 # Config files.
 COPY conf/sphinxsearch /etc/default/sphinxsearch
-COPY conf/sphinx_indexer /etc/cron.d/sphinx_indexer
 COPY conf/sphinx.conf /etc/sphinxsearch/sphinx.conf
+COPY conf/cron/sphinx_indexer /etc/cron.d/sphinx_indexer
+COPY conf/cron/indexer.sh /usr/local/bin/indexer.sh
 
 RUN ln -sf /dev/stderr /var/log/sphinxsearch/searchd.log \
     && ln -sf /dev/stdout /var/log/sphinxsearch/query.log

@@ -3,4 +3,4 @@
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-*/5 *    * * *   root    /usr/bin/indexer --rotate --config /etc/sphinxsearch/sphinx.conf --all > /dev/stdout
+*/5 *    * * *   root    /usr/local/bin/indexer.sh >> /dev/stdout
