@@ -1,6 +1,8 @@
+CREATE DATABASE IF NOT EXISTS `magicpro` CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 -- Только под ROOT пользователем
 
-create database innodb_memcache;
+create database if not exists innodb_memcache;
 
 use innodb_memcache;
 
@@ -75,8 +77,6 @@ CREATE  TABLE IF NOT EXISTS `config_options` (
 -- PRIMARY -> use primary key to search
 -- ------------------------------------------------------------------------
 
-INSERT INTO containers VALUES ("aaa", "magicpro", "InnoDbMemcached_test", "c1", "c2",  "c3", "c4", "c5", "PRIMARY");
-
 INSERT INTO cache_policies VALUES("cache_policy", "innodb_only", "innodb_only", "innodb_only", "innodb_only");
 
 INSERT INTO config_options VALUES("separator", "|");
@@ -101,10 +101,9 @@ INSERT INTO config_options VALUES("table_map_delimiter", ".");
 -- ENGINE = INNODB;
 
 -- INSERT INTO InnoDbMemcached_test VALUES ("AA", "HELLO, HELLO", 8, 0, 0);
+-- INSERT INTO containers VALUES ("aaa", "magicpro", "InnoDbMemcached_test", "c1", "c2",  "c3", "c4", "c5", "PRIMARY");
 
-use mysql;
-
-insert into db values ('%','innodb_memcache','','Y','Y','Y','Y','Y','N','N','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y','Y');
+insert into mysql.db values ('%','innodb_memcache','','Y','Y','Y','Y','Y','N','N','Y','Y','N','Y','Y','Y','Y','Y','Y','Y','Y','Y');
 
 # grant SELECT,INSERT,DELETE on mysql.plugin to 'user101'@'172.17.255.%';
 

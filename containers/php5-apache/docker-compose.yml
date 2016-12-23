@@ -10,6 +10,8 @@ services:
             - ../../data/mysql_docker:/var/lib/mysql
             # Путь к xdebug логам
             - ../../data/xdebug:/tmp/xdebug
+            # Путь к sphinx БД
+            - ../../data/sphinxsearch:/var/lib/sphinxsearch/data/
         networks:
             - net
         restart: unless-stopped

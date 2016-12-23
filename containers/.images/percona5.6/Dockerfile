@@ -13,10 +13,8 @@ RUN apt-get -y update \
 EXPOSE 3306 11212
 
 #COPY conf/startup /usr/local/bin/startup
-#RUN chown mysql:mysql /usr/local/bin/startup \
-#    && chmod 0777 /usr/local/bin/startup
+#RUN chown mysql:mysql /usr/local/bin/startup && chmod 0777 /usr/local/bin/startup
 
 # Use baseimage-docker's init system.
 #CMD ["/usr/local/bin/startup"]
-#CMD ["mysqld", "--daemon_memcached_option", "-p11212", "--plugin-load=libmemcached.so"]
 CMD ["mysqld", "--daemon_memcached_option", "-p11212"]
