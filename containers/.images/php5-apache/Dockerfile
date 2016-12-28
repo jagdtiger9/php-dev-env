@@ -30,11 +30,27 @@ RUN apt-get -y update \
     && phpize \
     && ./configure \
     && make && make install \
-    && cd ../ && rm -r php-ext-handlersocketi-master \
+    && cd ../ \
+    && rm -r php-ext-handlersocketi-master \
     && cat > /etc/php5/mods-available/handlersocketi.ini \
     && echo 'extension=handlersocketi.so' > /etc/php5/mods-available/handlersocketi.ini \
-    && php5enmod handlersocketi \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && php5enmod handlersocketi
+
+RUN apt-get -y install git re2c libpcre3-dev \
+    && echo $(pwd) \
+    && git clone https://github.com/phalcon/zephir \
+    && cd zephir \
+    && ./install-nosudo \
+    && cd ../ \
+    && git clone https://github.com/crocodile2u/zhandlersocket.git \
+    && cd zhandlersocket \
+    && /zephir/bin/zephir build \
+    && cp /zhandlersocket/ext/modules/zhandlersocket.so $(php-config --extension-dir)/ \
+    && cat > /etc/php5/mods-available/zhandlersocket.ini \
+    && echo 'extension=zhandlersocket.so' > /etc/php5/mods-available/zhandlersocket.ini \
+    && php5enmod zhandlersocket
+
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN a2enmod rewrite \
     && php5enmod mcrypt

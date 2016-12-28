@@ -31,9 +31,9 @@ loose_handlersocket_port = 9998
   # the port number to bind to for read requests
 loose_handlersocket_port_wr = 9999
   # the port number to bind to for write requests
-loose_handlersocket_threads = 32
+loose_handlersocket_threads = 16
   # the number of worker threads for read requests
-loose_handlersocket_threads_wr = 16
+loose_handlersocket_threads_wr = 2
   # the number of worker threads for write requests
 open_files_limit = 65535
   # to allow handlersocket to accept many concurrent

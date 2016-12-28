@@ -23,34 +23,27 @@ RUN apt-get -y update \
     && apt-get install -y imagemagick sqlite3 unzip \
     && apt-get install -y php-imagick php-imap php-bcmath \
     && phpenmod -v 7.0 mcrypt \
-    && apt-get clean \
+    && a2enmod rewrite
+# phpdismod
+
+
+RUN apt-get -y install git re2c libpcre3-dev \
+    && echo $(pwd) \
+    && git clone https://github.com/phalcon/zephir \
+    && cd zephir \
+    && ./install-nosudo \
+    && cd ../ \
+    && git clone https://github.com/crocodile2u/zhandlersocket.git \
+    && cd zhandlersocket \
+    && /zephir/bin/zephir build --backend=ZendEngine3 \
+    && cat > /etc/php/7.0/mods-available/zhandlersocket.ini \
+    && echo 'extension=zhandlersocket.so' > /etc/php/7.0/mods-available/zhandlersocket.ini \
+    && phpenmod -v 7.0 zhandlersocket
+
+RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-#RUN curl -L -o apc.tgz http://pecl.php.net/get/apcu_bc \
-#    && mkdir apc && tar -zxf apc.tgz -C apc --strip-components=1 \
-#    && rm apc.tgz \
-#    && cd apc \
-#    && phpize \
-#    && ./configure \
-#    && make && make install
-
-#RUN curl -L -o temp.zip https://github.com/kjdev/php-ext-handlersocketi/archive/master.zip \
-#    && unzip -q temp.zip \
-#    && rm temp.zip \
-#    && cd php-ext-handlersocketi-master \
-#    && phpize \
-#    && ./configure \
-#    && make && make install \
-#    && cd ../ && rm -r php-ext-handlersocketi-master \
-#    && cat > /etc/php/mods-available/handlersocketi.ini \
-#    && echo 'extension=handlersocketi.so' > /etc/php/7.0/mods-available/handlersocketi.ini \
-#    && php5enmod handlersocketi \
-#    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
-
-RUN a2enmod rewrite
-# phpdismod
 
 # Config files.
 COPY conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
