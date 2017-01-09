@@ -18,13 +18,17 @@ ENV APACHE_LOCK_DIR  /var/lock/apache2
 ENV APACHE_LOG_DIR   /var/log/apache2
 
 RUN apt-get -y update \
-    && apt-get install -y php php-pear php-dev php-cli php-mcrypt php-curl php-gd php-gmp php-zip \
-    && apt-get install -y php-apcu php-mysqlnd php-sqlite3 php-memcached php-memcache php-xdebug php-mbstring \
+    && apt-get install -y software-properties-common python-software-properties
+
+RUN apt-get install -y language-pack-en-base \
+    && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php \
+    && apt-get -y update
+
+RUN apt-get install -y php7.1 php-pear php7.1-dev php7.1-cli php7.1-mcrypt php7.1-curl php7.1-gd php7.1-gmp php7.1-zip \
+    && apt-get install -y php7.1-apcu php7.1-mysqlnd php7.1-sqlite3 php7.1-memcached php7.1-memcache php7.1-xdebug php7.1-mbstring \
     && apt-get install -y imagemagick sqlite3 unzip \
-    && apt-get install -y php-imagick php-imap php-bcmath \
-    && phpenmod mcrypt \
-    && phpenmod -v 7.0 mcrypt
-# phpdismod
+    && apt-get install -y php7.1-imagick php7.1-imap php7.1-bcmath \
+    && phpenmod -v 7.1 mcrypt
 
 RUN apt-get -y install git re2c libpcre3-dev \
     && echo $(pwd) \
@@ -35,9 +39,9 @@ RUN apt-get -y install git re2c libpcre3-dev \
     && git clone https://github.com/crocodile2u/zhandlersocket.git \
     && cd zhandlersocket \
     && /zephir/bin/zephir build --backend=ZendEngine3 \
-    && cat > /etc/php/7.0/mods-available/zhandlersocket.ini \
-    && echo 'extension=zhandlersocket.so' > /etc/php/7.0/mods-available/zhandlersocket.ini \
-    && phpenmod -v 7.0 zhandlersocket
+    && cat > /etc/php/7.1/mods-available/zhandlersocket.ini \
+    && echo 'extension=zhandlersocket.so' > /etc/php/7.1/mods-available/zhandlersocket.ini \
+    && phpenmod -v 7.1 zhandlersocket
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -45,8 +49,8 @@ RUN apt-get clean \
 RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 
 # Config files.
-COPY conf/apcu.ini /etc/php/7.0/mods-available/apcu.ini
-COPY conf/php-cli.ini /etc/php/7.0/cli/php.ini
+COPY conf/apcu.ini /etc/php/7.1/mods-available/apcu.ini
+COPY conf/php-cli.ini /etc/php/7.1/cli/php.ini
 
 # Define host WWW-files owner user UID&GID
 # http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
