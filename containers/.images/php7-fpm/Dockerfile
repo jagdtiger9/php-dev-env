@@ -20,26 +20,25 @@ RUN apt-get install -y php7.1 php-pear php7.1-fpm php7.1-dev php7.1-cli php7.1-m
     && apt-get install -y php7.1-imagick php7.1-imap php7.1-bcmath \
     && phpenmod -v 7.1 mcrypt
 
-RUN apt-get -y install git re2c libpcre3-dev \
-    && echo $(pwd) \
-    && git clone https://github.com/phalcon/zephir \
-    && cd zephir \
-    && ./install-nosudo \
-    && cd ../ \
-    && git clone https://github.com/crocodile2u/zhandlersocket.git \
-    && cd zhandlersocket \
-    && /zephir/bin/zephir build --backend=ZendEngine3 \
-    && cat > /etc/php/7.1/mods-available/zhandlersocket.ini \
-    && echo 'extension=zhandlersocket.so' > /etc/php/7.1/mods-available/zhandlersocket.ini \
-    && phpenmod -v 7.1 zhandlersocket
+#RUN apt-get -y install git re2c libpcre3-dev \
+#    && echo $(pwd) \
+#    && git clone https://github.com/phalcon/zephir \
+#    && cd zephir \
+#    && ./install-nosudo \
+#    && cd ../ \
+#    && git clone https://github.com/crocodile2u/zhandlersocket.git \
+#    && cd zhandlersocket \
+#    && /zephir/bin/zephir build --backend=ZendEngine3 \
+#    && cat > /etc/php/7.1/mods-available/zhandlersocket.ini \
+#    && echo 'extension=zhandlersocket.so' > /etc/php/7.1/mods-available/zhandlersocket.ini \
+#    && phpenmod -v 7.1 zhandlersocket
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+#RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 
 # http://serverfault.com/questions/658367/how-to-get-php-fpm-to-log-to-stdout-stderr-when-running-in-a-docker-container
-RUN ln -sf /dev/stderr /var/log/php7.0-fpm.log \
+RUN ln -sf /dev/stderr /var/log/php7.1-fpm.log \
     && ln -sf /dev/stout /var/log/fpm-access.log
 
 # Config files.

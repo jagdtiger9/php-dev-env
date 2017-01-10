@@ -32,24 +32,23 @@ RUN apt-get install -y apache2 php7.1 php-pear libapache2-mod-php php7.1-dev php
     && a2enmod rewrite
 # phpdismod
 
-
-RUN apt-get -y install git re2c libpcre3-dev \
-    && echo $(pwd) \
-    && git clone https://github.com/phalcon/zephir \
-    && cd zephir \
-    && ./install-nosudo \
-    && cd ../ \
-    && git clone https://github.com/crocodile2u/zhandlersocket.git \
-    && cd zhandlersocket \
-    && /zephir/bin/zephir build --backend=ZendEngine3 \
-    && cat > /etc/php/7.1/mods-available/zhandlersocket.ini \
-    && echo 'extension=zhandlersocket.so' > /etc/php/7.1/mods-available/zhandlersocket.ini \
-    && phpenmod -v 7.1 zhandlersocket
+### Приводит к segmentation fault при запуске /usr/bin/php в apache-php7 контейнере
+#RUN apt-get -y install git re2c libpcre3-dev \
+#    && echo $(pwd) \
+#    && git clone https://github.com/phalcon/zephir \
+#    && cd zephir \
+#    && ./install-nosudo \
+#    && cd ../ \
+#    && git clone https://github.com/crocodile2u/zhandlersocket.git \
+#    && cd zhandlersocket \
+#    && /zephir/bin/zephir build --backend=ZendEngine3 \
+#    && cat > /etc/php/7.1/mods-available/zhandlersocket.ini \
+#    && echo 'extension=zhandlersocket.so' > /etc/php/7.1/mods-available/zhandlersocket.ini \
+#    && phpenmod -v 7.1 zhandlersocket
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+#RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 
 # Config files.
 COPY conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
