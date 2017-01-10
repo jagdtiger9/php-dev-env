@@ -34,7 +34,6 @@ RUN apt-get install -y apache2 php7.1 php-pear libapache2-mod-php php7.1-dev php
 
 ### Приводит к segmentation fault при запуске /usr/bin/php в apache-php7 контейнере
 #RUN apt-get -y install git re2c libpcre3-dev \
-#    && echo $(pwd) \
 #    && git clone https://github.com/phalcon/zephir \
 #    && cd zephir \
 #    && ./install-nosudo \
