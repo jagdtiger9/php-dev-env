@@ -12,6 +12,8 @@ services:
             - ../../data/xdebug:/tmp/xdebug
             # Путь к sphinx БД
             - ../../data/sphinxsearch:/var/lib/sphinxsearch/data/
+            # Путь к БД redis
+            - ../../data/redis:/var/lib/redis/data
         networks:
             - net
         restart: unless-stopped
@@ -44,7 +46,7 @@ services:
     fpm:
         build:
             context: ../.images/php7-fpm
-        image: php7-fpm
+        #image: php7-fpm
         container_name: php7-fpm
         volumes_from:
             - data-volumes
@@ -147,6 +149,27 @@ services:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
                 tag: "memcached"
+
+    redis:
+        build:
+            context: ../.images/redis
+        image: redis
+        container_name: redis
+        volumes_from:
+            - data-volumes
+        ports:
+            - "6379:6379"
+        links:
+            - logger
+        networks:
+            - net
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "redis"
 
     sphinx:
         build:

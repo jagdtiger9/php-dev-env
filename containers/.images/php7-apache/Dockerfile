@@ -23,7 +23,6 @@ RUN apt-get -y update \
 RUN apt-get install -y language-pack-en-base \
     && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php \
     && apt-get -y update
-
 RUN apt-get install -y apache2 php7.1 php-pear libapache2-mod-php php7.1-dev php7.1-cli php7.1-mcrypt php7.1-curl php7.1-gd php7.1-gmp php7.1-zip \
     && apt-get install -y php7.1-apcu php7.1-mysqlnd php7.1-sqlite3 php7.1-memcached php7.1-memcache php7.1-xdebug php7.1-mbstring \
     && apt-get install -y imagemagick sqlite3 unzip \
@@ -31,6 +30,13 @@ RUN apt-get install -y apache2 php7.1 php-pear libapache2-mod-php php7.1-dev php
     && phpenmod -v 7.1 mcrypt \
     && a2enmod rewrite
 # phpdismod
+
+#RUN apt-get install -y apache2 php php-pear libapache2-mod-php php-dev php-cli php-mcrypt php-curl php-gd php-gmp php-zip \
+#    && apt-get install -y php-apcu php-mysqlnd php-sqlite3 php-memcached php-memcache php-xdebug php-mbstring \
+#    && apt-get install -y imagemagick sqlite3 unzip \
+#    && apt-get install -y php-imagick php-imap php-bcmath \
+#    && phpenmod -v 7.1 mcrypt \
+#    && a2enmod rewrite
 
 ### Приводит к segmentation fault при запуске /usr/bin/php в apache-php7 контейнере
 #RUN apt-get -y install git re2c libpcre3-dev \
