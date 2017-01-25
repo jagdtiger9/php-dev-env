@@ -8,3 +8,6 @@ xdebug/
 http://magicpro/?XDEBUG_PROFILE
 
 http://magicpro/?XDEBUG_TRACE
+
+redis/
+Директория снэпшотов редиса

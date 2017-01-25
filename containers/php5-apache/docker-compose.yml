@@ -13,7 +13,7 @@ services:
             # Путь к sphinx БД
             - ../../data/sphinxsearch:/var/lib/sphinxsearch/data/
             # Путь к БД redis
-            - ../../data/redis:/var/lib/redis/data
+            - ../../data/redis:/tmp/redis
         networks:
             - net
         restart: unless-stopped
@@ -148,6 +148,26 @@ services:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
                 tag: "redis"
+
+    phpredadmin:
+        image: faktiva/php-redis-admin
+        environment:
+            - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
+        ports:
+            - "8082:80"
+        depends_on:
+            - redis
+        links:
+            - logger
+        networks:
+            - net
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "phpredadmin"
 
     sphinx:
         build:
