@@ -50,6 +50,20 @@ RUN apt-get -y install git re2c libpcre3-dev \
     && echo 'extension=zhandlersocket.so' > /etc/php5/mods-available/zhandlersocket.ini \
     && php5enmod zhandlersocket
 
+# Redis
+RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/master.zip \
+    && unzip -q phpredis.zip \
+    && rm phpredis.zip \
+    && cd phpredis-* \
+    && phpize \
+    && ./configure \
+    && make && make install \
+    && cd ../ \
+    && rm -r phpredis-* \
+    && cat > /etc/php5/mods-available/redis.ini \
+    && echo 'extension=redis.so' > /etc/php5/mods-available/redis.ini \
+    && php5enmod redis
+
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN a2enmod rewrite \

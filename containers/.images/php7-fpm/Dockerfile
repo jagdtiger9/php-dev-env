@@ -20,6 +20,20 @@ RUN apt-get install -y php7.1 php-pear php7.1-fpm php7.1-dev php7.1-cli php7.1-m
     && apt-get install -y php7.1-imagick php7.1-imap php7.1-bcmath \
     && phpenmod -v 7.1 mcrypt
 
+# Redis
+RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/php7.zip \
+    && unzip -q phpredis.zip \
+    && rm phpredis.zip \
+    && cd phpredis-* \
+    && phpize \
+    && ./configure \
+    && make && make install \
+    && cd ../ \
+    && rm -r phpredis-* \
+    && cat > /etc/php/7.1/mods-available/redis.ini \
+    && echo 'extension=redis.so' > /etc/php/7.1/mods-available/redis.ini \
+    && phpenmod -v 7.1 redis
+
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 #RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
