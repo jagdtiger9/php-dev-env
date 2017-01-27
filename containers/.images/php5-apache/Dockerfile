@@ -69,6 +69,7 @@ RUN apt-get install -y nodejs npm \
     && ln -s /usr/bin/nodejs /usr/bin/node \
     && cd /var \
     && npm install -g grunt-cli \
+    && npm install -g coffee-script \
     && npm init -y \
     && npm install grunt --save-dev \
     && npm install grunt-contrib-uglify --save-dev \
