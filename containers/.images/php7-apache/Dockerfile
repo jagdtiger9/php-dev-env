@@ -65,6 +65,7 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/php7.zi
     && echo 'extension=redis.so' > /etc/php/7.1/mods-available/redis.ini \
     && phpenmod -v 7.1 redis
 
+# Grunt
 RUN apt-get install -y nodejs npm \
     && ln -s /usr/bin/nodejs /usr/bin/node \
     && cd /var \

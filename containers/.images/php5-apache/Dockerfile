@@ -64,6 +64,18 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/master.
     && echo 'extension=redis.so' > /etc/php5/mods-available/redis.ini \
     && php5enmod redis
 
+# Grunt
+RUN apt-get install -y nodejs npm \
+    && ln -s /usr/bin/nodejs /usr/bin/node \
+    && cd /var \
+    && npm install -g grunt-cli \
+    && npm init -y \
+    && npm install grunt --save-dev \
+    && npm install grunt-contrib-uglify --save-dev \
+    && npm install grunt-contrib-concat --save-dev \
+    && npm install grunt-contrib-compress --save-dev \
+    && cd /
+
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN a2enmod rewrite \

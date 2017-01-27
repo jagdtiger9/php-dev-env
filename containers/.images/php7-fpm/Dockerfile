@@ -34,9 +34,20 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/php7.zi
     && echo 'extension=redis.so' > /etc/php/7.1/mods-available/redis.ini \
     && phpenmod -v 7.1 redis
 
+# Grunt
+RUN apt-get install -y nodejs npm \
+    && ln -s /usr/bin/nodejs /usr/bin/node \
+    && cd /var \
+    && npm install -g grunt-cli \
+    && npm init -y \
+    && npm install grunt --save-dev \
+    && npm install grunt-contrib-uglify --save-dev \
+    && npm install grunt-contrib-concat --save-dev \
+    && npm install grunt-contrib-compress --save-dev \
+    && cd /
+
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-#RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 
 # http://serverfault.com/questions/658367/how-to-get-php-fpm-to-log-to-stdout-stderr-when-running-in-a-docker-container
 RUN ln -sf /dev/stderr /var/log/php7.1-fpm.log \
