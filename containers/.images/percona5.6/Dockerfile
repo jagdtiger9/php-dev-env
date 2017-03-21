@@ -17,4 +17,4 @@ EXPOSE 3306 11212 9998 9999
 
 # Use baseimage-docker's init system.
 #CMD ["/usr/local/bin/startup"]
-CMD ["mysqld", "--daemon_memcached_option", "-p11212"]
+#CMD ["mysqld", "--daemon_memcached_option", "-p11212"]

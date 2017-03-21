@@ -1,7 +1,8 @@
+[mysqld]
 pinba_port=30002
 # every second, default is 10000
 pinba_stats_gathering_period=1000000 
 # храним за: сутки - 86400, неделю - 604800, 30 дней - 2592000
-pinba_stats_history=60
+pinba_stats_history=600
 pinba_temp_pool_size=10000
 pinba_request_pool_size=1000000
