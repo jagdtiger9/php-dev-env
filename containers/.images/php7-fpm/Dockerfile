@@ -47,6 +47,18 @@ RUN apt-get install -y nodejs npm \
     && npm install grunt-contrib-compress --save-dev \
     && cd /
 
+# Pinba
+RUN git clone https://github.com/tony2001/pinba_extension.git \
+    && cd pinba_extension \
+    && phpize \
+    && ./configure --enable-pinba \
+    && make && make install \
+    && cd ../ \
+    && rm -r pinba_extension \
+    && cat > /etc/php/7.1/mods-available/pinba.ini \
+    && echo "extension=pinba.so\npinba.enabled=1\npinba.server=pinba:30002" > /etc/php/7.1/mods-available/pinba.ini \
+    && phpenmod -v 7.1 pinba
+
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
