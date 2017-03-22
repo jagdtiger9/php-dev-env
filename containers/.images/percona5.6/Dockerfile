@@ -4,10 +4,8 @@ MAINTAINER gimatov@gmail.com
 # https://docs.docker.com/engine/faq/
 ENV DEBIAN_FRONTEND=noninteractive
 
-#RUN apt-get -y update \
-#    && apt-get -y install libevent-dev \
-#    && apt-get clean \
-#    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+#RUN apt-get -y update && apt-get -y install libevent-dev
+#RUN apt-get clean &&  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Expose ports
 EXPOSE 3306 11212 9998 9999
