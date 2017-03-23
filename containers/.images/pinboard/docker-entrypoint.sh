@@ -1,13 +1,11 @@
 #!/bin/sh
 
-if [ "$1" = 'phps' ]; then
-    if [ ! -f "www/composer.json" ]; then
+if [ ! -f "www/composer.json" ]; then
 
     cd /www
 
     # get the source for the app
-    git clone https://github.com/intaro/pinboard.git .
-    #git checkout tags/v1.5.2
+    git clone https://github.com/jagdtiger9/pinboard.git .
 
     # configure the app
     cat > /www/config/parameters.yml << EOF
@@ -44,7 +42,6 @@ EOF
     # interactive request for stat process period workaround
     echo ${AGGREGATION_PERIOD} | ./console register-crontab
 
-  fi
 fi
 
 exec "$@"

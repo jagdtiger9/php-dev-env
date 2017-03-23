@@ -1,6 +1,9 @@
 FROM jedisct1/phusion-baseimage-latest:16.10
 MAINTAINER gimatov@gmail.com
 
+# Use baseimage-docker's init system.
+CMD ["/sbin/my_init"]
+
 # https://docs.docker.com/engine/faq/
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -14,17 +17,24 @@ RUN apt-get clean \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN mkdir /www
-
-COPY phps /bin/
+# Php local web server request router
 COPY router.php /
-COPY docker-entrypoint.sh /
+
+# Run php local server as sevice
+# https://github.com/phusion/baseimage-docker#adding_additional_daemons
+RUN mkdir /etc/service/phpd
+COPY phps /etc/service/phpd/run
+RUN chmod +x /etc/service/phpd/run
+
+# Add cron tasks
+COPY cron/pinba /etc/cron.d/pinba
+RUN chmod 0755 /etc/cron.d/pinba
 
 # Persist pinboard scripts in outer volume
+RUN mkdir /www
 VOLUME /www
 
 EXPOSE 8080
 
+COPY docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
-
-CMD ["phps"]

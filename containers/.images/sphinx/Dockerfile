@@ -30,5 +30,3 @@ VOLUME ["/var/www"]
 RUN mkdir /etc/service/sphinxsearch
 ADD start.sh /etc/service/sphinxsearch/run
 ADD conf/wait-for-it.sh /usr/local/bin/wait-for-it.sh
-
-#CMD ["indexer", "--config", "/etc/sphinxsearch/sphinx.conf", "--all", "searchd", "--nodetach"]
