@@ -1,32 +1,28 @@
-version: "2"
-services:
-    data-volumes:
-        image: busybox
-        container_name: data-volumes
-        volumes:
-            # Путь к локальной директории public_html
-            - ../../data/public_html:/var/www
-            # Путь к файлам данных БД
-            - ../../data/mysql_docker:/var/lib/mysql
-            # Путь к xdebug логам
-            - ../../data/xdebug:/tmp/xdebug
-            # Путь к sphinx БД
-            - ../../data/sphinxsearch:/var/lib/sphinxsearch/data
-            # Путь к БД redis
-            - ../../data/redis:/tmp/redis
-        networks:
-            - net
-        restart: unless-stopped
-        user: 1000:1000
-        command: ["top"]
+version: "3"
+volumes:
+    # Путь к локальной директории public_html
+    public_html:
+    # Путь к файлам данных БД
+    database:
+    # Путь к xdebug логам
+    xdebug:
+    # Путь к sphinx БД
+    sphinx:
+    # Путь к БД redis
+    redis:
+    # Pinba DB
+    pinba:
+    # Pinboard web
+    pinboard:
 
+services:
     php7-apache:
         build:
             context: ../.images/php7-apache
-        #image: php7-apache
         container_name: php7-apache
-        volumes_from:
-            - data-volumes
+        volumes:
+            - ${DOCUMENT_ROOT}:/var/www
+            - ${DATA_XDEBUG}:/tmp/xdebug
         ports:
             - "80:80"
             - "443:443"
@@ -49,10 +45,10 @@ services:
     crontab:
         build:
             context: ../.images/php7-cron
-        #image: php7-cron
         container_name: php7-cron
-        volumes_from:
-            - data-volumes
+        volumes:
+            - ${DOCUMENT_ROOT}:/var/www
+            - ${DATA_XDEBUG}:/tmp/xdebug
         links:
             - db:db
             - memcached:memcached
@@ -68,18 +64,15 @@ services:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
                 tag: "php7-cron"
-
     db:
         build:
             context: ../.images/percona5.6
         image: percona:5.6
-        container_name: percona
-        volumes_from:
-            - data-volumes
+        container_name: percona_db
         volumes:
+            - ${DATA_MYSQL}:/var/lib/mysql
             - ../.conf/percona:/etc/mysql/conf.d
             - ../.conf/percona:/docker-entrypoint-initdb.d
-        #command: [mysqld, --daemon_memcached_option, -p11212]
         ports:
             - "11212:11212"
             - "3306:3306"
@@ -90,7 +83,7 @@ services:
         networks:
             - net
         environment:
-            MYSQL_ROOT_PASSWORD: ubuntu34
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         restart: unless-stopped
         logging:
             driver: "syslog"
@@ -110,7 +103,7 @@ services:
             - net
         environment:
             MYSQL_USERNAME: root
-            MYSQL_ROOT_PASSWORD: ubuntu34
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         restart: unless-stopped
 
     memcached:
@@ -135,8 +128,8 @@ services:
             context: ../.images/redis
         image: redis
         container_name: redis
-        volumes_from:
-            - data-volumes
+        volumes:
+            - ${DATA_REDIS}:/tmp/redis
         ports:
             - "6379:6379"
         links:
@@ -174,11 +167,12 @@ services:
     sphinx:
         build:
             context: ../.images/sphinx
+        #image: sphinx
         container_name: sphinx
         depends_on:
           - "db"
-        volumes_from:
-            - data-volumes
+        volumes:
+            - ${DATA_SPHINX}:/var/lib/sphinxsearch/data
         ports:
             - "9312:9312"
             - "9306:9306"
@@ -194,6 +188,60 @@ services:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
                 tag: "sphinx"
+    pinba:
+        build:
+            context: ../.images/pinba
+        image: tony2001/pinba
+        container_name: pinba
+        volumes:
+            - pinba:/local/mysql/data
+        ports:
+            - "30002:30002/udp"
+            - "3006:3306"
+        links:
+            - logger
+        networks:
+            - net
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            PINBA_STATS_GATHERING_PERIOD: 10000
+            PINBA_STATS_HISTORY: 900
+            PINBA_TEMP_POOL_SIZE: 10000
+            PINBA_REQUEST_POOL_SIZE: 1000000
+            #PINBA_HISTOGRAM_MAX_TIME
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "pinba"
+
+    pinboard:
+        build:
+            context: ../.images/pinboard
+        container_name: pinboard
+        volumes:
+            - pinboard:/www
+        ports:
+            - "8084:8080"
+        links:
+            - logger
+            - pinba
+        networks:
+            - net
+        environment:
+            MYSQL_HOST: "pinba"
+            MYSQL_USER: "root"
+            MYSQL_PASSWORD: ""
+            AGGREGATION_PERIOD: 15
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "pinboard"
 
     logger:
         image: voxxit/rsyslog
