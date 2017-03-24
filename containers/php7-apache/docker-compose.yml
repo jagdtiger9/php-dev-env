@@ -1,13 +1,5 @@
 version: "3"
 volumes:
-    # Путь к локальной директории public_html
-    public_html:
-    # Путь к файлам данных БД
-    database:
-    # Путь к xdebug логам
-    xdebug:
-    # Путь к sphinx БД
-    sphinx:
     # Путь к БД redis
     redis:
     # Pinba DB
