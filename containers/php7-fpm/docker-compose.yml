@@ -188,6 +188,7 @@ services:
           - "db"
         volumes:
             - ${DATA_SPHINX}:/var/lib/sphinxsearch/data
+            - ${DOCUMENT_ROOT}:/var/www:ro
         ports:
             - "9312:9312"
             - "9306:9306"
