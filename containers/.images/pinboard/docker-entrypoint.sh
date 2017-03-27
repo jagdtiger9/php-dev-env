@@ -40,7 +40,8 @@ EOF
     ./console migrations:migrate --no-interaction
 
     # interactive request for stat process period workaround
-    echo ${AGGREGATION_PERIOD} | ./console register-crontab
+    # use cron.d/pinboard (see Dockerfile)
+    #echo ${AGGREGATION_PERIOD} | ./console register-crontab | tee ./cron.log 2>&1
 
 fi
 

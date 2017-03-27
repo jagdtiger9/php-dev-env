@@ -1,1 +1,1 @@
-*/15 *     * * *     root   /www/console aggregate >> /www/cron.log 2>&1
+*/5 *     * * *     root   /www/console aggregate 2>&1 | tee -a /www/cron.log

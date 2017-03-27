@@ -221,7 +221,7 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
             PINBA_STATS_GATHERING_PERIOD: 10000
-            PINBA_STATS_HISTORY: 900
+            PINBA_STATS_HISTORY: 300
             PINBA_TEMP_POOL_SIZE: 10000
             PINBA_REQUEST_POOL_SIZE: 1000000
             #PINBA_HISTOGRAM_MAX_TIME
@@ -250,7 +250,7 @@ services:
             MYSQL_HOST: "pinba"
             MYSQL_USER: "root"
             MYSQL_PASSWORD: ""
-            AGGREGATION_PERIOD: 15
+            AGGREGATION_PERIOD: 5
         restart: unless-stopped
         logging:
             driver: "syslog"
