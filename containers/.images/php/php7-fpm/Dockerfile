@@ -4,18 +4,8 @@ MAINTAINER gimatov@gmail.com
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-# DNS update: to run apt-get and to let the docker build process access the internet.
-#RUN "sh" "-c" "echo nameserver 8.8.8.8 >> /etc/resolv.conf"
-
 # https://docs.docker.com/engine/faq/
 ENV DEBIAN_FRONTEND=noninteractive
-
-ENV APACHE_RUN_USER  www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_PID_FILE  /var/run/apache2.pid
-ENV APACHE_RUN_DIR   /var/run/apache2
-ENV APACHE_LOCK_DIR  /var/lock/apache2
-ENV APACHE_LOG_DIR   /var/log/apache2
 
 RUN apt-get -y update \
     && apt-get install -y software-properties-common python-software-properties
@@ -24,7 +14,7 @@ RUN apt-get install -y language-pack-en-base \
     && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php \
     && apt-get -y update
 
-RUN apt-get install -y php7.1 php-pear php7.1-dev php7.1-cli php7.1-mcrypt php7.1-curl php7.1-gd php7.1-gmp php7.1-zip \
+RUN apt-get install -y php7.1 php-pear php7.1-fpm php7.1-dev php7.1-cli php7.1-mcrypt php7.1-curl php7.1-gd php7.1-gmp php7.1-zip \
     && apt-get install -y php7.1-apcu php7.1-mysqlnd php7.1-sqlite3 php7.1-memcached php7.1-memcache php7.1-xdebug php7.1-mbstring \
     && apt-get install -y imagemagick sqlite3 unzip \
     && apt-get install -y php7.1-imagick php7.1-imap php7.1-bcmath \
@@ -44,6 +34,19 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/php7.zi
     && echo 'extension=redis.so' > /etc/php/7.1/mods-available/redis.ini \
     && phpenmod -v 7.1 redis
 
+# Grunt
+RUN apt-get install -y nodejs npm \
+    && ln -s /usr/bin/nodejs /usr/bin/node \
+    && cd /var \
+    && npm install -g grunt-cli \
+    && npm install -g coffee-script \
+    && npm init -y \
+    && npm install grunt --save-dev \
+    && npm install grunt-contrib-uglify --save-dev \
+    && npm install grunt-contrib-concat --save-dev \
+    && npm install grunt-contrib-compress --save-dev \
+    && cd /
+
 # Pinba
 RUN git clone https://github.com/tony2001/pinba_extension.git \
     && cd pinba_extension \
@@ -59,16 +62,23 @@ RUN git clone https://github.com/tony2001/pinba_extension.git \
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# http://serverfault.com/questions/658367/how-to-get-php-fpm-to-log-to-stdout-stderr-when-running-in-a-docker-container
+RUN ln -sf /dev/stderr /var/log/php7.1-fpm.log \
+    && ln -sf /dev/stout /var/log/fpm-access.log
+
 # Config files.
-COPY conf/apcu.ini /etc/php/7.1/mods-available/apcu.ini
-COPY conf/php-cli.ini /etc/php/7.1/cli/php.ini
+COPY ./.conf/php7/xdebug.ini /etc/php/7.1/mods-available/xdebug.ini
+COPY ./.conf/php7/opcache.ini /etc/php/7.1/mods-available/opcache.ini
+COPY ./.conf/php7/apcu.ini /etc/php/7.1/mods-available/apcu.ini
+COPY ./.conf/php7/memcached.ini /etc/php/7.1/mods-available/memcached.ini
+COPY ./.conf/php7/php.ini /etc/php/7.1/fpm/php.ini
+COPY ./.conf/php7/php-cli.ini /etc/php/7.1/cli/php.ini
+COPY ./.conf/fpm/php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
+COPY ./.conf/fpm/www.conf /etc/php/7.1/fpm/pool.d/www.conf
 
-# Define host WWW-files owner user UID&GID
-# http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
-# https://github.com/phusion/baseimage-docker#running_startup_scripts
-RUN mkdir -p /etc/my_init.d
-ADD conf/init_user.sh /etc/my_init.d/init_user.sh
+RUN mkdir /etc/service/php-fpm7.1
+ADD ./php7-fpm/start.sh /etc/service/php-fpm7.1/run
 
-# Add cron tasks
-COPY conf/cron.d/magicpro /etc/cron.d/magicpro
-RUN chmod 0755 /etc/cron.d/magicpro
+EXPOSE 9000
+
+VOLUME ["/var/www"]

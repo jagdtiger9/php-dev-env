@@ -4,7 +4,7 @@ FROM tony2001/pinba
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Customize my.cnf
-COPY my.cnf /local/mysql/etc/my.cnf
+#COPY my.cnf /local/mysql/etc/my.cnf
 COPY init.sql /local/mysql/init.sql
 RUN chown mysql:mysql /local/mysql/init.sql
 

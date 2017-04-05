@@ -8,7 +8,7 @@ CMD ["/sbin/my_init"]
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y update \
-    && apt-get install -y php5 php-pear php5-fpm php5-dev php5-cli php5-mcrypt php5-curl php5-gd php5-gmp php-apc \
+    && apt-get install -y php5 php-pear php5-dev php5-cli php5-mcrypt php5-curl php5-gd php5-gmp php-apc \
     && apt-get install -y php5-apcu php5-mysqlnd php5-sqlite php5-memcached php5-memcache php5-xdebug \
     && apt-get install -y imagemagick sqlite3 unzip \
     && apt-get install -y php5-imagick php5-imap \
@@ -54,37 +54,22 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/master.
     && echo 'extension=redis.so' > /etc/php5/mods-available/redis.ini \
     && php5enmod redis
 
-# Grunt
-RUN apt-get install -y nodejs npm \
-    && ln -s /usr/bin/nodejs /usr/bin/node \
-    && cd /var \
-    && npm install -g grunt-cli \
-    && npm install -g coffee-script \
-    && npm init -y \
-    && npm install grunt --save-dev \
-    && npm install grunt-contrib-uglify --save-dev \
-    && npm install grunt-contrib-concat --save-dev \
-    && npm install grunt-contrib-compress --save-dev \
-    && cd /
-
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # http://serverfault.com/questions/658367/how-to-get-php-fpm-to-log-to-stdout-stderr-when-running-in-a-docker-container
-RUN ln -sf /dev/stderr /var/log/fpm-error.log \
-    && ln -sf /dev/stdout /var/log/fpm-access.log
+#RUN ln -sf /dev/stderr /var/log/fpm-error.log \
+#    && ln -sf /dev/stderr /var/log/fpm-access.log
 
 # Config files.
-COPY conf/xdebug.ini /etc/php5/fpm/conf.d/20-xdebug.ini
-COPY conf/apcu.ini /etc/php5/mods-available/apcu.ini
-COPY conf/memcached.ini /etc/php5/mods-available/memcached.ini
-COPY conf/php.ini /etc/php5/fpm/php.ini
-COPY conf/php-fpm.conf /etc/php5/fpm/php-fpm.conf
-COPY conf/php-cli.ini /etc/php5/cli/php.ini
-COPY conf/www.conf /etc/php5/fpm/pool.d/www.conf
+COPY ./.conf/php5/apcu.ini /etc/php5/mods-available/apcu.ini
+COPY ./.conf/php5/php-cli.ini /etc/php5/cli/php.ini
 
-RUN mkdir /etc/service/php5-fpm
-ADD start.sh /etc/service/php5-fpm/run
+# Define host WWW-files owner user UID&GID
+# http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
+# https://github.com/phusion/baseimage-docker#running_startup_scripts
+RUN mkdir -p /etc/my_init.d
+ADD ./.conf/cron/init_user.sh /etc/my_init.d/init_user.sh
 
-EXPOSE 9000
-
-VOLUME ["/var/www"]
+# Add cron tasks
+COPY ./.conf/cron/magicpro /etc/cron.d/magicpro
+RUN chmod 0755 /etc/cron.d/magicpro

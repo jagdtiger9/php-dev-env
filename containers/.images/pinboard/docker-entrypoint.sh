@@ -42,7 +42,6 @@ EOF
     # interactive request for stat process period workaround
     # use cron.d/pinboard (see Dockerfile)
     #echo ${AGGREGATION_PERIOD} | ./console register-crontab | tee ./cron.log 2>&1
-
 fi
 
 exec "$@"

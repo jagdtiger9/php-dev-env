@@ -10,7 +10,8 @@ volumes:
 services:
     php7-apache:
         build:
-            context: ../.images/php7-apache
+            context: ../.images/php
+            dockerfile: ./php7-apache/Dockerfile
         container_name: php7-apache
         volumes:
             - ${DOCUMENT_ROOT}:/var/www
@@ -36,7 +37,8 @@ services:
 
     crontab:
         build:
-            context: ../.images/php7-cron
+            context: ../.images/php
+            dockerfile: ./php7-cron/Dockerfile
         container_name: php7-cron
         volumes:
             - ${DOCUMENT_ROOT}:/var/www

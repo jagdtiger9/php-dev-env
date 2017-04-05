@@ -45,8 +45,10 @@ services:
 
     fpm:
         build:
-            context: ../.images/php5-fpm
-        #image: php5-fpm
+            context: ../.images/php
+            dockerfile: ./php5-fpm/Dockerfile
+        environment:
+            PHP_VERSION: 5
         container_name: php5-fpm
         volumes_from:
             - data-volumes
@@ -69,14 +71,11 @@ services:
 
     crontab:
         build:
-            context: ../.images/php5-cron
-        #image: php5-cron
+            context: ../.images/php
+            dockerfile: ./php5-cron/Dockerfile
         container_name: php5-cron
         volumes_from:
             - data-volumes
-        #volumes:
-        #    - /etc/passwd:/etc/passwd
-        #    - /etc/shadow:/etc/shadow
         links:
             - db:db
             - memcached:memcached

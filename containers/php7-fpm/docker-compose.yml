@@ -33,8 +33,10 @@ services:
 
     fpm:
         build:
-            context: ../.images/php7-fpm
-        image: php7-fpm
+            context: ../.images/php
+            dockerfile: ./php7-fpm/Dockerfile
+        environment:
+            PHP_VERSION: 7.1
         container_name: php7-fpm
         volumes:
             - ${DOCUMENT_ROOT}:/var/www
@@ -58,8 +60,8 @@ services:
 
     crontab:
         build:
-            context: ../.images/php7-cron
-        image: php7-cron
+            context: ../.images/php
+            dockerfile: ./php7-cron/Dockerfile
         container_name: php7-cron
         volumes:
             - ${DOCUMENT_ROOT}:/var/www
@@ -86,8 +88,6 @@ services:
         container_name: percona_db
         volumes:
             - ${DATA_MYSQL}:/var/lib/mysql
-            - ../.conf/percona:/etc/mysql/conf.d
-            - ../.conf/percona:/docker-entrypoint-initdb.d
         ports:
             - "11212:11212"
             - "3306:3306"
@@ -182,7 +182,6 @@ services:
     sphinx:
         build:
             context: ../.images/sphinx
-        #image: sphinx
         container_name: sphinx
         depends_on:
           - "db"

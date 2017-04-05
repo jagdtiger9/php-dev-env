@@ -13,6 +13,9 @@ EXPOSE 3306 11212 9998 9999
 #COPY conf/startup /usr/local/bin/startup
 #RUN chown mysql:mysql /usr/local/bin/startup && chmod 0777 /usr/local/bin/startup
 
+ADD ./conf /etc/mysql/conf.d
+ADD ./conf /docker-entrypoint-initdb.d
+
 # Use baseimage-docker's init system.
 #CMD ["/usr/local/bin/startup"]
 #CMD ["mysqld", "--daemon_memcached_option", "-p11212"]

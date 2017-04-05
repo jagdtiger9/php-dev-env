@@ -95,18 +95,18 @@ RUN apt-get clean \
 #RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 
 # Config files.
-COPY conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
-COPY conf/apache/ports.conf /etc/apache2/ports.conf
+COPY ./.conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+COPY ./.conf/apache/ports.conf /etc/apache2/ports.conf
 
-COPY conf/php7/xdebug.ini /etc/php/7.1/mods-available/xdebug.ini
-COPY conf/php7/opcache.ini /etc/php/7.1/mods-available/opcache.ini
-COPY conf/php7/apcu.ini /etc/php/7.1/mods-available/apcu.ini
-COPY conf/php7/memcached.ini /etc/php/7.1/mods-available/memcached.ini
-COPY conf/php7/php.ini /etc/php/7.1/apache2/php.ini
-COPY conf/php7/php-cli.ini /etc/php/7.1/cli/php.ini
+COPY ./.conf/php7/xdebug.ini /etc/php/7.1/mods-available/xdebug.ini
+COPY ./.conf/php7/opcache.ini /etc/php/7.1/mods-available/opcache.ini
+COPY ./.conf/php7/apcu.ini /etc/php/7.1/mods-available/apcu.ini
+COPY ./.conf/php7/memcached.ini /etc/php/7.1/mods-available/memcached.ini
+COPY ./.conf/php7/php.ini /etc/php/7.1/apache2/php.ini
+COPY ./.conf/php7/php-cli.ini /etc/php/7.1/cli/php.ini
 
 RUN mkdir /etc/service/apache2
-ADD start.sh /etc/service/apache2/run
+ADD ./php7-apache/start.sh /etc/service/apache2/run
 
 # Expose ports
 EXPOSE 80 443 8080
