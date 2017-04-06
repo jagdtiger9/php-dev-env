@@ -22,8 +22,9 @@ services:
 
     nginx-proxy:
         build:
-            context: ../.images/nginx-proxy
-        image: nginx-proxy
+            context: ../.images/nginx
+            args:
+                proxy: 1
         container_name: nginx-proxy
         volumes_from:
             - data-volumes
@@ -46,8 +47,8 @@ services:
 
     crontab:
         build:
-            context: ../.images/php5-cron
-        image: php5-cron
+            context: ../.images
+            dockerfile: ./php5-cron/Dockerfile
         container_name: php5-cron
         volumes_from:
             - data-volumes
@@ -68,8 +69,8 @@ services:
 
     backend:
         build:
-            context: ../.images/php5-apache
-        image: php5-apache
+            context: ../.images/php
+            dockerfile: ./php5-apache/Dockerfile
         volumes_from:
             - data-volumes
         ports:
@@ -96,9 +97,6 @@ services:
         container_name: percona
         volumes_from:
             - data-volumes
-        volumes:
-            - ../.conf/percona:/etc/mysql/conf.d
-            - ../.conf/percona:/docker-entrypoint-initdb.d
         #command: [mysqld, --daemon_memcached_option, -p11212]
         ports:
             - "11212:11212"

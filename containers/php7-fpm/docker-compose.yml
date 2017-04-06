@@ -35,8 +35,6 @@ services:
         build:
             context: ../.images/php
             dockerfile: ./php7-fpm/Dockerfile
-        environment:
-            PHP_VERSION: 7.1
         container_name: php7-fpm
         volumes:
             - ${DOCUMENT_ROOT}:/var/www

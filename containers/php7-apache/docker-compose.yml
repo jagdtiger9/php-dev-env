@@ -65,8 +65,6 @@ services:
         container_name: percona_db
         volumes:
             - ${DATA_MYSQL}:/var/lib/mysql
-            - ../.conf/percona:/etc/mysql/conf.d
-            - ../.conf/percona:/docker-entrypoint-initdb.d
         ports:
             - "11212:11212"
             - "3306:3306"

@@ -47,8 +47,6 @@ services:
         build:
             context: ../.images/php
             dockerfile: ./php5-fpm/Dockerfile
-        environment:
-            PHP_VERSION: 5
         container_name: php5-fpm
         volumes_from:
             - data-volumes
@@ -98,9 +96,6 @@ services:
         container_name: percona
         volumes_from:
             - data-volumes
-        volumes:
-            - ../.conf/percona:/etc/mysql/conf.d
-            - ../.conf/percona:/docker-entrypoint-initdb.d
         #command: [mysqld, --daemon_memcached_option, -p11212]
         ports:
             - "11212:11212"

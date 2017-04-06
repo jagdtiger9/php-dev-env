@@ -63,8 +63,8 @@ RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # http://serverfault.com/questions/658367/how-to-get-php-fpm-to-log-to-stdout-stderr-when-running-in-a-docker-container
-RUN ln -sf /dev/stderr /var/log/php7.1-fpm.log \
-    && ln -sf /dev/stout /var/log/fpm-access.log
+#RUN ln -sf /dev/stderr /var/log/php7.1-fpm.log \
+#    && ln -sf /dev/stout /var/log/fpm-access.log
 
 # Config files.
 COPY ./.conf/php7/xdebug.ini /etc/php/7.1/mods-available/xdebug.ini
@@ -73,6 +73,7 @@ COPY ./.conf/php7/apcu.ini /etc/php/7.1/mods-available/apcu.ini
 COPY ./.conf/php7/memcached.ini /etc/php/7.1/mods-available/memcached.ini
 COPY ./.conf/php7/php.ini /etc/php/7.1/fpm/php.ini
 COPY ./.conf/php7/php-cli.ini /etc/php/7.1/cli/php.ini
+
 COPY ./.conf/fpm/php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
 COPY ./.conf/fpm/www.conf /etc/php/7.1/fpm/pool.d/www.conf
 

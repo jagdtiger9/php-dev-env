@@ -65,13 +65,22 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/master.
     && php5enmod redis
 
 # Grunt
-RUN apt-get install -y nodejs npm \
-    && ln -s /usr/bin/nodejs /usr/bin/node \
+RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
+RUN add-apt-repository ppa:fkrull/deadsnakes
+RUN apt-get update -y
+RUN apt-get install -y python2.7
+
+RUN apt-get install -y nodejs \
     && cd /var \
+    && npm install --global node-gyp \
     && npm install -g grunt-cli \
-    && npm install -g coffee-script \
-    && npm init -y \
-    && npm install grunt --save-dev \
+    && npm install -g coffee-script
+
+RUN npm init -y
+# node-gyp needs python v2.7
+#RUN npm install --python=python3.4 && npm config set python python3.4
+RUN npm install --python=python2.7 && npm config set python python2.7
+RUN npm install grunt --save-dev \
     && npm install grunt-contrib-uglify --save-dev \
     && npm install grunt-contrib-concat --save-dev \
     && npm install grunt-contrib-compress --save-dev \
@@ -83,17 +92,17 @@ RUN a2enmod rewrite \
     && php5enmod mcrypt
 
 # Config files.
-COPY conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
-COPY conf/apache/ports.conf /etc/apache2/ports.conf
+COPY ./.conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+COPY ./.conf/apache/ports.conf /etc/apache2/ports.conf
 
-COPY conf/php5/xdebug.ini /etc/php5/mods-available/xdebug.ini
-COPY conf/php5/apcu.ini /etc/php5/mods-available/apcu.ini
-COPY conf/php5/memcached.ini /etc/php5/mods-available/memcached.ini
-COPY conf/php5/php.ini /etc/php5/apache2/php.ini
-COPY conf/php5/php-cli.ini /etc/php5/cli/php.ini
+COPY ./.conf/php5/xdebug.ini /etc/php5/mods-available/xdebug.ini
+COPY ./.conf/php5/apcu.ini /etc/php5/mods-available/apcu.ini
+COPY ./.conf/php5/memcached.ini /etc/php5/mods-available/memcached.ini
+COPY ./.conf/php5/php.ini /etc/php5/apache2/php.ini
+COPY ./.conf/php5/php-cli.ini /etc/php5/cli/php.ini
 
 RUN mkdir /etc/service/apache2
-ADD start.sh /etc/service/apache2/run
+ADD ./php5-apache/start.sh /etc/service/apache2/run
 
 # Expose ports
 EXPOSE 80 443 8080

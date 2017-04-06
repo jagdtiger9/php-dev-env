@@ -55,13 +55,22 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/master.
     && php5enmod redis
 
 # Grunt
-RUN apt-get install -y nodejs npm \
-    && ln -s /usr/bin/nodejs /usr/bin/node \
+RUN curl -sL https://deb.nodesource.com/setup_4.x | bash -
+RUN add-apt-repository ppa:fkrull/deadsnakes
+RUN apt-get update -y
+RUN apt-get install -y python2.7
+
+RUN apt-get install -y nodejs \
     && cd /var \
+    && npm install --global node-gyp \
     && npm install -g grunt-cli \
-    && npm install -g coffee-script \
-    && npm init -y \
-    && npm install grunt --save-dev \
+    && npm install -g coffee-script
+
+RUN npm init -y
+# node-gyp needs python v2.7
+#RUN npm install --python=python3.4 && npm config set python python3.4
+RUN npm install --python=python2.7 && npm config set python python2.7
+RUN npm install grunt --save-dev \
     && npm install grunt-contrib-uglify --save-dev \
     && npm install grunt-contrib-concat --save-dev \
     && npm install grunt-contrib-compress --save-dev \
@@ -70,8 +79,8 @@ RUN apt-get install -y nodejs npm \
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # http://serverfault.com/questions/658367/how-to-get-php-fpm-to-log-to-stdout-stderr-when-running-in-a-docker-container
-RUN ln -sf /dev/stderr /var/log/fpm-error.log \
-    && ln -sf /dev/stdout /var/log/fpm-access.log
+#RUN ln -sf /dev/stderr /var/log/fpm-error.log \
+#    && ln -sf /dev/stderr /var/log/fpm-access.log
 
 # Config files.
 COPY ./.conf/php5/xdebug.ini /etc/php5/fpm/conf.d/20-xdebug.ini
@@ -80,8 +89,8 @@ COPY ./.conf/php5/memcached.ini /etc/php5/mods-available/memcached.ini
 COPY ./.conf/php5/php.ini /etc/php5/fpm/php.ini
 COPY ./.conf/php5/php-cli.ini /etc/php5/cli/php.ini
 
-COPY ./.conf/php-fpm.conf /etc/php5/fpm/php-fpm.conf
-COPY ./.conf/www.conf /etc/php5/fpm/pool.d/www.conf
+COPY ./.conf/fpm/php-fpm.conf /etc/php5/fpm/php-fpm.conf
+COPY ./.conf/fpm/www.conf /etc/php5/fpm/pool.d/www.conf
 
 RUN mkdir /etc/service/php5-fpm
 ADD ./php5-fpm/start.sh /etc/service/php5-fpm/run
