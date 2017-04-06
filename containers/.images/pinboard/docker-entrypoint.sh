@@ -31,6 +31,7 @@ pagination:
   row_per_page: 50
 secure:
   enable: false
+timezone: Europe/Moscow
 EOF
 
     # install the app
