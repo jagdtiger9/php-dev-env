@@ -1,11 +1,5 @@
-FROM php7fpm_php_base
+FROM jagdtiger/php7-base:7.0
 MAINTAINER gimatov@gmail.com
-
-# Use baseimage-docker's init system.
-CMD ["/sbin/my_init"]
-
-# https://docs.docker.com/engine/faq/
-ENV DEBIAN_FRONTEND=noninteractive
 
 # Define host WWW-files owner user UID&GID
 # http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes

@@ -1,8 +1,5 @@
-FROM php7apache_php_base
+FROM jagdtiger/php7-base:7.0
 MAINTAINER gimatov@gmail.com
-
-# https://docs.docker.com/engine/faq/
-ENV DEBIAN_FRONTEND=noninteractive
 
 ENV APACHE_RUN_USER  www-data
 ENV APACHE_RUN_GROUP www-data

@@ -1,59 +1,24 @@
-version: "2"
+version: "3"
+volumes:
+    # Путь к БД redis
+    redis:
+
 services:
-    data-volumes:
-        image: alpine:latest
-        container_name: data-volumes
-        volumes:
-            # Путь к локальной директории public_html
-            - ../../data/public_html:/var/www
-            # Путь к файлам данных БД
-            - ../../data/mysql_docker:/var/lib/mysql
-            # Путь к xdebug логам
-            - ../../data/xdebug:/tmp/xdebug
-            # Путь к sphinx БД
-            - ../../data/sphinxsearch:/var/lib/sphinxsearch/data/
-            # Путь к БД redis
-            - ../../data/redis:/tmp/redis
-        networks:
-            - net
-        restart: unless-stopped
-        user: 1000:1000
-        command: ["top"]
-    nginx:
+    php5-apache:
         build:
-            context: ../.images/nginx
-        image: nginx
-        container_name: nginx
-        volumes_from:
-            - data-volumes
+            context: ../.images/php
+            dockerfile: ./php5-apache/Dockerfile
+        container_name: php5-apache
+        volumes:
+            - ${DOCUMENT_ROOT}:/var/www
+            - ${DATA_XDEBUG}:/tmp/xdebug
         ports:
             - "80:80"
-        links:
-            - fpm:fpm
-            - memcached:memcached
-            - logger
-        networks:
-            - net
-        restart: unless-stopped
-        logging:
-            driver: "syslog"
-            options:
-                syslog-address: "udp://127.0.0.1:5514"
-                syslog-facility: "daemon"
-                tag: "nginx"
-
-    fpm:
-        build:
-            context: ../.images/php7-fpm
-        #image: php7-fpm
-        container_name: php7-fpm
-        volumes_from:
-            - data-volumes
-        ports:
-            - "9000:9000"
+            - "443:443"
         links:
             - db:db
             - memcached:memcached
+            - redis:redis
             - sphinx:sphinx
             - logger
         networks:
@@ -64,18 +29,20 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                tag: "php7-fpm"
+                tag: "php5-apache"
 
     crontab:
         build:
-            context: ../.images/php7-cron
-        #image: php7-cron
-        container_name: php7-cron
-        volumes_from:
-            - data-volumes
+            context: ../.images/php
+            dockerfile: ./php5-cron/Dockerfile
+        container_name: php5-cron
+        volumes:
+            - ${DOCUMENT_ROOT}:/var/www
+            - ${DATA_XDEBUG}:/tmp/xdebug
         links:
             - db:db
             - memcached:memcached
+            - redis:redis
             - sphinx:sphinx
             - logger
         networks:
@@ -86,16 +53,14 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                tag: "php7-cron"
-
+                tag: "php5-cron"
     db:
         build:
             context: ../.images/percona5.6
         image: percona:5.6
-        container_name: percona
-        volumes_from:
-            - data-volumes
-        #command: [mysqld, --daemon_memcached_option, -p11212]
+        container_name: percona_db
+        volumes:
+            - ${DATA_MYSQL}:/var/lib/mysql
         ports:
             - "11212:11212"
             - "3306:3306"
@@ -106,7 +71,7 @@ services:
         networks:
             - net
         environment:
-            MYSQL_ROOT_PASSWORD: ubuntu34
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         restart: unless-stopped
         logging:
             driver: "syslog"
@@ -126,7 +91,7 @@ services:
             - net
         environment:
             MYSQL_USERNAME: root
-            MYSQL_ROOT_PASSWORD: ubuntu34
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
         restart: unless-stopped
 
     memcached:
@@ -151,8 +116,8 @@ services:
             context: ../.images/redis
         image: redis
         container_name: redis
-        volumes_from:
-            - data-volumes
+        volumes:
+            - ${DATA_REDIS}:/tmp/redis
         ports:
             - "6379:6379"
         links:
@@ -193,8 +158,9 @@ services:
         container_name: sphinx
         depends_on:
           - "db"
-        volumes_from:
-            - data-volumes
+        volumes:
+            - ${DATA_SPHINX}:/var/lib/sphinxsearch/data
+            - ${DOCUMENT_ROOT}:/var/www:ro
         ports:
             - "9312:9312"
             - "9306:9306"
@@ -211,7 +177,6 @@ services:
                 syslog-facility: "daemon"
                 tag: "sphinx"
 
-
     logger:
         image: voxxit/rsyslog
         container_name: logger
@@ -223,28 +188,6 @@ services:
             - net
         restart: unless-stopped
 
-    pinba:
-        image: tony2001/pinba
-        container_name: pinba
-        volumes_from:
-            - data-volumes
-        ports:
-            - "30002:30002"
-            - "4306:3306"
-        links:
-            - logger
-            - db
-        networks:
-            - net
-        restart: unless-stopped
-        logging:
-            driver: "syslog"
-            options:
-                syslog-address: "udp://127.0.0.1:5514"
-                syslog-facility: "daemon"
-                tag: "pinba"
-
-
 networks:
     net:
         driver: bridge
@@ -252,5 +195,6 @@ networks:
             driver: default
             config:
                 - subnet: 192.168.17.1/24
+#                  ip_range: 192.168.17.1/24
 #                  aux_addresses:
 #                      db: 192.168.17.33
