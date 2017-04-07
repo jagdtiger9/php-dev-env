@@ -8,6 +8,21 @@ volumes:
     pinboard:
 
 services:
+    php_base:
+        build:
+            context: ../.images/php
+            dockerfile: ./php7-base/Dockerfile
+        container_name: php7-base
+        networks:
+            - net
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "php7-base"
+
     php7-apache:
         build:
             context: ../.images/php
