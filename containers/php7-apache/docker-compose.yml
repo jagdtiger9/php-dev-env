@@ -54,6 +54,8 @@ services:
         build:
             context: ../.images/php
             dockerfile: ./php7-cron/Dockerfile
+            args:
+                base_image: php7apache_php_base
         container_name: php7-cron
         volumes:
             - ${DOCUMENT_ROOT}:/var/www
