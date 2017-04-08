@@ -1,7 +1,7 @@
-# Конфигурация с реализацией масштабирования apache-php серверов.
-# Аналог production окружения: Proxy(nginx) + worker-backends(apache2-php) + mysql, memcache сервисы
+# Nginx - front-end proxy 
+# Apache-php7 - backend
 
 docker-compose up -d
 
-# Указываем какое кол-во backend серверов (apache-php) нужно склонировать. Минимальное значение - 3!
+# Scale up backend servers. Min value is 3, see ../.images/nginx/conf/nginx-proxy.conf
 docker-compose scale backend=5
