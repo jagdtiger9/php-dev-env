@@ -1,5 +1,7 @@
 FROM nginx:stable-alpine
 
+ARG proxy
+
 # configs
 ADD ./conf/nginx.conf /etc/nginx/nginx.conf
 ADD ./conf/nginx-proxy.conf /etc/nginx/nginx-proxy.conf
