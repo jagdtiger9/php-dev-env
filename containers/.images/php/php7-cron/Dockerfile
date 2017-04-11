@@ -1,4 +1,4 @@
-FROM jagdtiger/php7-base:7.0
+FROM jagdtiger/php-dev-env:php7.0
 MAINTAINER gimatov@gmail.com
 
 # Define host WWW-files owner user UID&GID

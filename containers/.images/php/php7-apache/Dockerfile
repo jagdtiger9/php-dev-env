@@ -1,4 +1,4 @@
-FROM jagdtiger/php7-base:7.0
+FROM jagdtiger/php-dev-env:php7.0
 MAINTAINER gimatov@gmail.com
 
 ENV APACHE_RUN_USER  www-data
@@ -16,10 +16,10 @@ RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Config files
+RUN cp /etc/php/7.0/php.ini /etc/php/7.0/apache2/php.ini
+
 COPY ./.conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY ./.conf/apache/ports.conf /etc/apache2/ports.conf
-
-COPY ./.conf/php7/php.ini /etc/php/7.0/apache2/php.ini
 
 RUN mkdir /etc/service/apache2
 ADD ./php7-apache/start.sh /etc/service/apache2/run
