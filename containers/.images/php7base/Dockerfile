@@ -77,9 +77,10 @@ RUN apt-get clean \
 #RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 
 # Config files
-COPY conf/php7/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
-COPY conf/php7/opcache.ini /etc/php/7.0/mods-available/opcache.ini
-COPY conf/php7/apcu.ini /etc/php/7.0/mods-available/apcu.ini
-COPY conf/php7/memcached.ini /etc/php/7.0/mods-available/memcached.ini
-COPY conf/php7/php-cli.ini /etc/php/7.0/cli/php.ini
-COPY conf/php7/php.ini /etc/php/7.0/php.ini
+COPY conf/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
+COPY conf/opcache.ini /etc/php/7.0/mods-available/opcache.ini
+COPY conf/apcu.ini /etc/php/7.0/mods-available/apcu.ini
+COPY conf/memcached.ini /etc/php/7.0/mods-available/memcached.ini
+COPY conf/php-cli.ini /etc/php/7.0/cli/php.ini
+COPY conf/php.ini /etc/php/7.0/fpm/php.ini
+COPY conf/php.ini /etc/php/7.0/php.ini
