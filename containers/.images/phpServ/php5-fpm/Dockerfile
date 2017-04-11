@@ -1,8 +1,6 @@
 FROM jagdtiger/php5-base:5.6
 MAINTAINER gimatov@gmail.com
 
-COPY ./.conf/php5/php.ini /etc/php5/fpm/php.ini
-
 COPY ./.conf/fpm/php-fpm.conf /etc/php5/fpm/php-fpm.conf
 COPY ./.conf/fpm/www.conf /etc/php5/fpm/pool.d/www.conf
 

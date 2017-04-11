@@ -34,7 +34,7 @@ services:
 
     backend:
         build:
-            context: ../.images/php
+            context: ../.images/phpServ
             dockerfile: ./php7-apache/Dockerfile
         # container name must not be used to scale container
         #container_name: backend
@@ -61,7 +61,7 @@ services:
 
     crontab:
         build:
-            context: ../.images/php
+            context: ../.images/phpServ
             dockerfile: ./php7-cron/Dockerfile
             args:
                 base_image: php7apache_php-base

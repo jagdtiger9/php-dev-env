@@ -15,7 +15,7 @@ RUN apt-get -y update \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Config files
-COPY ./.conf/php5/php.ini /etc/php5/apache2/php.ini
+RUN cp /etc/php5/php.ini /etc/php5/apache2/php.ini
 
 COPY ./.conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY ./.conf/apache/ports.conf /etc/apache2/ports.conf

@@ -33,7 +33,7 @@ services:
 
     fpm:
         build:
-            context: ../.images/php
+            context: ../.images/phpServ
             dockerfile: ./php7-fpm/Dockerfile
         container_name: php7-fpm
         volumes:
@@ -58,10 +58,8 @@ services:
 
     crontab:
         build:
-            context: ../.images/php
+            context: ../.images/phpServ
             dockerfile: ./php7-cron/Dockerfile
-            args:
-                base_image: php7fpm_php-base
         container_name: php7-cron
         volumes:
             - ${DOCUMENT_ROOT}:/var/www
