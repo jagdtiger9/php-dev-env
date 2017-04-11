@@ -6,7 +6,7 @@ volumes:
 services:
     nginx:
         build:
-            context: ../.images/nginx
+            context: ../../images/nginx
         image: nginx
         container_name: nginx
         volumes:
@@ -29,7 +29,7 @@ services:
 
     fpm:
         build:
-            context: ../.images/phpServ
+            context: ../../images/phpServ
             dockerfile: ./php5-fpm/Dockerfile
         container_name: php5-fpm
         volumes:
@@ -54,7 +54,7 @@ services:
 
     crontab:
         build:
-            context: ../.images/phpServ
+            context: ../../images/phpServ
             dockerfile: ./php5-cron/Dockerfile
         container_name: php5-cron
         volumes:
@@ -77,7 +77,7 @@ services:
 
     db:
         build:
-            context: ../.images/percona5.6
+            context: ../../images/percona5.6
         image: percona:5.6
         container_name: percona_db
         volumes:
@@ -134,7 +134,7 @@ services:
 
     redis:
         build:
-            context: ../.images/redis
+            context: ../../images/redis
         image: redis
         container_name: redis
         volumes:
@@ -175,7 +175,7 @@ services:
 
     sphinx:
         build:
-            context: ../.images/sphinx
+            context: ../../images/sphinx
         container_name: sphinx
         depends_on:
           - "db"

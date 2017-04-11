@@ -10,7 +10,7 @@ volumes:
 services:
     php7-apache:
         build:
-            context: ../.images/phpServ
+            context: ../../images/phpServ
             dockerfile: ./php7-apache/Dockerfile
         container_name: php7-apache
         volumes:
@@ -37,7 +37,7 @@ services:
 
     crontab:
         build:
-            context: ../.images/phpServ
+            context: ../../images/phpServ
             dockerfile: ./php7-cron/Dockerfile
         container_name: php7-cron
         volumes:
@@ -60,7 +60,7 @@ services:
                 tag: "php7-cron"
     db:
         build:
-            context: ../.images/percona5.6
+            context: ../../images/percona5.6
         image: percona:5.6
         container_name: percona_db
         volumes:
@@ -117,7 +117,7 @@ services:
 
     redis:
         build:
-            context: ../.images/redis
+            context: ../../images/redis
         image: redis
         container_name: redis
         volumes:
@@ -158,7 +158,7 @@ services:
 
     sphinx:
         build:
-            context: ../.images/sphinx
+            context: ../../images/sphinx
         container_name: sphinx
         depends_on:
           - "db"
@@ -182,7 +182,7 @@ services:
                 tag: "sphinx"
     pinba:
         build:
-            context: ../.images/pinba
+            context: ../../images/pinba
         image: tony2001/pinba
         container_name: pinba
         volumes:
@@ -211,7 +211,7 @@ services:
 
     pinboard:
         build:
-            context: ../.images/pinboard
+            context: ../../images/pinboard
         container_name: pinboard
         volumes:
             - pinboard:/www
