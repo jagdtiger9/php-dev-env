@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ ! -f "www/composer.json" ]; then
+if [ ! -f "www/initialized" ]; then
 
     cd /www
 
@@ -40,9 +40,8 @@ EOF
     # deploy the database tables
     ./console migrations:migrate --no-interaction
 
-    # interactive request for stat process period workaround
-    # use cron.d/pinboard (see Dockerfile)
-    #echo ${AGGREGATION_PERIOD} | ./console register-crontab | tee ./cron.log 2>&1
+    # set service initialized OK flag
+    touch initialized
 fi
 
 exec "$@"
