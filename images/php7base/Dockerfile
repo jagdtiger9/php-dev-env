@@ -31,7 +31,7 @@ RUN apt-get install -y php php-pear php-dev php-cli php-fpm php-mcrypt php-curl 
     && apt-get install -y php-apcu php-mysqlnd php-sqlite3 php-memcached php-memcache php-xdebug php-mbstring \
     && apt-get install -y imagemagick sqlite3 unzip \
     && apt-get install -y php-imagick php-imap php-bcmath \
-    && phpenmod -v 7.0 mcrypt
+    && phpenmod -v 7 mcrypt
 
 # Redis
 RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/php7.zip \
@@ -45,7 +45,7 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/php7.zi
     && rm -r phpredis-* \
     && cat > /etc/php/7.0/mods-available/redis.ini \
     && echo 'extension=redis.so' > /etc/php/7.0/mods-available/redis.ini \
-    && phpenmod -v 7.0 redis
+    && phpenmod -v 7 redis
 
 # Grunt
 RUN apt-get install -y nodejs npm \
@@ -70,7 +70,17 @@ RUN git clone https://github.com/tony2001/pinba_extension.git \
     && rm -r pinba_extension \
     && cat > /etc/php/7.0/mods-available/pinba.ini \
     && echo "extension=pinba.so\npinba.enabled=1\npinba.server=pinba:30002" > /etc/php/7.0/mods-available/pinba.ini \
-    && phpenmod -v 7.0 pinba
+    && phpenmod -v 7 pinba
+
+# Rotator
+RUN git clone https://bitbucket.org/jagdtiger9/rotator.git \
+    && cd rotator/rotator_7.0 \
+    && phpize \
+    && ./configure \
+    && make && make install \
+    && cd ../../ \
+    && rm -r rotator \
+    && phpenmod rotator
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
