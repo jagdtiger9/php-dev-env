@@ -33,8 +33,10 @@ services:
 
     fpm:
         build:
-            context: ../../images/phpServ
+            context: ../../images/php/serv
             dockerfile: ./php7-fpm/Dockerfile
+            args:
+                allow_xdebug: ${ALLOW_XDEBUG}
         container_name: php7-fpm
         volumes:
             - ${DOCUMENT_ROOT}:/var/www
@@ -58,8 +60,10 @@ services:
 
     crontab:
         build:
-            context: ../../images/phpServ
+            context: ../../images/php/serv
             dockerfile: ./php7-cron/Dockerfile
+            args:
+                allow_xdebug: ${ALLOW_XDEBUG}
         container_name: php7-cron
         volumes:
             - ${DOCUMENT_ROOT}:/var/www

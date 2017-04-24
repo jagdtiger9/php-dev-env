@@ -34,8 +34,10 @@ services:
 
     backend:
         build:
-            context: ../../images/phpServ
+            context: ../../images/php/serv
             dockerfile: ./php7-apache/Dockerfile
+            args:
+                allow_xdebug: ${ALLOW_XDEBUG}
         # container name must not be used to scale container
         #container_name: backend
         volumes:
@@ -61,10 +63,11 @@ services:
 
     crontab:
         build:
-            context: ../../images/phpServ
+            context: ../../images/php/serv
             dockerfile: ./php7-cron/Dockerfile
             args:
                 base_image: php7apache_php-base
+                allow_xdebug: ${ALLOW_XDEBUG}
         container_name: php7-cron
         volumes:
             - ${DOCUMENT_ROOT}:/var/www

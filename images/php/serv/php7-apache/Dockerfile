@@ -1,6 +1,8 @@
 FROM jagdtiger/php-dev-env:php7.0
 MAINTAINER gimatov@gmail.com
 
+ARG allow_xdebug
+
 ENV APACHE_RUN_USER  www-data
 ENV APACHE_RUN_GROUP www-data
 ENV APACHE_PID_FILE  /var/run/apache2.pid
@@ -23,6 +25,8 @@ COPY ./.conf/apache/ports.conf /etc/apache2/ports.conf
 
 RUN mkdir /etc/service/apache2
 ADD ./php7-apache/start.sh /etc/service/apache2/run
+
+RUN if [ "$allow_xdebug" = "0" ]; then phpdismod xdebug; fi
 
 # Expose ports
 EXPOSE 80 443 8080
