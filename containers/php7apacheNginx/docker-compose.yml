@@ -210,6 +210,27 @@ services:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
                 tag: "sphinx"
+
+    nodejs:
+        build:
+            context: ../../images/nodejs
+        container_name: nodejs
+        volumes:
+            - nodejs:/var/nodejs
+        ports:
+            - "8085:8085"
+        links:
+            - logger
+        networks:
+            - net
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "nodejs"
+
     pinba:
         build:
             context: ../../images/pinba
