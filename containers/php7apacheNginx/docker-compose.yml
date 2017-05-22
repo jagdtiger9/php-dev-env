@@ -6,6 +6,8 @@ volumes:
     pinba:
     # Pinboard web
     pinboard:
+    # Nodejs
+    nodejs:
 
 services:
     nginx-proxy:

@@ -1,4 +1,4 @@
-FROM jagdtiger/php5-base:5.6
+FROM jagdtiger/php-dev-env:php5.6
 MAINTAINER gimatov@gmail.com
 
 # Define host WWW-files owner user UID&GID

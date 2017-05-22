@@ -29,7 +29,7 @@ services:
 
     fpm:
         build:
-            context: ../../images/phpServ
+            context: ../../images/php/serv
             dockerfile: ./php5-fpm/Dockerfile
         container_name: php5-fpm
         volumes:
@@ -54,7 +54,7 @@ services:
 
     crontab:
         build:
-            context: ../../images/phpServ
+            context: ../../images/php/serv
             dockerfile: ./php5-cron/Dockerfile
         container_name: php5-cron
         volumes:
