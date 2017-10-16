@@ -12,7 +12,7 @@ var redis = require("redis")
     , publisher  = redis.createClient("6379", "localhost");
 
 //start websockets server
-var webSocketServer = new WebSocketServer.Server({port: 8889});
+var webSocketServer = new WebSocketServer.Server({port: 8085});
 
 //websockets connection
 webSocketServer.on('connection', function(ws) {
@@ -72,7 +72,7 @@ subscriber.on("message", function(channel, message) {
 
 
 //запускаем сервер для socket.io
-var port = process.argv[2] || 8888;
+var port = process.argv[2] || 8086;
 http.listen(port, function(){
     console.log('listening on *:' + port);
 });
