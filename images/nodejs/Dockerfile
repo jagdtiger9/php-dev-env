@@ -13,7 +13,7 @@ RUN mkdir /var/nodejs && cd /var/nodejs \
     && npm install express \
     && npm install http \
     && npm install ws \
-    && npm install forever -g
+    && npm install forever -g \
     && npm install socket.io \
     && npm init -y \
     && cd / \
