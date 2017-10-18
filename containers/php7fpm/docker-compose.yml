@@ -216,6 +216,7 @@ services:
             - nodejs:/var/nodejs
         ports:
             - "8085:8085"
+            - "8086:8086"
         links:
             - logger
         networks:
