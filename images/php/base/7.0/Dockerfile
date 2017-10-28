@@ -34,7 +34,7 @@ RUN apt-get install -y php php-pear php-dev php-cli php-fpm php-mcrypt php-curl 
     && phpenmod mcrypt
 
 # Redis
-RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/php7.zip \
+RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/develop.zip \
     && unzip -q phpredis.zip \
     && rm phpredis.zip \
     && cd phpredis-* \
