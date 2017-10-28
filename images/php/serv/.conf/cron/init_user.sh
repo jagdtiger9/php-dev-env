@@ -1,9 +1,9 @@
 #!/bin/bash
 
-HOSTUID=$(stat -c "%u" /var/www/index.php)
-HOSTGID=$(stat -c "%g" /var/www/index.php)
+HOSTUID=$(stat -c "%u" /var/www/public/index.php)
+HOSTGID=$(stat -c "%g" /var/www/public/index.php)
 
-echo $HOSTUID $HOSTGID > /var/www/vardata/log/crontab/host_uid-gid.log
+echo $HOSTUID $HOSTGID > /var/www/public/vardata/log/crontab/host_uid-gid.log
 
 EXISTS=$(cat /etc/group | grep $HOSTGID | wc -l)
 # Create new group using target GID and add nobody user

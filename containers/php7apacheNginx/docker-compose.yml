@@ -17,7 +17,7 @@ services:
                 proxy: 1
         container_name: nginx-proxy
         volumes:
-            - ${DOCUMENT_ROOT}:/var/www:ro
+            - ${WEB}:/var/www:ro
         ports:
             - "80:80"
         links:
@@ -43,7 +43,7 @@ services:
         # container name must not be used to scale container
         #container_name: backend
         volumes:
-            - ${DOCUMENT_ROOT}:/var/www
+            - ${WEB}:/var/www
             - ${DATA_XDEBUG}:/tmp/xdebug
         ports:
             - "8080"
@@ -72,7 +72,7 @@ services:
                 allow_xdebug: ${ALLOW_XDEBUG}
         container_name: php7-cron
         volumes:
-            - ${DOCUMENT_ROOT}:/var/www
+            - ${WEB}:/var/www
             - ${DATA_XDEBUG}:/tmp/xdebug
         links:
             - db:db
@@ -196,7 +196,7 @@ services:
           - "db"
         volumes:
             - ${DATA_SPHINX}:/var/lib/sphinxsearch/data
-            - ${DOCUMENT_ROOT}:/var/www:ro
+            - ${WEB}:/var/www:ro
         ports:
             - "9312:9312"
             - "9306:9306"
