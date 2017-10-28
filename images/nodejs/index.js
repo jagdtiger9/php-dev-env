@@ -8,20 +8,20 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var WebSocketServer = require('ws');
 var redis = require("redis")
-    , subscriber = redis.createClient("6379", "localhost")
-    , publisher  = redis.createClient("6379", "localhost");
+    , subscriber = redis.createClient("6379", "redis")
+    , publisher  = redis.createClient("6379", "redis");
 
 //start websockets server
 var webSocketServer = new WebSocketServer.Server({port: 8085});
 
 //websockets connection
 webSocketServer.on('connection', function(ws) {
-    let random = getRandomId(webSocketClients);
+    var random = getRandomId(webSocketClients);
     ws.random_id = random;
     webSocketClients[random] = ws;
     console.log("соединение открыто webSocketClients. Общее количество " + Object.keys(webSocketClients).length);
     ws.on('close', function(ws) {
-        for (let sock in webSocketClients) {
+        for (var sock in webSocketClients) {
             console.log(sock);
             console.log(this.random_id);
             if (sock == this.random_id) {
@@ -37,7 +37,7 @@ io.sockets.on('connection', function (socket) {
     socketIOclients[socket.id] = socket;
     console.log("новое соединение socketIOclients. Общее количество " + Object.keys(socketIOclients).length);
     socket.on('disconnect', function () {
-        for (let sock in socketIOclients) {
+        for (var sock in socketIOclients) {
             if (socketIOclients[sock] === socket) {
                 delete socketIOclients[sock];
             }
@@ -79,13 +79,10 @@ http.listen(port, function(){
 
 //helper
 function getRandomId(webSocketClients) {
-    let random = Math.random()*10000000000000000;
+    var random = Math.random()*10000000000000000;
     if (webSocketClients[random]) {
         getRandomId(webSocketClients);
     } else {
         return random;
     }
 }
-
-
-
