@@ -90,7 +90,7 @@ server-id       = 3
 #innodb_log_group_home_dir = /var/db/mysql
 # You can set .._buffer_pool_size up to 50 - 80 %
 # of RAM but beware of setting memory usage too high
-innodb_buffer_pool_size = 6G
+innodb_buffer_pool_size = 1G
 innodb_buffer_pool_instances = 2
 # DEPRECATED 5.6
 #innodb_additional_mem_pool_size = 20M
