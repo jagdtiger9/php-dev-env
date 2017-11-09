@@ -93,7 +93,7 @@ server-id       = 3
 # You can set .._buffer_pool_size up to 50 - 80 %
 # of RAM but beware of setting memory usage too high
 # 1G
-innodb_buffer_pool_size = 768M
+innodb_buffer_pool_size = 512M
 # 2
 innodb_buffer_pool_instances = 1
 # DEPRECATED 5.6
