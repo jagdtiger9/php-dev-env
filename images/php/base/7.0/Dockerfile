@@ -47,18 +47,10 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/develop
     && echo 'extension=redis.so' > /etc/php/7.0/mods-available/redis.ini \
     && phpenmod redis
 
-# Grunt
-RUN apt-get install -y nodejs npm \
-    && ln -s /usr/bin/nodejs /usr/bin/node \
-    && cd /var \
-    && npm install -g grunt-cli \
-    && npm install -g coffee-script \
-    && npm init -y \
-    && npm install grunt --save-dev \
-    && npm install grunt-contrib-uglify --save-dev \
-    && npm install grunt-contrib-concat --save-dev \
-    && npm install grunt-contrib-compress --save-dev \
-    && cd /
+# Node
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo apt-get install -y npm
 
 # Pinba
 RUN git clone https://github.com/tony2001/pinba_extension.git \
