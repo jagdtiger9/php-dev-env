@@ -48,9 +48,9 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/develop
     && phpenmod redis
 
 # Node
-curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-sudo apt-get install -y nodejs
-sudo apt-get install -y npm
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+    && apt-get install -y nodejs
+#    && apt-get install -y npm
 
 # Pinba
 RUN git clone https://github.com/tony2001/pinba_extension.git \
