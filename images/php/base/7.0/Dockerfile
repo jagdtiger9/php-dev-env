@@ -48,7 +48,7 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/develop
     && phpenmod redis
 
 # Node
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
     && apt-get install -y nodejs
 #    && apt-get install -y npm
 
