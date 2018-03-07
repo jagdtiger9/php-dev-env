@@ -1,4 +1,4 @@
-FROM jedisct1/phusion-baseimage-latest:16.10
+FROM jedisct1/phusion-baseimage-latest:16.04
 MAINTAINER gimatov@gmail.com
 
 # https://docs.docker.com/engine/faq/
