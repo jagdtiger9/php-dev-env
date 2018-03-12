@@ -1,6 +1,8 @@
-FROM jagdtiger/php-dev-env:php7.0
+FROM jagdtiger/php-dev-env:php7.x
 MAINTAINER gimatov@gmail.com
 
+ARG PHP_VERSION
+ENV PHP_VERSION ${PHP_VERSION:-7.2}
 ARG allow_xdebug
 
 # Define host WWW-files owner user UID&GID

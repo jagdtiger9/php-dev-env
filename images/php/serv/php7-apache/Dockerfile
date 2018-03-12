@@ -1,6 +1,8 @@
-FROM jagdtiger/php-dev-env:php7.0
+FROM jagdtiger/php-dev-env:php7.x
 MAINTAINER gimatov@gmail.com
 
+ARG PHP_VERSION
+ENV PHP_VERSION ${PHP_VERSION:-7.2}
 ARG allow_xdebug
 
 ENV APACHE_RUN_USER  www-data
@@ -18,7 +20,7 @@ RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Config files
-RUN cp /etc/php/7.0/php.ini /etc/php/7.0/apache2/php.ini
+RUN cp /etc/php/${PHP_VERSION}/php.ini /etc/php/${PHP_VERSION}/apache2/php.ini
 
 COPY ./.conf/apache/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY ./.conf/apache/ports.conf /etc/apache2/ports.conf
