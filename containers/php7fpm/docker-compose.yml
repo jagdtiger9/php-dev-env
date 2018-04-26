@@ -285,7 +285,9 @@ services:
                 tag: "pinboard"
 
     logger:
-        image: voxxit/rsyslog
+        build:
+            context: ../../images/rsyslog
+        #image: voxxit/rsyslog
         container_name: logger
         volumes:
             - ${LOG_DIR}:/var/log

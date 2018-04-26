@@ -16,7 +16,7 @@ services:
             dockerfile: ./php7-apache/Dockerfile
             args:
                 allow_xdebug: ${ALLOW_XDEBUG}
-        container_name: php7-apache
+        container_name: apache
         volumes:
             - ${WEB}:/var/www
             - ${DATA_XDEBUG}:/tmp/xdebug
@@ -37,7 +37,7 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                tag: "php7-apache"
+                tag: "apache"
 
     crontab:
         build:
