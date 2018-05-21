@@ -1,13 +1,14 @@
 /var/log/*.log
 /var/log/*/*.log
 {
-    rotate 7
+    rotate 3
     daily
     missingok
     notifempty
     delaycompress
     compress
     postrotate
-        invoke-rc.d rsyslog rotate > /dev/null
+        #/etc/init.d/rsyslog reload &>/dev/null || true
+        /etc/init.d/rsyslog rotate > /dev/null
     endscript
 }
