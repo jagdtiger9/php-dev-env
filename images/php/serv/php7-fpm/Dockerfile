@@ -13,9 +13,4 @@ ADD ./php7-fpm/start${PHP_VERSION}.sh /etc/service/php-fpm/run
 
 RUN if [ "$allow_xdebug" = "0" ]; then phpdismod xdebug; fi
 
-RUN apt-get -y update \
-    && apt-get -y install mysql-client \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 EXPOSE 9000
