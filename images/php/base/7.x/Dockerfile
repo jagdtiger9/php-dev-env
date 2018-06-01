@@ -19,7 +19,8 @@ RUN apt-get -y update \
     && apt-get install -y software-properties-common python-software-properties
 
 RUN apt-get install -y language-pack-en-base
-RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
+RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php \
+    apt-get -y update
 
 # php-fpm have to be installed at the base image
 # child image installation gets "memcached module required" error
