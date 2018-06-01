@@ -4,7 +4,7 @@ MAINTAINER gimatov@gmail.com
 ARG PHP_VERSION
 ENV PHP_VERSION ${PHP_VERSION:-7.2}
 ARG XDEBUG_PORT
-ENV XDEBUG_PORT ${XDEBUG_PORT:9001}
+ENV XDEBUG_PORT ${XDEBUG_PORT:-9001}
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
@@ -20,7 +20,6 @@ RUN apt-get -y update \
 
 RUN apt-get install -y language-pack-en-base
 RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
-RUN apt-get -y update
 
 # php-fpm have to be installed at the base image
 # child image installation gets "memcached module required" error
@@ -29,6 +28,7 @@ RUN apt-get install -y php${PHP_VERSION}-apcu php${PHP_VERSION}-mysqlnd php${PHP
 RUN apt-get install -y php${PHP_VERSION}-imagick php${PHP_VERSION}-imap php${PHP_VERSION}-bcmath php${PHP_VERSION}-xml php${PHP_VERSION}-mbstring  php${PHP_VERSION}-zip
 
 RUN apt-get install -y imagemagick sqlite3 unzip
+RUN apt-get install -y mysql-client
 
 # Redis
 RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/develop.zip \
