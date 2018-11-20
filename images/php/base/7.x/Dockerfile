@@ -63,13 +63,13 @@ RUN git clone https://github.com/tony2001/pinba_extension.git \
     && phpenmod pinba
 
 # Rotator
-RUN git clone https://bitbucket.org/magicpro/rotator \
-    && cd rotator/rotator_7.0 \
+RUN git clone https://bitbucket.org/magicpro/cproject.git \
+    && cd cproject/rotator \
     && phpize \
     && ./configure \
     && make && make install \
     && cd ../../ \
-    && rm -r rotator \
+    && rm -r cproject \
     && cat > /etc/php/${PHP_VERSION}/mods-available/rotator.ini \
     && echo "extension=rotator.so" > /etc/php/${PHP_VERSION}/mods-available/rotator.ini \
     && phpenmod rotator
