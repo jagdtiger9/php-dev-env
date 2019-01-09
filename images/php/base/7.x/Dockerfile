@@ -63,7 +63,7 @@ RUN git clone https://github.com/tony2001/pinba_extension.git \
     && phpenmod pinba
 
 # Rotator
-RUN git clone https://bitbucket.org/magicpro/cproject.git \
+RUN git clone https://github.com/jagdtiger9/cproject.git \
     && cd cproject/rotator \
     && phpize \
     && ./configure \
