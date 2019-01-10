@@ -1,4 +1,4 @@
-FROM jagdtiger/php-dev-env:php7.x
+FROM jagdtiger/php-dev-env-git:php7.x
 MAINTAINER gimatov@gmail.com
 
 ARG PHP_VERSION
