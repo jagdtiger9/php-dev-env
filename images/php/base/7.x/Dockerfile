@@ -49,7 +49,7 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/develop
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
     && apt-get install -y nodejs
 
-RUN curl -sS https://getcomposer.org/installer | php - \
+RUN curl -sL https://getcomposer.org/installer | php \
     && cp composer.phar /usr/local/bin/composer
 
 # Pinba

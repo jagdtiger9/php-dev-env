@@ -29,3 +29,10 @@
 *  **data** - директория host-mount volumes, данные хост машины, подключаемые в определенные контейнеры.
 *  **containers** - конфигурационные файлы, собирающие требуемые контейнеры в заданную архитектуру.
 *  **images** - образы сервисов, используемые в разворачиваемых программных системах.
+
+
+https://github.com/maxpou/docker-symfony
+
+https://stackoverflow.com/questions/51232663/how-to-install-composer-with-docker-exec
+docker-compose exec -w /var/www/html laravel55 \
+    sh -c "curl --silent --show-error https://getcomposer.org/installer | php"
