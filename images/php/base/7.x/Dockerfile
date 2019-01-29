@@ -48,7 +48,9 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/develop
 # Node
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
     && apt-get install -y nodejs
-#    && apt-get install -y npm
+
+RUN curl -sS https://getcomposer.org/installer | php - \
+    && cp composer.phar /usr/local/bin/composer
 
 # Pinba
 RUN git clone https://github.com/tony2001/pinba_extension.git \
