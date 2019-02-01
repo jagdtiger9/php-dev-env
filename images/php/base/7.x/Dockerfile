@@ -5,6 +5,7 @@ ARG PHP_VERSION
 ENV PHP_VERSION ${PHP_VERSION:-7.2}
 ARG XDEBUG_PORT
 ENV XDEBUG_PORT ${XDEBUG_PORT:-9001}
+ENV COMPOSER_HOME=/var/www
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]

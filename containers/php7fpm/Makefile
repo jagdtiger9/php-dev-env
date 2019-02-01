@@ -5,6 +5,13 @@ up:
 
 build:
 	docker-compose stop
+	docker-compose rm -f
+	docker-compose pull
+	docker-compose build
+	docker-compose up -d
+
+rebuild:
+	docker-compose stop
 	docker rmi $(docker images -q)
 	docker-compose rm -f
 	docker-compose down -v --remove-orphans
