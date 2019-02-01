@@ -5,6 +5,12 @@ ARG allow_xdebug
 ARG PHP_VERSION
 ENV PHP_VERSION ${PHP_VERSION:-7.2}
 
+# Define host WWW-files owner user UID&GID
+# http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
+# https://github.com/phusion/baseimage-docker#running_startup_scripts
+RUN mkdir -p /etc/my_init.d
+ADD ./.conf/init_user.sh /etc/my_init.d/init_user.sh
+
 COPY ./.conf/fpm/php-fpm.conf /etc/php/${PHP_VERSION}/fpm/php-fpm.conf
 COPY ./.conf/fpm/www.conf /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
 

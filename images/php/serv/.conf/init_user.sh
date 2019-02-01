@@ -19,6 +19,3 @@ else
     # UID exists, find group name and add
     useradd -r --gid=$HOSTGID  magicpro
 fi
-
-#groupadd -r magicpro
-#useradd -r -g magicpro magicpro
