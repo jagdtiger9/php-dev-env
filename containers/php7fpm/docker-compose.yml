@@ -17,6 +17,8 @@ services:
         container_name: nginx
         volumes:
             - ${WEB}:/var/www:ro
+        #command: [nginx-debug, '-g', 'daemon off;']
+        command: [nginx, '-g', 'daemon off;']
         ports:
             - "80:80"
         links:
