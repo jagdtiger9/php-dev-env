@@ -292,7 +292,8 @@ services:
     mercure:
         image: dunglas/mercure
         environment:
-            - JWT_KEY=myJWTKey
+            #- JWT_KEY=myJWTKey
+            - JWT_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InN1YnNjcmliZSI6WyJmb28iLCJiYXIiXSwicHVibGlzaCI6WyJmb28iXX19.LRLvirgONK13JgacQ_VbcjySbVhkSmHy3IznH3tA9PM
             #- ACME_HOSTS=http://magicpro,http://localhost
             - CORS_ALLOWED_ORIGINS=http://magicpro,http://localhost
             - ALLOW_ANONYMOUS=1
