@@ -292,13 +292,12 @@ services:
     mercure:
         image: dunglas/mercure
         environment:
-            #- JWT_KEY=myJWTKey
-            - JWT_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InN1YnNjcmliZSI6WyJmb28iLCJiYXIiXSwicHVibGlzaCI6WyJmb28iXX19.LRLvirgONK13JgacQ_VbcjySbVhkSmHy3IznH3tA9PM
-            #- ACME_HOSTS=http://magicpro,http://localhost
+            - JWT_KEY=${MERCURE_KEY}
             - CORS_ALLOWED_ORIGINS=http://magicpro,http://localhost
-            - ALLOW_ANONYMOUS=1
-            - PUBLISH_ALLOWED_ORIGINS=http://magicpro,http://localhost,http://mercure
-            - DEMO=1
+            #- PUBLISH_ALLOWED_ORIGINS=http://magicpro,http://localhost,http://mercure
+            #- ACME_HOSTS=http://magicpro,http://localhost
+            #- ALLOW_ANONYMOUS=1
+            #- DEMO=1
         ports:
             - "8088:80"
             - "8443:443"
@@ -317,7 +316,6 @@ services:
     logger:
         build:
             context: ../../images/rsyslog
-        #image: voxxit/rsyslog
         container_name: logger
         volumes:
             - ${LOG_DIR}:/var/log
