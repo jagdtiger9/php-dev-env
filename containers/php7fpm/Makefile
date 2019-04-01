@@ -8,7 +8,6 @@ build:
 	docker-compose rm -f
 	docker-compose pull
 	docker-compose build
-	docker-compose up -d
 
 rebuild:
 	docker-compose stop
@@ -17,7 +16,9 @@ rebuild:
 	docker-compose down -v --remove-orphans
 	docker-compose pull
 	docker-compose build
-	docker-compose up -d
 
 down:
 	docker-compose down
+
+ps:
+	docker-compose ps
