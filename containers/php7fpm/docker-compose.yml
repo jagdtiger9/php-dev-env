@@ -21,11 +21,6 @@ services:
         command: [nginx, '-g', 'daemon off;']
         ports:
             - "80:80"
-        links:
-            - fpm:fpm
-            - memcached:memcached
-            - mercure:mercure
-            - logger
         networks:
             - net
         restart: unless-stopped
@@ -48,12 +43,6 @@ services:
             - ${DATA_XDEBUG}:/tmp/xdebug
         ports:
             - "9000:9000"
-        links:
-            - db:db
-            - memcached:memcached
-            - sphinx:sphinx
-            - mercure:mercure
-            - logger
         networks:
             - net
         restart: unless-stopped
@@ -74,11 +63,6 @@ services:
         volumes:
             - ${WEB}:/var/www
             - ${DATA_XDEBUG}:/tmp/xdebug
-        links:
-            - db:db
-            - memcached:memcached
-            - sphinx:sphinx
-            - logger
         networks:
             - net
         restart: unless-stopped
@@ -124,9 +108,6 @@ services:
             - ${DATA_TARANTOOL}:/var/lib/tarantool
         ports:
             - "3301:3301"
-        links:
-            - logger
-            - db:db
         networks:
             - net
         environment:
@@ -159,8 +140,6 @@ services:
         container_name: memcached
         ports:
             - "11211:11211"
-        links:
-            - logger
         networks:
             - net
         restart: unless-stopped
@@ -180,8 +159,6 @@ services:
             - ${DATA_REDIS}:/tmp/redis
         ports:
             - "6379:6379"
-        links:
-            - logger
         networks:
             - net
         restart: unless-stopped
@@ -200,8 +177,6 @@ services:
             - "8082:80"
         depends_on:
             - redis
-        links:
-            - logger
         networks:
             - net
         restart: unless-stopped
@@ -224,9 +199,6 @@ services:
         ports:
             - "9312:9312"
             - "9306:9306"
-        links:
-            - logger
-            - db
         networks:
             - net
         restart: unless-stopped
@@ -246,8 +218,6 @@ services:
         ports:
             - "8085:8085"
             - "8086:8086"
-        links:
-            - logger
         networks:
             - net
         restart: unless-stopped
@@ -268,8 +238,6 @@ services:
         ports:
             - "30002:30002/udp"
             - "3006:3306"
-        links:
-            - logger
         networks:
             - net
         environment:
@@ -295,9 +263,6 @@ services:
             - pinboard:/www
         ports:
             - "8084:8080"
-        links:
-            - logger
-            - pinba
         networks:
             - net
         environment:
@@ -316,11 +281,13 @@ services:
     # https://github.com/dunglas/mercure
     mercure:
         image: dunglas/mercure
+        container_name: mercure
         environment:
             - JWT_KEY=${MERCURE_KEY}
             - CORS_ALLOWED_ORIGINS=http://magicpro,http://localhost,http://mercure
             - ADDR=mercure:8088
-            #- PUBLISH_ALLOWED_ORIGINS='http://mercure:8088,http://mercure:8443'
+            - PUBLISH_ALLOWED_ORIGINS=*
+            #- PUBLISH_ALLOWED_ORIGINS=http://magicpro,http://localhost,http://mercure
             #- ACME_HOSTS=http://magicpro,http://localhost
             #- ALLOW_ANONYMOUS=1
             #- DEMO=1
