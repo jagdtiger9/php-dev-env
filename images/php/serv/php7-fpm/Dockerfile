@@ -2,12 +2,20 @@ FROM jagdtiger/php-dev-env-git:php7.x
 MAINTAINER gimatov@gmail.com
 
 ARG allow_xdebug
-ARG PHP_VERSION
-ENV PHP_VERSION ${PHP_VERSION:-7.2}
+
+ARG php_version
+ENV PHP_VERSION ${php_version:-7.2}
+
+ARG XDEBUG_PORT
+ENV XDEBUG_PORT ${XDEBUG_PORT:-9002}
 
 ARG FPM_LOG_LEVEL
 ENV FPM_LOG_LEVEL ${FPM_LOG_LEVEL:-warning}
 
+RUN echo "allow_xdebug: $allow_xdebug"
+RUN echo "php_version: $php_version"
+RUN echo "PHP_VERSION: $PHP_VERSION"
+RUN echo "XDEBUG_PORT: $XDEBUG_PORT"
 
 # Define host WWW-files owner user UID&GID
 # http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes

@@ -36,8 +36,12 @@ services:
             context: ../../images/php/serv
             dockerfile: ./php7-fpm/Dockerfile
             args:
-                allow_xdebug: ${ALLOW_XDEBUG}
+                php_version: ${PHP_VERSION:-7.2}
+                allow_xdebug: ${ALLOW_XDEBUG:-1}
         container_name: php7-fpm
+        environment:
+            - PHP_VERSION=${PHP_VERSION:-7.2}
+            - XDEBUG_PORT=${XDEBUG_PORT:-9001}
         volumes:
             - ${WEB}:/var/www
             - ${DATA_XDEBUG}:/tmp/xdebug
@@ -58,8 +62,12 @@ services:
             context: ../../images/php/serv
             dockerfile: ./php7-cron/Dockerfile
             args:
-                allow_xdebug: ${ALLOW_XDEBUG}
+                - php_version=${PHP_VERSION:-7.2}
+                - allow_xdebug=${ALLOW_XDEBUG:-1}
         container_name: php7-cron
+        environment:
+            PHP_VERSION: ${PHP_VERSION:-7.2}
+            XDEBUG_PORT: ${XDEBUG_PORT:-9001}
         volumes:
             - ${WEB}:/var/www
             - ${DATA_XDEBUG}:/tmp/xdebug
