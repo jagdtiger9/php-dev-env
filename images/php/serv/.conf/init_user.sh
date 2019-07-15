@@ -15,7 +15,7 @@ EXISTS=$(cat /etc/passwd | grep $HOSTUID | wc -l)
 if [ $EXISTS == "0" ]; then
     # Create new user using target UID
     useradd -r --uid=$HOSTUID --gid=$HOSTGID magicpro
-else
+#else
     # UID exists, find group name and add
-    useradd -r --gid=$HOSTGID  magicpro
+#    usermod -a -G magicpro  magicpro
 fi
