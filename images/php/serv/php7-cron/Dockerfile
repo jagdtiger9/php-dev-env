@@ -1,12 +1,8 @@
-FROM jagdtiger/php-dev-env-git:php7.x
+ARG php_version
+FROM jagdtiger/php-dev-env-git:php${php_version}
 MAINTAINER gimatov@gmail.com
 
-ARG PHP_VERSION
-ENV PHP_VERSION ${PHP_VERSION:-7.2}
 ARG allow_xdebug
-
-RUN echo "allow_xdebug: $allow_xdebug"
-RUN echo "PHP_VERSION: $PHP_VERSION"
 
 # Define host WWW-files owner user UID&GID
 # http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes

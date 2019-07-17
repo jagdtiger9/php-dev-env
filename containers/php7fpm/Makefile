@@ -2,11 +2,6 @@
 up:
 	docker-compose up -d
 
-build-nc:
-	docker-compose stop
-	docker-compose rm -f
-	docker-compose build --no-cache
-
 build:
 	docker-compose stop
 	docker-compose rm -f
