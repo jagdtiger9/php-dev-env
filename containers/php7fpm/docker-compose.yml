@@ -112,7 +112,7 @@ services:
     tarantool:
         build:
             context: ../../images/tarantool
-        image: tarantool/tarantool:2
+        image: tarantool/tarantool:latest
         container_name: tarantool
         volumes:
             - ${DATA_TARANTOOL}:/var/lib/tarantool
