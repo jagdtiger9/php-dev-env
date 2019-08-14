@@ -1,4 +1,4 @@
-FROM percona:5.6
+FROM percona:5.7
 MAINTAINER gimatov@gmail.com
 
 # https://docs.docker.com/engine/faq/

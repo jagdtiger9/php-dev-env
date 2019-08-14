@@ -85,8 +85,8 @@ services:
 
     db:
         build:
-            context: ../../images/percona5.6
-        image: percona:5.6
+            context: ../../images/percona
+        image: percona:5.7
         container_name: percona_db
         volumes:
             - ${DATA_MYSQL}:/var/lib/mysql
@@ -112,7 +112,6 @@ services:
     tarantool:
         build:
             context: ../../images/tarantool
-        image: tarantool/tarantool:latest
         container_name: tarantool
         volumes:
             - ${DATA_TARANTOOL}:/var/lib/tarantool
@@ -130,6 +129,29 @@ services:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
                 tag: "tarantool"
+
+    # https://github.com/basis-company/tarantool-admin
+    tarantool-admin:
+#        build:
+#            context: ../../images/tarantool-admin
+        image: quay.io/basis-company/tarantool-admin
+        container_name: tarantool-admin
+        volumes:
+            - ${DATA_TARANTOOL}:/var/lib/tarantool
+        ports:
+            - "8090:8000"
+        networks:
+            - net
+        environment:
+            TARANTOOL_USER_NAME: ${TARANTOOL_USER_NAME}
+            TARANTOOL_USER_PASSWORD: ${TARANTOOL_USER_PASSWORD}
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "tarantool-admin"
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
