@@ -139,7 +139,7 @@ services:
         volumes:
             - ${DATA_TARANTOOL}:/var/lib/tarantool
         ports:
-            - "8090:8000"
+            - "8090:80"
         networks:
             - net
         environment:

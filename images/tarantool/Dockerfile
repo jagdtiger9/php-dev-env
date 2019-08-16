@@ -1,4 +1,4 @@
-FROM tarantool/tarantool:latest
+FROM tarantool/tarantool:2
 MAINTAINER gimatov@gmail.com
 
 # https://docs.docker.com/engine/faq/
