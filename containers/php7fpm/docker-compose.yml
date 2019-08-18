@@ -145,6 +145,7 @@ services:
         environment:
             TARANTOOL_USER_NAME: ${TARANTOOL_USER_NAME}
             TARANTOOL_USER_PASSWORD: ${TARANTOOL_USER_PASSWORD}
+            TARANTOOL_CONNECTIONS_READONLY: 0
         restart: unless-stopped
         logging:
             driver: "syslog"
