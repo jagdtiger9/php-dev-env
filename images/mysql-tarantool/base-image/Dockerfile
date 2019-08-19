@@ -20,6 +20,11 @@ RUN git clone https://github.com/tarantool/mysql-tarantool-replication.git mysql
 RUN echo ' -ldl ' >> CMakeFiles/rp.dir/link.txt \
     && make
 
+RUN cp replicatord /usr/local/sbin/replicatord
+
+# Config files.
+COPY conf/replicatord.service /etc/systemd/system
+
 # Config files.
 COPY conf/sphinxsearch /etc/default/sphinxsearch
 COPY conf/sphinx.conf /etc/sphinxsearch/sphinx.conf
@@ -42,11 +47,7 @@ ADD conf/wait-for-it.sh /usr/local/bin/wait-for-it.sh
 
 
 
-
-
-
-
-# https://www.google.ru/search?q=%D0%A0%D0%B5%D0%BF%D0%BB%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F+%D0%B8%D0%B7+MySQL+%D0%B2+Tarantool&oq=%D0%A0%D0%B5%D0%BF%D0%BB%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F+%D0%B8%D0%B7+MySQL+%D0%B2+Tarantool&aqs=chrome..69i57j69i61.1128j0j7&client=ubuntu&sourceid=chrome&ie=UTF-8
+# https://github.com/tarantool/mysql-tarantool-replication
+# https://github.com/tarantool/mysql-tarantool-replication/issues/24
 # https://www.tarantool.io/ru/doc/1.10/tutorials/libslave/
 # https://www.tarantool.io/ru/learn/improving-mysql/
-#https://github.com/tarantool/mysql-tarantool-replication/issues/2

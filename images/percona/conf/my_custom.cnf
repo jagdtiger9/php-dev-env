@@ -23,6 +23,14 @@ socket          = /tmp/mysql.sock
 
 # The MySQL server
 [mysqld]
+# For MySQL=>Tarantool replication
+binlog_format = ROW
+server_id = 1
+
+interactive_timeout=3600
+wait_timeout=3600
+max_allowed_packet=32M
+
 plugin-load=libmemcached.so
 
 loose-daemon_memcached_option='-vvv'
@@ -44,7 +52,6 @@ socket          = /tmp/mysql.sock
 skip-external-locking
 #key_buffer_size = 1GM
 key_buffer_size = 128M
-max_allowed_packet = 16M
 group_concat_max_len=2048
 max_heap_table_size=160M
 #table_open_cache = 2512
