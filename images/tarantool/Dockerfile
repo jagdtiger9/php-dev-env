@@ -7,5 +7,5 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Expose ports
 EXPOSE 3301
 
-#COPY app.lua /opt/tarantool
-#CMD ["tarantool", "/opt/tarantool/app.lua"]
+COPY app.lua /opt/tarantool
+CMD ["tarantool", "/opt/tarantool/app.lua"]

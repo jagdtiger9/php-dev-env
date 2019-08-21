@@ -22,30 +22,10 @@ RUN echo ' -ldl ' >> CMakeFiles/rp.dir/link.txt \
 
 RUN cp replicatord /usr/local/sbin/replicatord
 
-# Config files.
+# Config files
 COPY conf/replicatord.service /etc/systemd/system
 
-# Config files.
-COPY conf/sphinxsearch /etc/default/sphinxsearch
-COPY conf/sphinx.conf /etc/sphinxsearch/sphinx.conf
-COPY conf/cron/indexer.sh /usr/local/bin/indexer.sh
-COPY conf/cron/sphinx_indexer /etc/cron.d/sphinx_indexer
-RUN chmod 0644 /etc/cron.d/sphinx_indexer
-
-RUN ln -sf /dev/stderr /var/log/sphinxsearch/searchd.log \
-    && ln -sf /dev/stdout /var/log/sphinxsearch/query.log
-
-# Expose ports
-EXPOSE 9312 9306
-
-VOLUME ["/var/www"]
-
-RUN mkdir /etc/service/sphinxsearch
-ADD start.sh /etc/service/sphinxsearch/run
-ADD conf/wait-for-it.sh /usr/local/bin/wait-for-it.sh
-
-
-
+systemctl start replicatord
 
 # https://github.com/tarantool/mysql-tarantool-replication
 # https://github.com/tarantool/mysql-tarantool-replication/issues/24

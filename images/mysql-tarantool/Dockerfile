@@ -20,30 +20,10 @@ RUN git clone https://github.com/tarantool/mysql-tarantool-replication.git mysql
 RUN echo ' -ldl ' >> CMakeFiles/rp.dir/link.txt \
     && make
 
-# Config files.
-COPY conf/sphinxsearch /etc/default/sphinxsearch
-COPY conf/sphinx.conf /etc/sphinxsearch/sphinx.conf
-COPY conf/cron/indexer.sh /usr/local/bin/indexer.sh
-COPY conf/cron/sphinx_indexer /etc/cron.d/sphinx_indexer
-RUN chmod 0644 /etc/cron.d/sphinx_indexer
 
-RUN ln -sf /dev/stderr /var/log/sphinxsearch/searchd.log \
-    && ln -sf /dev/stdout /var/log/sphinxsearch/query.log
+cp replicatord.yml /usr/local/etc/replicatord.yml
 
-# Expose ports
-EXPOSE 9312 9306
-
-VOLUME ["/var/www"]
-
-RUN mkdir /etc/service/sphinxsearch
-ADD start.sh /etc/service/sphinxsearch/run
-ADD conf/wait-for-it.sh /usr/local/bin/wait-for-it.sh
-
-
-
-
-
-
+CMD ["systemctl", "start", "replicatord"]
 
 
 # https://www.google.ru/search?q=%D0%A0%D0%B5%D0%BF%D0%BB%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F+%D0%B8%D0%B7+MySQL+%D0%B2+Tarantool&oq=%D0%A0%D0%B5%D0%BF%D0%BB%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F+%D0%B8%D0%B7+MySQL+%D0%B2+Tarantool&aqs=chrome..69i57j69i61.1128j0j7&client=ubuntu&sourceid=chrome&ie=UTF-8
