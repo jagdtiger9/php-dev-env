@@ -9,9 +9,8 @@ RUN apt-get -y update \
     && apt-get install -y mysql-client-core-5.7 \
     && apt-get install -y git cmake wget unzip nano bzip2
 
-RUN git clone https://github.com/tarantool/mysql-tarantool-replication.git mysql_tarantool-replication
-
-RUN cd mysql-tarantool-replication \
+RUN git clone https://github.com/tarantool/mysql-tarantool-replication.git \
+    && cd mysql-tarantool-replication \
     && git submodule update --init --recursive \
     && cmake
 
