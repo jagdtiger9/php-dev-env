@@ -25,7 +25,7 @@ RUN cp replicatord /usr/local/sbin/replicatord
 # Config files
 COPY conf/replicatord.service /etc/systemd/system
 
-systemctl start replicatord
+CMD ["systemctl", "start", "replicatord"]
 
 # https://github.com/tarantool/mysql-tarantool-replication
 # https://github.com/tarantool/mysql-tarantool-replication/issues/24
