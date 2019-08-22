@@ -5,13 +5,13 @@ MAINTAINER gimatov@gmail.com
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y update \
-    && apt-get install -y libboost-all-devapt mysql-client-core-5.7 \
-    && apt-get install -y git cmake wget unzip nano bzip2 \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+#    && apt-get install -y libboost-all-devapt mysql-client-core-5.7 \
+    && apt-get install -y mysql-client-core-5.7 \
+    && apt-get install -y git cmake wget unzip nano bzip2
 
-RUN git clone https://github.com/tarantool/mysql-tarantool-replication.git mysql_tarantool-replication \
-    && cd mysql-tarantool-replication \
+RUN git clone https://github.com/tarantool/mysql-tarantool-replication.git mysql_tarantool-replication
+
+RUN cd mysql-tarantool-replication \
     && git submodule update --init --recursive \
     && cmake
 
@@ -19,6 +19,9 @@ RUN git clone https://github.com/tarantool/mysql-tarantool-replication.git mysql
 #https://github.com/tarantool/mysql-tarantool-replication/issues/24
 RUN echo ' -ldl ' >> CMakeFiles/rp.dir/link.txt \
     && make
+
+RUN apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN cp replicatord /usr/local/sbin/replicatord
 
