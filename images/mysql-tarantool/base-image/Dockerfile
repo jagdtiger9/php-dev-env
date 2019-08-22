@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y update \
     && apt-get install -y libboost-all-devapt mysql-client-core-5.7 \
-    && apt-get install -y git cmake wget unzip nano bzip2
+    && apt-get install -y git cmake wget unzip nano bzip2 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
