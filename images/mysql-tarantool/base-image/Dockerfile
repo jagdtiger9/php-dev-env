@@ -1,28 +1,34 @@
-FROM jedisct1/phusion-baseimage-latest:16.04
+#FROM jedisct1/phusion-baseimage-latest:16.04
+FROM phusion/baseimage
 MAINTAINER gimatov@gmail.com
 
 # https://docs.docker.com/engine/faq/
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y update \
-#    && apt-get install -y libboost-all-devapt mysql-client-core-5.7 \
+    && apt-get install -y build-essential \
+    && apt-get install -y libncurses5-dev libboost-dev libmysqlclient-dev \
     && apt-get install -y mysql-client-core-5.7 \
     && apt-get install -y git cmake wget unzip nano bzip2
 
-RUN git clone https://github.com/tarantool/mysql-tarantool-replication.git \
+RUN /bin/bash \
+    && git clone https://github.com/tarantool/mysql-tarantool-replication.git \
     && cd mysql-tarantool-replication \
-    && git submodule update --init --recursive \
-    && cmake
+    && git submodule update --init --recursive
 
 # после cmake правим файл
 #https://github.com/tarantool/mysql-tarantool-replication/issues/24
-RUN echo ' -ldl ' >> CMakeFiles/rp.dir/link.txt \
-    && make
+RUN cd mysql-tarantool-replication \
+    && cmake . \
+    && cd CMakeFiles/rp.dir/ \
+    && cat link.txt | sed '$s/$/-ldl/' > tmp.txt && mv tmp.txt link.txt \
+    && cd - \
+    && cat CMakeFiles/rp.dir/link.txt \
+    && make \
+    && cp replicatord /usr/local/sbin/replicatord
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN cp replicatord /usr/local/sbin/replicatord
 
 # Config files
 COPY conf/replicatord.service /etc/systemd/system
