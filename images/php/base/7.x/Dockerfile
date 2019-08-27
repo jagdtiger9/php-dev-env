@@ -1,6 +1,7 @@
 # Данный файл является образцом для правок
 # После внесения правок, его необходимо растиражировать в файлы Docker-7.x
-FROM jedisct1/phusion-baseimage-latest:16.04
+FROM phusion/baseimage
+#FROM jedisct1/phusion-baseimage-latest:16.04
 MAINTAINER gimatov@gmail.com
 
 ARG XDEBUG_PORT
@@ -15,9 +16,6 @@ CMD ["/sbin/my_init"]
 
 # DNS update: to run apt-get and to let the docker build process access the internet.
 #RUN "sh" "-c" "echo nameserver 8.8.8.8 >> /etc/resolv.conf"
-
-# https://docs.docker.com/engine/faq/
-ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y update \
     && apt-get install -y software-properties-common python-software-properties

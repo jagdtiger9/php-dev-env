@@ -1,9 +1,6 @@
 FROM percona:5.7
 MAINTAINER gimatov@gmail.com
 
-# https://docs.docker.com/engine/faq/
-ENV DEBIAN_FRONTEND=noninteractive
-
 # Memcache-InnoDB plugin requires libevent-dev
 #RUN apt-get -y update \
 #    && apt-get -y install libevent-dev \

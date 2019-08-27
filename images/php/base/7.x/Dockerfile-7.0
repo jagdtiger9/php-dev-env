@@ -1,4 +1,4 @@
-FROM jedisct1/phusion-baseimage-latest:16.04
+FROM phusion/baseimage
 MAINTAINER gimatov@gmail.com
 
 ARG XDEBUG_PORT
@@ -10,12 +10,6 @@ ENV PHP_VERSION 7.0
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
-
-# DNS update: to run apt-get and to let the docker build process access the internet.
-#RUN "sh" "-c" "echo nameserver 8.8.8.8 >> /etc/resolv.conf"
-
-# https://docs.docker.com/engine/faq/
-ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y update \
     && apt-get install -y software-properties-common python-software-properties

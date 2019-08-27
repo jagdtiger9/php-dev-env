@@ -1,11 +1,8 @@
-FROM jedisct1/phusion-baseimage-latest:16.04
+FROM phusion/baseimage
 MAINTAINER gimatov@gmail.com
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
-
-# https://docs.docker.com/engine/faq/
-ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y update \
     && apt-get install -y software-properties-common python-software-properties \
