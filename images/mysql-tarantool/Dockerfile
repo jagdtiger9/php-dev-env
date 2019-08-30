@@ -8,3 +8,6 @@ COPY replicatord.yml /usr/local/etc/replicatord.yml
 # https://www.tarantool.io/ru/doc/1.10/tutorials/libslave/
 # https://www.tarantool.io/ru/learn/improving-mysql/
 #https://github.com/tarantool/mysql-tarantool-replication/issues/2
+
+# https://dev.mysql.com/doc/refman/5.7/en/docker-mysql-getting-started.html
+# docker exec -ti percona_db mysql_upgrade -uroot -p
