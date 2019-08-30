@@ -21,7 +21,9 @@ RUN cd mysql-tarantool-replication \
     && cd - \
     && cat CMakeFiles/rp.dir/link.txt \
     && make \
-    && cp replicatord /usr/local/sbin/replicatord
+    && cp replicatord /usr/local/sbin/replicatord \
+    && ln -sf /dev/stderr /var/log/replicatord.log \
+    && ln -sf /dev/stdout /var/log/replicatord.log
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -29,7 +31,7 @@ RUN apt-get clean \
 # Config files
 COPY conf/replicatord.service /etc/systemd/system
 
-CMD ["systemctl", "start", "replicatord"]
+CMD ["replicatord", "-c", "/usr/local/etc/replicatord.yml", "-l", "/var/log/replicatord.log"]
 
 # https://github.com/tarantool/mysql-tarantool-replication
 # https://github.com/tarantool/mysql-tarantool-replication/issues/24
