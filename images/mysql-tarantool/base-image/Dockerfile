@@ -8,7 +8,8 @@ RUN apt-get -y update \
     && apt-get install -y git cmake wget unzip nano bzip2
 
 RUN /bin/bash \
-    && git clone https://github.com/tarantool/mysql-tarantool-replication.git \
+#    && git clone https://github.com/tarantool/mysql-tarantool-replication.git \
+    && git clone https://github.com/tarantool/libslave.git mysql-tarantool-replication \
     && cd mysql-tarantool-replication \
     && git submodule update --init --recursive
 
