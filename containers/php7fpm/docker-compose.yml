@@ -154,6 +154,25 @@ services:
                 syslog-facility: "daemon"
                 tag: "tarantool-admin"
 
+    mysql-tarantool-replication:
+        build:
+            context: ../../images/mysql-tarantool
+        container_name: mysql-tarantool-replication
+#        volumes:
+#            - ${DATA_TARANTOOL}:/var/lib/tarantool
+        networks:
+            - net
+#        environment:
+#            TARANTOOL_USER_NAME: ${TARANTOOL_USER_NAME}
+#            TARANTOOL_USER_PASSWORD: ${TARANTOOL_USER_PASSWORD}
+        restart: unless-stopped
+        logging:
+            driver: "syslog"
+            options:
+                syslog-address: "udp://127.0.0.1:5514"
+                syslog-facility: "daemon"
+                tag: "mysql-tarantool-replication"
+
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         container_name: phpmyadmin

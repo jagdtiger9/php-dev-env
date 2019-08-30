@@ -30,8 +30,3 @@ RUN apt-get clean \
 COPY conf/replicatord.service /etc/systemd/system
 
 CMD ["systemctl", "start", "replicatord"]
-
-# https://github.com/tarantool/mysql-tarantool-replication
-# https://github.com/tarantool/mysql-tarantool-replication/issues/24
-# https://www.tarantool.io/ru/doc/1.10/tutorials/libslave/
-# https://www.tarantool.io/ru/learn/improving-mysql/
