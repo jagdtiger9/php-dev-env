@@ -1,12 +1,15 @@
 mysql:
     host: db
     port: 3306
-    user: root
-    password: ubuntu34
+    user: repl
+    password: repl
+    # password: ${MYSQL_ROOT_PASSWORD}
     connect_retry: 15 # seconds
 
 tarantool:
     host: tarantool:3301
+    user: ${TARANTOOL_USER_NAME}
+    password: ${TARANTOOL_USER_PASSWORD}
     binlog_pos_space: 512
     binlog_pos_key: 0
     connect_retry: 15 # seconds

@@ -4,7 +4,6 @@ FROM phusion/baseimage
 #FROM jedisct1/phusion-baseimage-latest:16.04
 MAINTAINER gimatov@gmail.com
 
-ARG XDEBUG_PORT
 ENV XDEBUG_PORT ${XDEBUG_PORT:-9001}
 
 ENV COMPOSER_HOME=/var/www

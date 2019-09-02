@@ -1,7 +1,6 @@
 FROM phusion/baseimage
 MAINTAINER gimatov@gmail.com
 
-ARG XDEBUG_PORT
 ENV XDEBUG_PORT ${XDEBUG_PORT:-9001}
 
 ENV COMPOSER_HOME=/var/www

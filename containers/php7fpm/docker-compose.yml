@@ -162,9 +162,9 @@ services:
 #            - ${DATA_TARANTOOL}:/var/lib/tarantool
         networks:
             - net
-#        environment:
-#            TARANTOOL_USER_NAME: ${TARANTOOL_USER_NAME}
-#            TARANTOOL_USER_PASSWORD: ${TARANTOOL_USER_PASSWORD}
+        environment:
+            TARANTOOL_USER_NAME: ${TARANTOOL_USER_NAME}
+            TARANTOOL_USER_PASSWORD: ${TARANTOOL_USER_PASSWORD}
         restart: unless-stopped
         logging:
             driver: "syslog"

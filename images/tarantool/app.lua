@@ -25,9 +25,10 @@ box.cfg {
     too_long_threshold = 0.5;
 }
 
-if not box.schema.user.exists('guest') then
-    box.schema.user.grant('guest','read,write,execute','universe')
-end
+box.schema.user.grant('guest', 'read,write,execute', 'universe', '', { if_not_exists = true })
+--if not box.schema.user.exists('guest') then
+--    box.schema.user.grant('guest','read,write,execute','universe')
+--end
 
 local function bootstrap()
 
