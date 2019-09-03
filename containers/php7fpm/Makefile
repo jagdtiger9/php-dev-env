@@ -1,4 +1,4 @@
-#container=fpm
+#container=fpm, db, etc...
 up:
 	docker-compose up -d
 
@@ -20,3 +20,6 @@ down:
 
 ps:
 	docker-compose ps
+
+# examples:
+#  $ docker-composer build --no-cache db
