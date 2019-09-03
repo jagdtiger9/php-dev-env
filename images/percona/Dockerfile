@@ -10,7 +10,8 @@ MAINTAINER gimatov@gmail.com
 # Expose ports
 EXPOSE 3306 11212 9998 9999
 
-ADD ./conf /etc/mysql/conf.d
+#ADD ./conf /etc/mysql/conf.d
+ADD ./conf /etc/my.cnf.d
 ADD ./conf /docker-entrypoint-initdb.d
 
 #COPY startup /usr/local/bin/startup
