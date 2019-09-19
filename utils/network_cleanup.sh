@@ -16,3 +16,9 @@ sudo lsof -nP | grep LISTEN
 
 # Стартуем docker
 sudo service docker start
+
+
+# Список сетей докера
+docker network ls
+# Просмотр сети контейнеров с подключенными контейнерами
+docker network inspect NAME

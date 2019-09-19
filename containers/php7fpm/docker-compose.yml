@@ -98,7 +98,8 @@ services:
         links:
             - logger
         networks:
-            - net
+            net:
+                ipv4_address: 192.168.17.33
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
             MYSQL_REPL_USER: ${MYSQL_REPL_USER}
@@ -223,6 +224,7 @@ services:
 
     phpredadmin:
         image: faktiva/php-redis-admin
+        container_name: phpredadmin
         environment:
             - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
         ports:
@@ -265,11 +267,10 @@ services:
         build:
             context: ../../images/nodejs
         container_name: nodejs
-        volumes:
-            - nodejs:/var/nodejs
         ports:
             - "8085:8085"
             - "8086:8086"
+            - "1333:1333"
         networks:
             - net
         restart: unless-stopped
@@ -372,10 +373,9 @@ services:
 
 networks:
     net:
+#        name: dockerNet
         driver: bridge
         ipam:
             driver: default
             config:
                 - subnet: 192.168.17.1/24
-#                  aux_addresses:
-#                      db: 192.168.17.33
