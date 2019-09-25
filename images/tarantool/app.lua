@@ -20,7 +20,7 @@ box.cfg {
      -- 5 – INFO
      -- 6 – VERBOSE
      -- 7 – DEBUG
-    log_level = 7;
+    log_level = 4;
     log_nonblock = false;
     too_long_threshold = 0.5;
 }
