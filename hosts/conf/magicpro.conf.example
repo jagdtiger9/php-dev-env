@@ -1,10 +1,10 @@
-;;; Данный файл является образцом, править его не нужно
-; Чтобы запустить новый хост, скопируйте данный файл в новый файл с расширением .conf,
-; Например symfony.conf
+# Данный файл является образцом, править его не нужно
+# Чтобы запустить новый хост, скопируйте данный файл в новый файл с расширением .conf,
+# Например symfony.conf
 
 server {
     listen 80;
-    root /var/www/magicpro/public;
+    root /var/www/hosts/magicpro/public;
     index index.php index.html;
     server_name magicpro;
 
