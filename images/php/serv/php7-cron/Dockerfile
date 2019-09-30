@@ -8,7 +8,7 @@ ARG allow_xdebug
 # http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
 # https://github.com/phusion/baseimage-docker#running_startup_scripts
 RUN mkdir -p /etc/my_init.d
-ADD ./.conf/init_user.sh /etc/my_init.d/init_user.sh
+ADD ./.conf/init_user_cron.sh /etc/my_init.d/init_user_cron.sh
 
 # Add cron tasks
 COPY ./.conf/cron/magicpro /etc/cron.d/magicpro

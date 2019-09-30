@@ -16,8 +16,9 @@ services:
         image: nginx
         container_name: nginx
         volumes:
-            - ${HOSTS}:/etc/nginx/conf.d:ro
-            - ${WEB}:/var/www:ro
+            - ${MP_WEB}:/var/www/magicpro:ro
+            - ${HOSTS_CONF}:/etc/nginx/conf.d:ro
+            - ${HOSTS_WEB}:/var/www/hosts:ro
         #command: [nginx-debug, '-g', 'daemon off;']
         command: [nginx, '-g', 'daemon off;']
         ports:
@@ -46,7 +47,8 @@ services:
             - PHP_VERSION=${PHP_VERSION:-7.2}
             - XDEBUG_PORT=${XDEBUG_PORT:-9001}
         volumes:
-            - ${WEB}:/var/www
+            - ${MP_WEB}:/var/www/magicpro
+            - ${HOSTS_WEB}:/var/www/hosts
             - ${DATA_XDEBUG}:/tmp/xdebug
         ports:
             - "9000:9000"
@@ -72,7 +74,7 @@ services:
             PHP_VERSION: ${PHP_VERSION:-7.2}
             XDEBUG_PORT: ${XDEBUG_PORT:-9001}
         volumes:
-            - ${WEB}:/var/www
+            - ${MP_WEB}:/var/www:ro
             - ${DATA_XDEBUG}:/tmp/xdebug
         networks:
             - net
@@ -249,8 +251,8 @@ services:
         depends_on:
           - "db"
         volumes:
+            - ${MP_WEB}:/var/www/magicpro:ro
             - ${DATA_SPHINX}:/var/lib/sphinxsearch/data
-            - ${WEB}:/var/www:ro
         ports:
             - "9312:9312"
             - "9306:9306"

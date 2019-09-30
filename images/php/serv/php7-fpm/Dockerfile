@@ -17,7 +17,7 @@ RUN echo "php_version: $php_version"
 # http://stackoverflow.com/questions/23544282/what-is-the-best-way-to-manage-permissions-for-docker-shared-volumes
 # https://github.com/phusion/baseimage-docker#running_startup_scripts
 RUN mkdir -p /etc/my_init.d
-ADD ./.conf/init_user.sh /etc/my_init.d/init_user.sh
+#ADD ./.conf/init_user.sh /etc/my_init.d/init_user.sh
 
 COPY ./.conf/fpm/php-fpm.conf /etc/php/${php_version}/fpm/php-fpm.conf
 COPY ./.conf/fpm/www.conf /etc/php/${php_version}/fpm/pool.d/www.conf
