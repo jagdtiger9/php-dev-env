@@ -16,6 +16,7 @@ services:
         image: nginx
         container_name: nginx
         volumes:
+            - ${HOSTS}:/etc/nginx/conf.d:ro
             - ${WEB}:/var/www:ro
         #command: [nginx-debug, '-g', 'daemon off;']
         command: [nginx, '-g', 'daemon off;']
