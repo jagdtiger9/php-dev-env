@@ -31,6 +31,13 @@ port            = 3306
 socket          = /tmp/mysql.sock
 skip-external-locking
 
+# Recommended in standard MySQL setup
+#sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_ALL_TABLES
+# Enabled
+sql_mode=STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+# Disabled
+sql_mode=NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+
 group_concat_max_len=2048
 key_buffer_size = 8M
 max_heap_table_size=16M
