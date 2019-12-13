@@ -1,7 +1,6 @@
 # Данный файл является образцом для правок
 # После внесения правок, его необходимо растиражировать в файлы Docker-7.x
 FROM phusion/baseimage
-#FROM jedisct1/phusion-baseimage-latest:16.04
 MAINTAINER gimatov@gmail.com
 
 ENV XDEBUG_PORT ${XDEBUG_PORT:-9001}
@@ -17,9 +16,8 @@ CMD ["/sbin/my_init"]
 #RUN "sh" "-c" "echo nameserver 8.8.8.8 >> /etc/resolv.conf"
 
 RUN apt-get -y update \
-    && apt-get install -y software-properties-common python-software-properties
-
-RUN apt-get install -y language-pack-en-base
+    && apt-get install -y software-properties-common python-software-properties \
+    && apt-get install -y language-pack-en-base
 RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php \
     && apt-get -y update
 
