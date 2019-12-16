@@ -21,8 +21,18 @@ RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php \
 RUN apt-get install -y php${PHP_VERSION} php-pear php${PHP_VERSION}-dev php${PHP_VERSION}-cli php${PHP_VERSION}-fpm php${PHP_VERSION}-curl php${PHP_VERSION}-gd php${PHP_VERSION}-gmp \
     && apt-get install -y php${PHP_VERSION}-apcu php${PHP_VERSION}-mysqlnd php${PHP_VERSION}-sqlite3 php${PHP_VERSION}-memcached php${PHP_VERSION}-memcache php${PHP_VERSION}-xdebug \
     && apt-get install -y php${PHP_VERSION}-imagick php${PHP_VERSION}-imap php${PHP_VERSION}-bcmath php${PHP_VERSION}-xml php${PHP_VERSION}-mbstring  php${PHP_VERSION}-zip \
-    && apt-get install -y sqlite3 unzip webp libwebp-dev libwebp5 libwebp6 imagemagick \
+    && apt-get install -y sqlite3 unzip webp libwebp-dev libjpeg-dev libpng-dev libtiff-dev libgif-dev imagemagick \
     && apt-get install -y mysql-client git
+
+# libwebp
+#RUN apt install -y wget \
+#    && wget https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.0.3.tar.gz \
+#    && tar -zxf libwebp-1.0.3.tar.gz \
+#    && cd libwebp-1.0.3 \
+#    && ./configure \
+#    && make && make install \
+#    && cd ../ \
+#    && rm -r libwebp-1.0.3
 
 # Redis
 RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/develop.zip \
