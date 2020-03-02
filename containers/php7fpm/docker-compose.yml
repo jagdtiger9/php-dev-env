@@ -341,12 +341,11 @@ services:
         environment:
             - JWT_KEY=${MERCURE_KEY}
             - CORS_ALLOWED_ORIGINS=http://magicpro,http://localhost,http://mercure
+            #- DEBUG=1
             - ADDR=mercure:8088
-            - PUBLISH_ALLOWED_ORIGINS=*
-            #- PUBLISH_ALLOWED_ORIGINS=http://magicpro,http://localhost,http://mercure
+            #- PUBLISH_ALLOWED_ORIGINS=*
+            - PUBLISH_ALLOWED_ORIGINS=http://magicpro,http://localhost,http://mercure
             #- ACME_HOSTS=http://magicpro,http://localhost
-            #- ALLOW_ANONYMOUS=1
-            #- DEMO=1
         ports:
             - "8088:8088"
             - "8443:8443"
