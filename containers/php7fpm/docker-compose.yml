@@ -189,6 +189,7 @@ services:
         environment:
             MYSQL_USERNAME: root
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            UPLOAD_LIMIT: ${UPLOAD_LIMIT}
         restart: unless-stopped
 
     memcached:
