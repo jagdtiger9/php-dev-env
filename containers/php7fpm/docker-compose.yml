@@ -74,7 +74,7 @@ services:
             PHP_VERSION: ${PHP_VERSION:-7.3}
             XDEBUG_PORT: ${XDEBUG_PORT:-9001}
         volumes:
-            - ${MP_WEB}:/var/www:ro
+            - ${MP_WEB}:/var/www
             - ${DATA_XDEBUG}:/tmp/xdebug
         networks:
             - net
