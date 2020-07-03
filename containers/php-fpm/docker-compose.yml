@@ -36,12 +36,12 @@ services:
     fpm:
         build:
             context: ../../images/php/serv
-            dockerfile: ./php7-fpm/Dockerfile
+            dockerfile: ./php-fpm/Dockerfile
             args:
                 # build context only
                 php_version: ${PHP_VERSION:-7.3}
                 allow_xdebug: ${ALLOW_XDEBUG:-1}
-        container_name: php7-fpm
+        container_name: php-fpm
         environment:
             # service container environment
             - PHP_VERSION=${PHP_VERSION:-7.3}
@@ -60,16 +60,16 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                tag: "php7-fpm"
+                tag: "php-fpm"
 
     crontab:
         build:
             context: ../../images/php/serv
-            dockerfile: ./php7-cron/Dockerfile
+            dockerfile: ./php-cron/Dockerfile
             args:
                 - php_version=${PHP_VERSION:-7.3}
                 - allow_xdebug=${ALLOW_XDEBUG:-1}
-        container_name: php7-cron
+        container_name: php-cron
         environment:
             PHP_VERSION: ${PHP_VERSION:-7.3}
             XDEBUG_PORT: ${XDEBUG_PORT:-9001}
@@ -84,7 +84,7 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                tag: "php7-cron"
+                tag: "php-cron"
 
     db:
         build:
