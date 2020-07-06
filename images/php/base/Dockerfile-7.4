@@ -1,5 +1,3 @@
-# Данный файл является образцом для правок
-# После внесения правок, его необходимо растиражировать в файлы Docker-7.x
 FROM phusion/baseimage
 MAINTAINER gimatov@gmail.com
 
@@ -7,7 +5,7 @@ ENV XDEBUG_PORT ${XDEBUG_PORT:-9001}
 
 ENV COMPOSER_HOME=/var/www
 
-ENV PHP_VERSION 7.x
+ENV PHP_VERSION 7.4
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]

@@ -5,7 +5,7 @@ MAINTAINER gimatov@gmail.com
 ARG allow_xdebug
 
 ARG php_version
-ENV php_version ${php_version:-7.2}
+ENV php_version ${php_version:-7.3}
 
 ARG FPM_LOG_LEVEL
 ENV FPM_LOG_LEVEL ${FPM_LOG_LEVEL:-warning}
