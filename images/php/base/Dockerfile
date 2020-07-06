@@ -12,9 +12,6 @@ ENV PHP_VERSION 7.x
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-# DNS update: to run apt-get and to let the docker build process access the internet.
-#RUN "sh" "-c" "echo nameserver 8.8.8.8 >> /etc/resolv.conf"
-
 RUN apt-get -y update \
     && apt-get install -y software-properties-common python-software-properties \
     && apt-get install -y language-pack-en-base
@@ -23,7 +20,7 @@ RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php \
 
 # php-fpm have to be installed at the base image
 # child image installation gets "memcached module required" error
-RUN apt-get install -y php${PHP_VERSION} php-pear php${PHP_VERSION}-dev php${PHP_VERSION}-cli php${PHP_VERSION}-fpm php${PHP_VERSION}-curl php${PHP_VERSION}-gd php${PHP_VERSION}-gmp \
+RUN apt-get install -y php${PHP_VERSION} php${PHP_VERSION}-common php-pear php${PHP_VERSION}-dev php${PHP_VERSION}-cli php${PHP_VERSION}-fpm php${PHP_VERSION}-curl php${PHP_VERSION}-gd php${PHP_VERSION}-gmp \
     && apt-get install -y php${PHP_VERSION}-apcu php${PHP_VERSION}-mysqlnd php${PHP_VERSION}-sqlite3 php${PHP_VERSION}-memcached php${PHP_VERSION}-memcache php${PHP_VERSION}-xdebug \
     && apt-get install -y php${PHP_VERSION}-imagick php${PHP_VERSION}-imap php${PHP_VERSION}-bcmath php${PHP_VERSION}-xml php${PHP_VERSION}-mbstring  php${PHP_VERSION}-zip \
     && apt-get install -y sqlite3 unzip webp libwebp-dev libjpeg-dev libpng-dev libtiff-dev libgif-dev imagemagick \
