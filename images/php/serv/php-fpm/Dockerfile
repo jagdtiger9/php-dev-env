@@ -23,7 +23,7 @@ COPY ./.conf/fpm/php-fpm.conf /etc/php/${php_version}/fpm/php-fpm.conf
 COPY ./.conf/fpm/www.conf /etc/php/${php_version}/fpm/pool.d/www.conf
 
 RUN mkdir /etc/service/php-fpm
-ADD ./php7-fpm/start${php_version}.sh /etc/service/php-fpm/run
+ADD ./php-fpm/start${php_version}.sh /etc/service/php-fpm/run
 
 RUN if [ "$allow_xdebug" = "0" ]; then phpdismod xdebug; fi
 
