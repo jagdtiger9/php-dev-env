@@ -5,8 +5,10 @@ MAINTAINER gimatov@gmail.com
 CMD ["/sbin/my_init"]
 
 RUN apt-get -y update \
-    && apt-get install -y software-properties-common python-software-properties \
-    && apt-get install -y git php php-common php-cli php-dev php-mcrypt php-gd \
+    && apt-get install -y software-properties-common \
+ #python-software-properties \
+    && apt-get install -y git php php-common php-cli php-dev php-gd \
+# php-mcrypt \
     && apt-get install -y php-mysqlnd php-memcached php-curl php-ctype php-json php-apcu
 
 RUN apt-get clean \
