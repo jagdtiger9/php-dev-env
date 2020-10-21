@@ -1,4 +1,4 @@
-FROM phusion/baseimage
+FROM phusion/baseimage:master
 MAINTAINER gimatov@gmail.com
 
 COPY server /var/www

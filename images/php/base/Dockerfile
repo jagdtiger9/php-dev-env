@@ -1,6 +1,6 @@
 # Данный файл является образцом для правок
 # После внесения правок, его необходимо растиражировать в файлы Docker-7.x
-FROM phusion/baseimage
+FROM phusion/baseimage:master
 MAINTAINER gimatov@gmail.com
 
 ENV XDEBUG_PORT ${XDEBUG_PORT:-9001}
