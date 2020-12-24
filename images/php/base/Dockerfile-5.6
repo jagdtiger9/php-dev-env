@@ -41,7 +41,7 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/2.2.8.z
     && phpenmod redis
 
 # Node
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
     && apt-get install -y nodejs
 
 # Composer

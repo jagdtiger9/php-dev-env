@@ -371,11 +371,11 @@ services:
         container_name: mercure
         environment:
             - JWT_KEY=${MERCURE_KEY}
-            - CORS_ALLOWED_ORIGINS=http://magicpro,http://localhost,http://mercure
+            - CORS_ALLOWED_ORIGINS=http://magicpro:8088,http://localhost:8088,http://mercure:8088
             #- DEBUG=1
             - ADDR=mercure:8088
             #- PUBLISH_ALLOWED_ORIGINS=*
-            - PUBLISH_ALLOWED_ORIGINS=http://magicpro,http://localhost,http://mercure
+            - PUBLISH_ALLOWED_ORIGINS=http://magicpro:8088,http://localhost:8088,http://mercure:8088
             #- ACME_HOSTS=http://magicpro,http://localhost
         ports:
             - "8088:8088"
