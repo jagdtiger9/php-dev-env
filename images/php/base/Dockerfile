@@ -42,7 +42,7 @@ RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/develop
     && phpenmod redis
 
 # Node
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get install -y nodejs
 
 # Composer
@@ -62,16 +62,16 @@ RUN git clone https://github.com/tony2001/pinba_extension.git \
     && phpenmod pinba
 
 # Rotator
-RUN git clone https://github.com/vkpmWork/cproject.git \
-    && cd cproject/rotator \
-    && phpize \
-    && ./configure \
-    && make && make install \
-    && cd ../../ \
-    && rm -r cproject \
-    && cat > /etc/php/${PHP_VERSION}/mods-available/rotator.ini \
-    && echo "extension=rotator.so" > /etc/php/${PHP_VERSION}/mods-available/rotator.ini \
-    && phpenmod rotator
+#RUN git clone https://github.com/vkpmWork/cproject.git \
+#    && cd cproject/rotator \
+#    && phpize \
+#    && ./configure \
+#    && make && make install \
+#    && cd ../../ \
+#    && rm -r cproject \
+#    && cat > /etc/php/${PHP_VERSION}/mods-available/rotator.ini \
+#    && echo "extension=rotator.so" > /etc/php/${PHP_VERSION}/mods-available/rotator.ini \
+#    && phpenmod rotator
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
