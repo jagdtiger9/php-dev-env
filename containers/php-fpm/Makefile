@@ -7,6 +7,14 @@ build:
 	docker-compose rm -f
 	docker-compose build
 
+build.nocache:
+	docker-compose stop
+	docker-compose rm -f
+	docker-compose build --no-cache
+
+pull:
+	docker-compose pull
+
 rebuild:
 	docker-compose stop
 #	docker rmi $(docker images -q)
