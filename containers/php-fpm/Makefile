@@ -13,7 +13,7 @@ rebuild:
 	docker-compose rm -f
 	docker-compose down -v --remove-orphans
 	docker-compose pull
-	docker-compose build --no-cache
+	docker-compose build -pull --no-cache
 
 down:
 	docker-compose down
