@@ -117,68 +117,6 @@ services:
                 syslog-facility: "daemon"
                 tag: "percona"
 
-    tarantool:
-        build:
-            context: ../../images/tarantool
-        container_name: tarantool
-        volumes:
-            - ${DATA_TARANTOOL}:/var/lib/tarantool
-        ports:
-            - "3301:3301"
-        networks:
-            - net
-        environment:
-            TARANTOOL_USER_NAME: ${TARANTOOL_USER_NAME}
-            TARANTOOL_USER_PASS: ${TARANTOOL_USER_PASS}
-        restart: unless-stopped
-        logging:
-            driver: "syslog"
-            options:
-                syslog-address: "udp://127.0.0.1:5514"
-                syslog-facility: "daemon"
-                tag: "tarantool"
-
-    # https://github.com/basis-company/tarantool-admin
-    tarantool-admin:
-        image: quay.io/basis-company/tarantool-admin
-        container_name: tarantool-admin
-        volumes:
-            - ${DATA_TARANTOOL}:/var/lib/tarantool
-        ports:
-            - "8090:80"
-        networks:
-            - net
-        environment:
-            TARANTOOL_USER_NAME: ${TARANTOOL_USER_NAME}
-            TARANTOOL_USER_PASS: ${TARANTOOL_USER_PASS}
-            TARANTOOL_CONNECTIONS_READONLY: 0
-        restart: unless-stopped
-        logging:
-            driver: "syslog"
-            options:
-                syslog-address: "udp://127.0.0.1:5514"
-                syslog-facility: "daemon"
-                tag: "tarantool-admin"
-
-    mysql-tarantool-replication:
-        build:
-            context: ../../images/mysql-tarantool
-        container_name: mysql-tarantool-replication
-        networks:
-            - net
-        environment:
-            TARANTOOL_USER_NAME: ${TARANTOOL_USER_NAME}
-            TARANTOOL_USER_PASS: ${TARANTOOL_USER_PASS}
-            MYSQL_REPL_USER: ${MYSQL_REPL_USER}
-            MYSQL_REPL_PASS: ${MYSQL_REPL_PASS}
-        restart: unless-stopped
-        logging:
-            driver: "syslog"
-            options:
-                syslog-address: "udp://127.0.0.1:5514"
-                syslog-facility: "daemon"
-                tag: "mysql-tarantool-replication"
-
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         container_name: phpmyadmin
