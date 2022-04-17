@@ -81,6 +81,6 @@ COPY conf/xdebug.ini /etc/php/${PHP_VERSION}/mods-available/xdebug.ini
 COPY conf/opcache.ini /etc/php/${PHP_VERSION}/mods-available/opcache.ini
 COPY conf/apcu.ini /etc/php/${PHP_VERSION}/mods-available/apcu.ini
 COPY conf/memcached.ini /etc/php/${PHP_VERSION}/mods-available/memcached.ini
-COPY conf/php-cli.ini /etc/php/${PHP_VERSION}/cli/php.ini
-COPY conf/php.ini /etc/php/${PHP_VERSION}/fpm/php.ini
-COPY conf/php.ini /etc/php/${PHP_VERSION}/php.ini
+COPY conf/php8-cli.ini /etc/php/${PHP_VERSION}/cli/php.ini
+COPY conf/php8.ini /etc/php/${PHP_VERSION}/fpm/php.ini
+COPY conf/php8.ini /etc/php/${PHP_VERSION}/php.ini
