@@ -22,8 +22,8 @@ route {
         # Subscriber JWT key
         subscriber_jwt ${MERCURE_SUBSCRIBER_JWT_KEY}
         # CORS
-        cors_origins *
-        # http://localhost:8088 http://magicpro:8088 http://mercure:8088
+        #cors_origins *
+        cors_origins http://localhost:8088 http://magicpro:8088 http://mercure:8088
         # Allow anonymous subscribers (double-check that it's what you want)
         anonymous
         # Enable the subscription API (double-check that it's what you want)
