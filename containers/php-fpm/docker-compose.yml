@@ -192,7 +192,7 @@ services:
         depends_on:
           - "db"
         volumes:
-            - ${MP_WEB}:/var/www/magicpro:ro
+            - ${MP_WEB}:/var/www/magicpro
             - ${DATA_SPHINX}:/var/lib/sphinxsearch/data
         ports:
             - "9312:9312"
