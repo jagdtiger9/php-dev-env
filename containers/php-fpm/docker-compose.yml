@@ -39,12 +39,12 @@ services:
             dockerfile: ./php-fpm/Dockerfile
             args:
                 # build context only
-                php_version: ${PHP_VERSION:-7.3}
+                php_version: ${PHP_VERSION:-8.1}
                 allow_xdebug: ${ALLOW_XDEBUG:-1}
         container_name: php-fpm
         environment:
             # service container environment
-            - PHP_VERSION=${PHP_VERSION:-7.3}
+            - PHP_VERSION=${PHP_VERSION:-8.1}
             - XDEBUG_PORT=${XDEBUG_PORT:-9001}
         volumes:
             - ${MP_WEB}:/var/www/magicpro
@@ -69,11 +69,11 @@ services:
             context: ../../images/php/serv
             dockerfile: ./php-cron/Dockerfile
             args:
-                - php_version=${PHP_VERSION:-7.3}
+                - php_version=${PHP_VERSION:-8.1}
                 - allow_xdebug=${ALLOW_XDEBUG:-1}
         container_name: php-cron
         environment:
-            PHP_VERSION: ${PHP_VERSION:-7.3}
+            PHP_VERSION: ${PHP_VERSION:-8.1}
             XDEBUG_PORT: ${XDEBUG_PORT:-9001}
         volumes:
             - ${MP_WEB}:/var/www
