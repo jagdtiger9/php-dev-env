@@ -5,7 +5,7 @@ COPY server /var/www
 
 RUN apt-get -y update \
     && apt-get install -y curl \
-    && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
+    && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
     && apt-get install -y nodejs \
     && cd /var/www \
     && npm install \
