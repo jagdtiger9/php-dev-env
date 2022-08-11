@@ -11,9 +11,9 @@ volumes:
 
 services:
     nginx:
+        image: nginx
         build:
             context: ../../images/nginx
-        image: nginx
         container_name: nginx
         volumes:
             - ${MP_WEB}:/var/www/magicpro:ro
@@ -31,10 +31,10 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                #tag: "nginx"
-                tag: "docker-container- {{.ImageName}} - {{.ID}}"
+                tag: "nginx"
 
     fpm:
+        image: fpm
         build:
             context: ../../images/php/serv
             dockerfile: ./php-fpm/Dockerfile
@@ -63,10 +63,10 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                #tag: "php-fpm"
-                tag: "docker-container- {{.ImageName}} - {{.ID}}"
+                tag: "{{.ImageName}}"
 
     crontab:
+        image: cron
         build:
             context: ../../images/php/serv
             dockerfile: ./php-cron/Dockerfile
@@ -88,13 +88,12 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                #tag: "php-cron"
-                tag: "docker-container- {{.ImageName}} - {{.ID}}"
+                tag: "{{.ImageName}}"
 
     db:
+        image: percona:5.7
         build:
             context: ../../images/percona
-        image: percona:5.7
         container_name: percona_db
         volumes:
             - ${DATA_MYSQL}:/var/lib/mysql
@@ -118,8 +117,7 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                #tag: "percona"
-                tag: "docker-container- {{.ImageName}} - {{.ID}}"
+                tag: "{{.ImageName}}"
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -149,13 +147,12 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                #tag: "memcached"
-                tag: "docker-container- {{.ImageName}} - {{.ID}}"
+                tag: "{{.ImageName}}"
 
     redis:
+        image: redis
         build:
             context: ../../images/redis
-        image: redis
         container_name: redis
         volumes:
             - ${DATA_REDIS}:/tmp/redis
@@ -169,8 +166,7 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                #tag: "redis"
-                tag: "docker-container- {{.ImageName}} - {{.ID}}"
+                tag: "{{.ImageName}}"
 
     phpredadmin:
         image: faktiva/php-redis-admin
@@ -189,10 +185,10 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                #tag: "phpredadmin"
-                tag: "docker-container- {{.ImageName}} - {{.ID}}"
+                tag: "{{.ImageName}}"
 
     sphinx:
+        image: sphinx
         build:
             context: ../../images/sphinx
         container_name: sphinx
@@ -212,8 +208,7 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                #tag: "sphinx"
-                tag: "docker-container- {{.ImageName}} - {{.ID}}"
+                tag: "{{.ImageName}}"
 
     elastic: # sudo sysctl -w vm.max_map_count=262144
         image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
@@ -243,10 +238,10 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                #tag: "elastic"
-                tag: "docker-container- {{.ImageName}} - {{.ID}}"
+                tag: "{{.ImageName}}"
 
     nodejs:
+        image: nodejs
         build:
             context: ../../images/nodejs
         container_name: nodejs
@@ -262,13 +257,12 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                #tag: "nodejs"
-                tag: "docker-container- {{.ImageName}} - {{.ID}}"
+                tag: "{{.ImageName}}"
 
     pinba:
+        image: tony2001/pinba
         build:
             context: ../../images/pinba
-        image: tony2001/pinba
         container_name: pinba
         volumes:
             - pinba:/local/mysql/data
@@ -290,10 +284,10 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                #tag: "pinba"
-                tag: "docker-container- {{.ImageName}} - {{.ID}}"
+                tag: "{{.ImageName}}"
 
     pinboard:
+        image: pinboard
         build:
             context: ../../images/pinboard
         container_name: pinboard
@@ -314,8 +308,7 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                #tag: "pinboard"
-                tag: "docker-container- {{.ImageName}} - {{.ID}}"
+                tag: "{{.ImageName}}"
 
     # https://github.com/dunglas/mercure
     mercure:
@@ -343,8 +336,7 @@ services:
             options:
                 syslog-address: "udp://127.0.0.1:5514"
                 syslog-facility: "daemon"
-                #tag: "mercure"
-                tag: "docker-container- {{.ImageName}} - {{.ID}}"
+                tag: "{{.ImageName}}"
 
     logger:
         image: lscr.io/linuxserver/syslog-ng:latest
@@ -354,7 +346,7 @@ services:
             - PGID=1000
             - TZ=Europe/Moscow
         volumes:
-            - ${LOG_CONFIG_DIR}:/config
+            - ${LOG_CONFIG}:/config/syslog-ng.conf
             - ${LOG_DIR}:/var/log #optional
         ports:
             - "127.0.0.1:5514:5514/udp"
