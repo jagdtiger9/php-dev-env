@@ -20,8 +20,8 @@ rebuild:
 #	docker rmi $(docker images -q)
 	docker-compose rm -f
 	docker-compose down -v --remove-orphans
-	docker-compose pull
 	docker-compose build --pull --no-cache
+	docker-compose pull
 
 down:
 	docker-compose down
