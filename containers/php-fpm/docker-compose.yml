@@ -16,6 +16,7 @@ services:
             context: ../../images/nginx
         container_name: nginx
         volumes:
+            - ${MP_CONF}:/etc/nginx/nginx.conf
             - ${MP_WEB}:/var/www/magicpro:ro
             - ${HOSTS_CONF}:/etc/nginx/conf.d:ro
             - ${HOSTS_WEB}:/var/www/hosts:ro

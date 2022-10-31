@@ -23,7 +23,7 @@ server {
     location ~ \.php$ {
         try_files $uri =404;
 
-        fastcgi_pass php_fpm;
+        fastcgi_pass fpm:9000;
         fastcgi_index index.php;
         include fastcgi_params;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
