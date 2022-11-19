@@ -1,7 +1,0 @@
-#!/bin/sh
-
-mysqld --user=mysql --daemon_memcached_option -p11212 --plugin-load=libmemcached.so --plugin-load-add=handlersocket.so \
-&& mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "SOURCE /usr/share/mysql/innodb_memcached_config.sql;"
-
-
-

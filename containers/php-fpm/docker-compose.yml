@@ -11,9 +11,7 @@ volumes:
 
 services:
     nginx:
-        image: nginx
-        build:
-            context: ../../images/nginx
+        image: nginx:alpine
         container_name: nginx
         volumes:
             - ${MP_CONF}:/etc/nginx/nginx.conf
@@ -21,7 +19,7 @@ services:
             - ${HOSTS_CONF}:/etc/nginx/conf.d:ro
             - ${HOSTS_WEB}:/var/www/hosts:ro
         #command: [nginx-debug, '-g', 'daemon off;']
-        command: [nginx, '-g', 'daemon off;']
+        command: [ nginx, '-g', 'daemon off;' ]
         ports:
             - "80:80"
         networks:
@@ -93,16 +91,12 @@ services:
 
     db:
         image: percona:5.7
-        build:
-            context: ../../images/percona
         container_name: percona_db
         volumes:
             - ${DATA_MYSQL}:/var/lib/mysql
+            - ${MYSQL_CONF}:/etc/my.cnf.d:ro
         ports:
-            - "11212:11212"
             - "3306:3306"
-            - "9999:9999"
-            - "9998:9998"
         links:
             - "logger"
         networks:
@@ -110,8 +104,6 @@ services:
                 ipv4_address: 192.168.17.33
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-            MYSQL_REPL_USER: ${MYSQL_REPL_USER}
-            MYSQL_REPL_PASS: ${MYSQL_REPL_PASS}
         restart: unless-stopped
         logging:
             driver: "syslog"
@@ -194,7 +186,7 @@ services:
             context: ../../images/sphinx
         container_name: sphinx
         depends_on:
-          - "db"
+            - "db"
         volumes:
             - ${MP_WEB}:/var/www/magicpro
             - ${DATA_SPHINX}:/var/lib/sphinxsearch/data
@@ -361,9 +353,9 @@ services:
 
 networks:
     net:
-#        name: dockerNet
+        #        name: dockerNet
         driver: bridge
         ipam:
             driver: default
             config:
-                - subnet: 192.168.17.1/24
+                -   subnet: 192.168.17.1/24
