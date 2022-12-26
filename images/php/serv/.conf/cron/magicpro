@@ -1,1 +1,1 @@
-* *     * * *     www-data   mkdir -p -m 0777 /var/www/public/vardata/log/crontab && /usr/bin/php /var/www/cli.php >> /var/www/public/vardata/log/crontab/cron.log 2>&1
+* *     * * *     www-data   mkdir -p -m 0777 /var/www/magicpro/public/vardata/log/crontab && /usr/bin/php /var/www/cli.php >> /var/www/magicpro/public/vardata/log/crontab/cron.log 2>&1
