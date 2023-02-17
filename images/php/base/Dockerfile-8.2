@@ -1,0 +1,92 @@
+FROM phusion/baseimage:18.04-1.0.0
+#FROM phusion/baseimage:master
+MAINTAINER gimatov@gmail.com
+
+ENV XDEBUG_PORT ${XDEBUG_PORT:-9001}
+
+ENV COMPOSER_HOME=/var/www
+
+ENV PHP_VERSION 8.2
+
+# Use baseimage-docker's init system.
+CMD ["/sbin/my_init"]
+
+RUN apt-get -y update \
+    && apt-get install -y software-properties-common \
+    && apt-get install -y language-pack-en-base
+RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
+
+# php-fpm have to be installed at the base image
+# child image installation gets "memcached module required" error
+# apt update & install in one command => https://stackoverflow.com/questions/54024620/do-ubuntu-php-repositories-expire/54024750
+RUN apt-get -y update \
+    && apt-get install -y php${PHP_VERSION} php-pear php${PHP_VERSION}-dev php${PHP_VERSION}-cli php${PHP_VERSION}-fpm php${PHP_VERSION}-curl php${PHP_VERSION}-gd php${PHP_VERSION}-gmp \
+    && apt-get install -y php${PHP_VERSION}-apcu php${PHP_VERSION}-mysqlnd php${PHP_VERSION}-sqlite3 php${PHP_VERSION}-memcached php${PHP_VERSION}-memcache php${PHP_VERSION}-xdebug \
+    && apt-get install -y php${PHP_VERSION}-imagick php${PHP_VERSION}-imap php${PHP_VERSION}-bcmath php${PHP_VERSION}-xml php${PHP_VERSION}-mbstring  php${PHP_VERSION}-zip php${PHP_VERSION}-intl \
+    && apt-get install -y sqlite3 unzip webp libwebp-dev libjpeg-dev libpng-dev libtiff-dev libgif-dev imagemagick \
+    && apt-get install -y mysql-client git php-json
+
+# Redis
+RUN curl -L -o phpredis.zip https://github.com/phpredis/phpredis/archive/develop.zip \
+    && unzip -q phpredis.zip \
+    && rm phpredis.zip \
+    && cd phpredis-* \
+    && phpize \
+    && ./configure \
+    && make && make install \
+    && cd ../ \
+    && rm -r phpredis-* \
+    && cat > /etc/php/${PHP_VERSION}/mods-available/redis.ini \
+    && echo 'extension=redis.so' > /etc/php/${PHP_VERSION}/mods-available/redis.ini \
+    && phpenmod redis
+
+# Node
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+    && apt-get install -y nodejs
+
+# Composer
+RUN curl -sL https://getcomposer.org/installer | php \
+    && cp composer.phar /usr/local/bin/composer
+
+# Pinba
+RUN git clone https://github.com/tony2001/pinba_extension.git \
+    && cd pinba_extension \
+    && phpize \
+    && ./configure --enable-pinba \
+    && make && make install \
+    && cd ../ \
+    && rm -r pinba_extension \
+    && cat > /etc/php/${PHP_VERSION}/mods-available/pinba.ini \
+    && echo "extension=pinba.so\npinba.enabled=1\npinba.server=pinba:30002" > /etc/php/${PHP_VERSION}/mods-available/pinba.ini \
+    && phpenmod pinba
+
+# Rotator
+#RUN git clone https://github.com/vkpmWork/cproject.git \
+#RUN git clone tig@xxx.prioris.ru:cproject \
+COPY conf/rotator_8.tgz /tmp/rotator_8.tgz
+RUN tar -zxf /tmp/rotator_8.tgz -C /tmp \
+    && cd /tmp \
+    && ls -la \
+    && cd rotator_8 \
+    && phpize \
+    && ./configure \
+    && make && make install \
+    && cd ../ \
+    && rm -r rotator_8 rotator_8.tgz \
+    && cd ../ \
+    && cat > /etc/php/${PHP_VERSION}/mods-available/rotator.ini \
+    && echo "extension=rotator.so" > /etc/php/${PHP_VERSION}/mods-available/rotator.ini \
+    && phpenmod rotator
+
+RUN apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+#RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
+
+# Config files
+COPY conf/xdebug.ini /etc/php/${PHP_VERSION}/mods-available/xdebug.ini
+COPY conf/opcache.ini /etc/php/${PHP_VERSION}/mods-available/opcache.ini
+COPY conf/apcu.ini /etc/php/${PHP_VERSION}/mods-available/apcu.ini
+COPY conf/memcached.ini /etc/php/${PHP_VERSION}/mods-available/memcached.ini
+COPY conf/php8-cli.ini /etc/php/${PHP_VERSION}/cli/php.ini
+COPY conf/php8.ini /etc/php/${PHP_VERSION}/fpm/php.ini
+COPY conf/php8.ini /etc/php/${PHP_VERSION}/php.ini
